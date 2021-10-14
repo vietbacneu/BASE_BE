@@ -1,6 +1,7 @@
 package com.example.qlbhbe.controller;
 
 import com.example.qlbhbe.controller.response.BadRequestResponse;
+import com.example.qlbhbe.dto.ExceptionCustom;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
@@ -10,7 +11,10 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -81,6 +85,12 @@ public class ApiControllerAdvice {
 //        node.put("message", msg);
 //        return node;
 //    }
+
+    @ExceptionHandler(value = ExceptionCustom.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity customEx(ExceptionCustom exceptionCustom) {
+        return new ResponseEntity(exceptionCustom.getMess(), exceptionCustom.getHttpStatus());
+    }
 
     @Autowired
     public void setMessageSource(MessageSource messageSource) {

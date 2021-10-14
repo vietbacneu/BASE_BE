@@ -248,15 +248,6 @@ public class CoreUtils {
     return query;
   }
 
-  public static boolean validateEmail(String email) {
-    if (!Strings.isNullOrEmpty(email)) {
-      return email.matches(com.viettel.pmp.partner.common.util.REGEX.EMAIL.getValue())
-          && email.length() <= 50
-          && emailStrBeforeAtEmail(email);
-    } else {
-      return false;
-    }
-  }
 
   private static boolean emailStrBeforeAtEmail(String email) {
     String textBeforeAtEmail;

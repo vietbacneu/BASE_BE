@@ -31,25 +31,25 @@ public class DbUtils {
     }
 
     public static void setDateJdbc(PreparedStatement stmt, int index, Date value) throws Exception {
-        if (!com.viettel.pmp.partner.common.util.DataUtil.isNullObject(value)) {
+        if (!DataUtil.isNullObject(value)) {
             stmt.setTimestamp(index, new Timestamp(value.getTime()));
         } else {
             stmt.setNull(index, Types.TIMESTAMP);
         }
     }
     public static void setStringJdbc(PreparedStatement stmt, int index, String value) throws Exception {
-        if (!com.viettel.pmp.partner.common.util.DataUtil.isNullObject(value)) {
+        if (!DataUtil.isNullObject(value)) {
             stmt.setString(index, value);
         } else {
             stmt.setNull(index, Types.VARCHAR);
         }
     }
     public static Long getLong(ResultSet rs, int index) throws Exception {
-        return com.viettel.pmp.partner.common.util.DataUtil.safeToLong(rs.getObject(index));
+        return DataUtil.safeToLong(rs.getObject(index));
     }
 
     public static void setLongJdbc(PreparedStatement stmt, int index, Long value) throws Exception {
-        if (!com.viettel.pmp.partner.common.util.DataUtil.isNullObject(value)) {
+        if (!DataUtil.isNullObject(value)) {
             stmt.setLong(index, value);
         } else {
             stmt.setNull(index, Types.BIGINT);
@@ -188,10 +188,10 @@ public class DbUtils {
     public static void setParramToQuery(Query query, Map<String, Object> params) {
         if (params != null) {
             for (Map.Entry<String, Object> entry : params.entrySet()) {
-                if (com.viettel.pmp.partner.common.util.DataUtil.isCollection(entry.getValue())) {
+                if (DataUtil.isCollection(entry.getValue())) {
                     DbUtils.setParamInQuery(query, entry.getKey(), (List) entry.getValue());
                 } else {
-                    if (!com.viettel.pmp.partner.common.util.DataUtil.isNullOrEmpty(query.getParameters()) && query.getParameter(entry.getKey()) != null) {
+                    if (!DataUtil.isNullOrEmpty(query.getParameters()) && query.getParameter(entry.getKey()) != null) {
                         query.setParameter(entry.getKey(), entry.getValue());
                     } else {
                         logger.warn("Khong ton tai key", entry.getKey());

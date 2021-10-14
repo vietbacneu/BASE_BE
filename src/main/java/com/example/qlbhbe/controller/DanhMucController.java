@@ -1,0 +1,49 @@
+package com.example.qlbhbe.controller;
+
+import com.example.qlbhbe.controller.request.CreateDanhMucRequest;
+import com.example.qlbhbe.controller.request.UpdateDanhMucRequest;
+import com.example.qlbhbe.controller.request.searchparams.DanhMucSearchParams;
+import com.example.qlbhbe.controller.response.CreatedIdResponse;
+import com.example.qlbhbe.controller.response.PaginationDataResponse;
+import com.example.qlbhbe.entity.DanhMuc;
+import com.example.qlbhbe.mapper.DanhMucMapper;
+import com.example.qlbhbe.service.danhmuc.DanhMucService;
+import com.example.qlbhbe.util.Constants;
+import com.example.qlbhbe.util.Utils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+
+@RestController
+@RequestMapping(Constants.API + "/danhMucs")
+@Validated
+public class DanhMucController {
+
+    private final DanhMucService danhMucService;
+
+
+    public DanhMucController(DanhMucService danhMucService) {
+        this.danhMucService = danhMucService;
+    }
+
+    @PostMapping
+    public CreatedIdResponse create(@Valid @RequestBody CreateDanhMucRequest command) {
+        DanhMuc danhMuc = DanhMucMapper.INSTANCE.create(command);
+        danhMucService.save(danhMuc);
+        return new CreatedIdResponse(danhMuc.getId());
+    }
+
+    @PutMapping("{id}")
+    public void update(@PathVariable("id") long id, @Valid @RequestBody UpdateDanhMucRequest command) {
+        danhMucService.update(id, command);
+    }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable(name = "id") long id) {
+        danhMucService.deleteById(id);
+    }
+
+}

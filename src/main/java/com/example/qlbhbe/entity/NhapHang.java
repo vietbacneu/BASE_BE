@@ -35,17 +35,21 @@ public class NhapHang implements Serializable {
     @Column(name = "ngay_nhap")
     private LocalDate ngayNhap;
 
-    @Column(name = "nguoi_tao")
-    private String nguoiTao;
-
+    @CreatedDate
     @Column(name = "ngay_tao")
     private LocalDate ngayTao;
 
-    @Column(name = "nguoi_thay_doi")
-    private String nguoiThayDoi;
+    @CreatedBy
+    @Column(name = "nguoi_tao")
+    private String nguoiTao;
 
+    @LastModifiedDate
     @Column(name = "ngay_thay_doi")
     private LocalDate ngayThayDoi;
+
+    @LastModifiedBy
+    @Column(name = "nguoi_thay_doi")
+    private String nguoiThayDoi;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_nha_cung_cap")
@@ -75,28 +79,12 @@ public class NhapHang implements Serializable {
         this.ngayNhap = ngayNhap;
     }
 
-    public String getNguoiTao() {
-        return this.nguoiTao;
-    }
-
-    public void setNguoiTao(String nguoiTao) {
-        this.nguoiTao = nguoiTao;
-    }
-
     public java.time.LocalDate getNgayTao() {
         return this.ngayTao;
     }
 
     public void setNgayTao(java.time.LocalDate ngayTao) {
         this.ngayTao = ngayTao;
-    }
-
-    public String getNguoiThayDoi() {
-        return this.nguoiThayDoi;
-    }
-
-    public void setNguoiThayDoi(String nguoiThayDoi) {
-        this.nguoiThayDoi = nguoiThayDoi;
     }
 
     public java.time.LocalDate getNgayThayDoi() {
@@ -113,5 +101,21 @@ public class NhapHang implements Serializable {
 
     public void setIdNhaCungCap(NhaCungCap idNhaCungCap) {
         this.idNhaCungCap = idNhaCungCap;
+    }
+
+    public String getNguoiTao() {
+        return nguoiTao;
+    }
+
+    public void setNguoiTao(String nguoiTao) {
+        this.nguoiTao = nguoiTao;
+    }
+
+    public String getNguoiThayDoi() {
+        return nguoiThayDoi;
+    }
+
+    public void setNguoiThayDoi(String nguoiThayDoi) {
+        this.nguoiThayDoi = nguoiThayDoi;
     }
 }

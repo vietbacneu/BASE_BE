@@ -44,17 +44,21 @@ public class SanPham implements Serializable {
     @Column(name = "mieu_ta")
     private String mieuTa;
 
-    @Column(name = "nguoi_tao")
-    private String nguoiTao;
-
+    @CreatedDate
     @Column(name = "ngay_tao")
     private LocalDate ngayTao;
 
-    @Column(name = "nguoi_thay_doi")
-    private LocalDate nguoiThayDoi;
+    @CreatedBy
+    @Column(name = "nguoi_tao")
+    private String nguoiTao;
 
+    @LastModifiedDate
     @Column(name = "ngay_thay_doi")
-    private String ngayThayDoi;
+    private LocalDate ngayThayDoi;
+
+    @LastModifiedBy
+    @Column(name = "nguoi_thay_doi")
+    private String nguoiThayDoi;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_danh_muc")
@@ -108,12 +112,28 @@ public class SanPham implements Serializable {
         this.mieuTa = mieuTa;
     }
 
+    public LocalDate getNgayThayDoi() {
+        return ngayThayDoi;
+    }
+
+    public void setNgayThayDoi(LocalDate ngayThayDoi) {
+        this.ngayThayDoi = ngayThayDoi;
+    }
+
     public String getNguoiTao() {
-        return this.nguoiTao;
+        return nguoiTao;
     }
 
     public void setNguoiTao(String nguoiTao) {
         this.nguoiTao = nguoiTao;
+    }
+
+    public String getNguoiThayDoi() {
+        return nguoiThayDoi;
+    }
+
+    public void setNguoiThayDoi(String nguoiThayDoi) {
+        this.nguoiThayDoi = nguoiThayDoi;
     }
 
     public java.time.LocalDate getNgayTao() {
@@ -124,21 +144,6 @@ public class SanPham implements Serializable {
         this.ngayTao = ngayTao;
     }
 
-    public java.time.LocalDate getNguoiThayDoi() {
-        return this.nguoiThayDoi;
-    }
-
-    public void setNguoiThayDoi(java.time.LocalDate nguoiThayDoi) {
-        this.nguoiThayDoi = nguoiThayDoi;
-    }
-
-    public String getNgayThayDoi() {
-        return this.ngayThayDoi;
-    }
-
-    public void setNgayThayDoi(String ngayThayDoi) {
-        this.ngayThayDoi = ngayThayDoi;
-    }
 
     public DanhMuc getIdDanhMuc() {
         return this.idDanhMuc;

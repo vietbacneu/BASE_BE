@@ -28,6 +28,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -116,6 +117,8 @@ public class DataUtil {
                     f.set(object, objects[i]);
                 } else if ("java.util.Date".equals(t.getName())) {
                     f.set(object, DataUtil.safeToDate(objects[i]));
+                } else if ("java.time.LocalDate".equals(t.getName())) {
+                    f.set(object, DataUtil.safeToLocalDate(objects[i]));
                 }
             }
 
@@ -126,7 +129,7 @@ public class DataUtil {
 
     }
 
-    public static String date2StringByPattern (Date date, String pattern) throws ParseException {
+    public static String date2StringByPattern(Date date, String pattern) throws ParseException {
         if (date == null || DataUtil.isNullOrEmpty(pattern)) {
             return null;
         }
@@ -199,6 +202,16 @@ public class DataUtil {
         if (obj != null) {
             if (obj instanceof Date) {
                 return (Date) obj;
+            }
+        }
+        return null;
+    }
+
+    public static LocalDate safeToLocalDate(Object obj) {
+        if (obj != null) {
+            if (obj instanceof Date) {
+                Date date = (Date) obj;
+                return LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(date));
             }
         }
         return null;
@@ -396,8 +409,8 @@ public class DataUtil {
             Collections.addAll(realNumbers, numbers);
         }
         return realNumbers.stream()
-            .filter(x -> x != null)
-            .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .filter(x -> x != null)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public static Long add(Long number1, Long number2, Long... numbers) {
@@ -406,8 +419,8 @@ public class DataUtil {
             Collections.addAll(realNumbers, numbers);
         }
         return realNumbers.stream()
-            .filter(x -> x != null)
-            .reduce(0L, (x, y) -> x + y);
+                .filter(x -> x != null)
+                .reduce(0L, (x, y) -> x + y);
     }
 
     /**
@@ -773,6 +786,7 @@ public class DataUtil {
         }
         return sb.toString();
     }
+
     public static boolean validatePattern(String pattern, String value) {
         return Pattern.matches(pattern, value);
     }

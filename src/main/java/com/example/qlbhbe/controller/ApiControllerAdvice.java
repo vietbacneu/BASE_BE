@@ -13,6 +13,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -62,6 +63,7 @@ public class ApiControllerAdvice {
         return node;
     }
 
+
     @ExceptionHandler(value = Exception.class)
     public ObjectNode handleIOException(Exception e, HttpServletResponse response) {
         logger.error(e.getMessage(), e);
@@ -69,6 +71,15 @@ public class ApiControllerAdvice {
         ObjectNode node = objectMapper.createObjectNode();
         node.put("message",
                 messageSource.getMessage("internalServerError", null, LocaleContextHolder.getLocale()));
+        return node;
+    }
+
+    @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
+    public ObjectNode handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e, HttpServletResponse response) {
+        logger.error(e.getMessage(), e);
+        response.setStatus(400);
+        ObjectNode node = objectMapper.createObjectNode();
+        node.put("message", "Sai phương thức POST/GET/PUT/DELETE");
         return node;
     }
 

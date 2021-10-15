@@ -29,10 +29,12 @@ public class SanPhamDTO {
 
     private String ngayThayDoi;
 
+    private String tenDanhMuc;
+
     public SanPhamDTO() {
     }
 
-    public SanPhamDTO(Long id, Double soLuong, String mieuTa, String maSanPham, String tenSanPham, Double giaSanPham, String nguoiTao, LocalDate ngayTao, LocalDate nguoiThayDoi, String ngayThayDoi) {
+    public SanPhamDTO(Long id, Double soLuong, String mieuTa, String maSanPham, String tenSanPham, Double giaSanPham, String nguoiTao, LocalDate ngayTao, LocalDate nguoiThayDoi, String ngayThayDoi, String tenDanhMuc) {
         this.id = id;
         this.soLuong = soLuong;
         this.mieuTa = mieuTa;
@@ -43,6 +45,15 @@ public class SanPhamDTO {
         this.ngayTao = ngayTao;
         this.nguoiThayDoi = nguoiThayDoi;
         this.ngayThayDoi = ngayThayDoi;
+        this.tenDanhMuc = tenDanhMuc;
+    }
+
+    public String getTenDanhMuc() {
+        return tenDanhMuc;
+    }
+
+    public void setTenDanhMuc(String tenDanhMuc) {
+        this.tenDanhMuc = tenDanhMuc;
     }
 
     public Long getId() {

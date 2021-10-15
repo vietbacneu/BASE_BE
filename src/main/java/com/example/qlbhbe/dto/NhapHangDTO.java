@@ -23,10 +23,19 @@ public class NhapHangDTO {
 
     private LocalDate ngayNhap;
 
+    private Long idNhaCungCap;
+
+    private String tenNhaCungCap;
+
+    private String startDate;
+
+    private String endDate;
+
+
     public NhapHangDTO() {
     }
 
-    public NhapHangDTO(Long id, LocalDate ngayTao, String nguoiTao, LocalDate ngayThayDoi, String nguoiThayDoi, String maNhapHang, LocalDate ngayNhap) {
+    public NhapHangDTO(Long id, LocalDate ngayTao, String nguoiTao, LocalDate ngayThayDoi, String nguoiThayDoi, String maNhapHang, LocalDate ngayNhap, String tenNhaCungCap) {
         this.id = id;
         this.ngayTao = ngayTao;
         this.nguoiTao = nguoiTao;
@@ -34,6 +43,39 @@ public class NhapHangDTO {
         this.nguoiThayDoi = nguoiThayDoi;
         this.maNhapHang = maNhapHang;
         this.ngayNhap = ngayNhap;
+        this.tenNhaCungCap = tenNhaCungCap;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public Long getIdNhaCungCap() {
+        return idNhaCungCap;
+    }
+
+    public void setIdNhaCungCap(Long idNhaCungCap) {
+        this.idNhaCungCap = idNhaCungCap;
+    }
+
+    public String getTenNhaCungCap() {
+        return tenNhaCungCap;
+    }
+
+    public void setTenNhaCungCap(String tenNhaCungCap) {
+        this.tenNhaCungCap = tenNhaCungCap;
     }
 
     public Long getId() {

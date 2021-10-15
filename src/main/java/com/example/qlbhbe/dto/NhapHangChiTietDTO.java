@@ -16,14 +16,25 @@ public class NhapHangChiTietDTO {
 
     private String mieuTa;
 
+    private Long idNhapHang;
+
     public NhapHangChiTietDTO() {
     }
 
-    public NhapHangChiTietDTO(Long id, Double soLuong, Double gia, String mieuTa) {
+    public NhapHangChiTietDTO(Long id, Double soLuong, Double gia, String mieuTa, Long idNhaCungCap) {
         this.id = id;
         this.soLuong = soLuong;
         this.gia = gia;
         this.mieuTa = mieuTa;
+        this.idNhapHang = idNhaCungCap;
+    }
+
+    public Long getIdNhapHang() {
+        return idNhapHang;
+    }
+
+    public void setIdNhapHang(Long idNhapHang) {
+        this.idNhapHang = idNhapHang;
     }
 
     public Long getId() {

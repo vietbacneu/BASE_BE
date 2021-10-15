@@ -6,6 +6,7 @@ import com.example.qlbhbe.controller.request.searchparams.NhapHangSearchParams;
 import com.example.qlbhbe.controller.response.CreatedIdResponse;
 import com.example.qlbhbe.controller.response.PaginationDataResponse;
 import com.example.qlbhbe.dto.NhapHangDTO;
+import com.example.qlbhbe.dto.SanPhamDTO;
 import com.example.qlbhbe.entity.NhapHang;
 import com.example.qlbhbe.mapper.NhapHangMapper;
 import com.example.qlbhbe.service.nhaphang.NhapHangService;
@@ -13,6 +14,7 @@ import com.example.qlbhbe.util.Constants;
 import com.example.qlbhbe.util.Utils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +29,12 @@ public class NhapHangController {
 
     public NhapHangController(NhapHangService nhapHangService) {
         this.nhapHangService = nhapHangService;
+    }
+
+
+    @PostMapping("/search")
+    public Page<NhapHangDTO> search(@RequestBody NhapHangDTO command, @PageableDefault Pageable pageable) throws Exception {
+        return nhapHangService.search(command, pageable);
     }
 
     @PostMapping

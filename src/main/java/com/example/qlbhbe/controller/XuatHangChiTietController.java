@@ -2,17 +2,11 @@ package com.example.qlbhbe.controller;
 
 import com.example.qlbhbe.controller.request.CreateXuatHangChiTietRequest;
 import com.example.qlbhbe.controller.request.UpdateXuatHangChiTietRequest;
-import com.example.qlbhbe.controller.request.searchparams.XuatHangChiTietSearchParams;
 import com.example.qlbhbe.controller.response.CreatedIdResponse;
-import com.example.qlbhbe.controller.response.PaginationDataResponse;
-import com.example.qlbhbe.dto.XuatHangChiTietDTO;
 import com.example.qlbhbe.entity.XuatHangChiTiet;
 import com.example.qlbhbe.mapper.XuatHangChiTietMapper;
 import com.example.qlbhbe.service.xuathangchitiet.XuatHangChiTietService;
 import com.example.qlbhbe.util.Constants;
-import com.example.qlbhbe.util.Utils;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

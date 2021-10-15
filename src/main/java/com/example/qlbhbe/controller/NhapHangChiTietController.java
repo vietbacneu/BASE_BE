@@ -4,7 +4,6 @@ import com.example.qlbhbe.controller.request.CreateNhapHangChiTietRequest;
 import com.example.qlbhbe.controller.request.UpdateNhapHangChiTietRequest;
 import com.example.qlbhbe.controller.response.CreatedIdResponse;
 import com.example.qlbhbe.dto.NhapHangChiTietDTO;
-import com.example.qlbhbe.dto.SanPhamDTO;
 import com.example.qlbhbe.entity.NhapHangChiTiet;
 import com.example.qlbhbe.mapper.NhapHangChiTietMapper;
 import com.example.qlbhbe.service.nhaphangchitiet.NhapHangChiTietService;

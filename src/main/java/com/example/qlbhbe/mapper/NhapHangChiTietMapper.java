@@ -21,8 +21,6 @@ public interface NhapHangChiTietMapper {
         return nhapHangChiTiet;
     }
 
-    NhapHangChiTietDTO toNhapHangChiTietDTO(NhapHangChiTiet nhapHangChiTiet);
-
     NhapHangChiTiet update(UpdateNhapHangChiTietRequest command, @MappingTarget NhapHangChiTiet entity);
 
     NhapHangChiTiet create(CreateNhapHangChiTietRequest command);

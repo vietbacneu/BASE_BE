@@ -5,6 +5,7 @@ import com.example.qlbhbe.controller.request.UpdateNhapHangRequest;
 import com.example.qlbhbe.dto.NhapHangDTO;
 import com.example.qlbhbe.entity.NhapHang;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 import com.example.qlbhbe.dto.NhapHangDetailsDTO;
@@ -20,6 +21,7 @@ public interface NhapHangMapper {
         return nhapHang;
     }
 
+    @Mapping(source = "idNhaCungCap.id", target = "idNhaCungCap")
     NhapHangDTO toNhapHangDTO(NhapHang nhapHang);
 
     NhapHang update(UpdateNhapHangRequest command, @MappingTarget NhapHang entity);

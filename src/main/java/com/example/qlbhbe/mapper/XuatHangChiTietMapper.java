@@ -3,11 +3,11 @@ package com.example.qlbhbe.mapper;
 import com.example.qlbhbe.controller.request.CreateXuatHangChiTietRequest;
 import com.example.qlbhbe.controller.request.UpdateXuatHangChiTietRequest;
 import com.example.qlbhbe.dto.XuatHangChiTietDTO;
+import com.example.qlbhbe.dto.XuatHangChiTietDetailsDTO;
 import com.example.qlbhbe.entity.XuatHangChiTiet;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
-import com.example.qlbhbe.dto.XuatHangChiTietDetailsDTO;
 
 @Mapper(componentModel = "spring")
 public interface XuatHangChiTietMapper {
@@ -21,6 +21,8 @@ public interface XuatHangChiTietMapper {
     }
 
     XuatHangChiTietDTO toXuatHangChiTietDTO(XuatHangChiTiet xuatHangChiTiet);
+
+    XuatHangChiTiet toXuatHangChiTietEntity(XuatHangChiTietDTO xuatHangChiTiet);
 
     XuatHangChiTiet update(UpdateXuatHangChiTietRequest command, @MappingTarget XuatHangChiTiet entity);
 

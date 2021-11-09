@@ -43,6 +43,14 @@ public class XuatHang implements Serializable {
     @Column(name = "nguoi_thay_doi")
     private String nguoiThayDoi;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cua_hang")
+    private CuaHang cuaHang;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "khach_hang")
+    private KhachHang khachHang;
+
     public long getId() {
         return this.id;
     }
@@ -97,5 +105,21 @@ public class XuatHang implements Serializable {
 
     public void setNguoiThayDoi(String nguoiThayDoi) {
         this.nguoiThayDoi = nguoiThayDoi;
+    }
+
+    public CuaHang getCuaHang() {
+        return cuaHang;
+    }
+
+    public void setCuaHang(CuaHang cuaHang) {
+        this.cuaHang = cuaHang;
+    }
+
+    public KhachHang getKhachHang() {
+        return khachHang;
+    }
+
+    public void setKhachHang(KhachHang khachHang) {
+        this.khachHang = khachHang;
     }
 }

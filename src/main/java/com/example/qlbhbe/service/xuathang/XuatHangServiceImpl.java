@@ -1,13 +1,15 @@
 package com.example.qlbhbe.service.xuathang;
 
-import com.example.qlbhbe.controller.request.UpdateXuatHangRequest;
-import com.example.qlbhbe.dto.NhapHangChiTietDTO;
-import com.example.qlbhbe.dto.NhapHangDTO;
+import com.example.qlbhbe.dto.MessageDTO;
+import com.example.qlbhbe.dto.XuatHangChiTietDTO;
 import com.example.qlbhbe.dto.XuatHangDTO;
-import com.example.qlbhbe.entity.XuatHang;
+import com.example.qlbhbe.entity.*;
+import com.example.qlbhbe.mapper.XuatHangChiTietMapper;
 import com.example.qlbhbe.mapper.XuatHangMapper;
 import com.example.qlbhbe.repo.xuathang.XuatHangRepo;
+import com.example.qlbhbe.repo.xuathangchitiet.XuatHangChiTietRepo;
 import com.example.qlbhbe.service.AbstractService;
+import com.example.qlbhbe.service.xuathangchitiet.XuatHangChiTietService;
 import com.example.qlbhbe.util.DataUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,6 +30,19 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
 
     private final XuatHangRepo xuatHangRepo;
 
+    @Autowired
+    XuatHangMapper xuatHangMapper;
+
+    @Autowired
+    XuatHangChiTietRepo xuatHangChiTietRepo;
+
+    @Autowired
+    XuatHangChiTietMapper xuatHangChiTietMapper;
+
+    @Autowired
+    XuatHangChiTietService xuatHangChiTietService;
+
+
     @PersistenceContext
     EntityManager entityManager;
 
@@ -38,13 +53,20 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
     }
 
     @Override
-    public XuatHang update(long id, UpdateXuatHangRequest command) {
+    @Transactional
+    public MessageDTO update(long id, XuatHangDTO command) {
         Optional<XuatHang> opt = xuatHangRepo.findById(id);
         if (opt.isPresent()) {
-            XuatHang xuatHang = opt.get();
-            return XuatHangMapper.INSTANCE.update(command, xuatHang);
+            xuatHangRepo.deleteSanPham(id);
+            xuatHangChiTietRepo.deleteSanPham(id);
         }
-        return null;
+        command.setId(null);
+        for (XuatHangChiTietDTO nhapHangChiTietDTO : command.getXuatHangChiTietDTOList()) {
+            nhapHangChiTietDTO.setId(null);
+            nhapHangChiTietDTO.setIdXuatHang(null);
+        }
+        save(command);
+        return new MessageDTO("Cập nhật thành công", 200l);
     }
 
     @Override
@@ -95,17 +117,36 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<XuatHangDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maXuatHang", "idKhachHang", "idCuaHang", "nguoiTao", "ngayTao",
-                            "nguoiThayDoi", "ngayThayDoi", "tenKhachHang","tencuahang")
+                            "nguoiThayDoi", "ngayThayDoi", "tenKhachHang", "tencuahang")
                     , objects, XuatHangDTO.class);
-//            for (XuatHangDTO danhMucDTO : danhMucDTOS) {
-//                NhapHangChiTietDTO nhapHangChiTietDTO = new NhapHangChiTietDTO();
-//                nhapHangChiTietDTO.setIdNhapHang(danhMucDTO.getId());
-//                List<NhapHangChiTietDTO> tm = nhapHangChiTietService.search(nhapHangChiTietDTO);
-//                danhMucDTO.setNhapHangChiTietDTOList(tm);
-//            }
+            for (XuatHangDTO danhMucDTO : danhMucDTOS) {
+                XuatHangChiTietDTO xuatHangChiTietDTO = new XuatHangChiTietDTO();
+                xuatHangChiTietDTO.setIdXuatHang(danhMucDTO.getId());
+                List<XuatHangChiTietDTO> tm = xuatHangChiTietService.search(xuatHangChiTietDTO);
+                danhMucDTO.setXuatHangChiTietDTOList(tm);
+            }
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    @Override
+    @Transactional
+    public MessageDTO save(XuatHangDTO xuatHangDTO) {
+        XuatHang nhapHang = xuatHangMapper.toXuatHangEntity(xuatHangDTO);
+        nhapHang.setKhachHang(new KhachHang(xuatHangDTO.getIdKhachHang()));
+        nhapHang.setCuaHang(new CuaHang(xuatHangDTO.getIdCuaHang()));
+        XuatHang newNH = xuatHangRepo.save(nhapHang);
+        List<XuatHangChiTietDTO> ls = xuatHangDTO.getXuatHangChiTietDTOList();
+        for (XuatHangChiTietDTO l : ls) {
+            XuatHangChiTiet xuatHangChiTiet = xuatHangChiTietMapper.toXuatHangChiTietEntity(l);
+            SanPham sanPham = new SanPham();
+            sanPham.setId(l.getIdSanPham());
+            xuatHangChiTiet.setSanPham(sanPham);
+            xuatHangChiTiet.setXuatHang(newNH);
+            xuatHangChiTietRepo.save(xuatHangChiTiet);
+        }
+        return new MessageDTO("Thêm mới thành công", 200l);
     }
 }

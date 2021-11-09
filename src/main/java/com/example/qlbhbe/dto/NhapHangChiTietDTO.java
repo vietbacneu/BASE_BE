@@ -27,6 +27,8 @@ public class NhapHangChiTietDTO {
 
     private Long idSanPham;
 
+    private String tenSanPham;
+
     public NhapHangChiTietDTO() {
     }
 

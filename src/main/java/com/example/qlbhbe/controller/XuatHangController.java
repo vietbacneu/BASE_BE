@@ -3,6 +3,7 @@ package com.example.qlbhbe.controller;
 import com.example.qlbhbe.controller.request.CreateXuatHangRequest;
 import com.example.qlbhbe.controller.request.UpdateXuatHangRequest;
 import com.example.qlbhbe.controller.response.CreatedIdResponse;
+import com.example.qlbhbe.dto.MessageDTO;
 import com.example.qlbhbe.dto.NhapHangDTO;
 import com.example.qlbhbe.dto.XuatHangDTO;
 import com.example.qlbhbe.entity.XuatHang;
@@ -28,21 +29,21 @@ public class XuatHangController {
         this.xuatHangService = xuatHangService;
     }
 
-    @PostMapping
-    public CreatedIdResponse create(@Valid @RequestBody CreateXuatHangRequest command) {
-        XuatHang xuatHang = XuatHangMapper.INSTANCE.create(command);
-        xuatHangService.save(xuatHang);
-        return new CreatedIdResponse(xuatHang.getId());
-    }
-
     @PostMapping("/search")
     public Page<XuatHangDTO> search(@RequestBody XuatHangDTO command, @PageableDefault Pageable pageable) throws Exception {
         return xuatHangService.search(command, pageable);
     }
 
-    @PutMapping("{id}")
-    public void update(@PathVariable("id") long id, @Valid @RequestBody UpdateXuatHangRequest command) {
-        xuatHangService.update(id, command);
+
+    @PostMapping
+    public MessageDTO create(@Valid @RequestBody XuatHangDTO command) {
+        return xuatHangService.save(command);
+    }
+
+    @PutMapping("/update")
+    public void update( @Valid @RequestBody XuatHangDTO command) {
+
+        xuatHangService.update(command.getId(), command);
     }
 
     @DeleteMapping("{id}")

@@ -22,6 +22,8 @@ public interface XuatHangMapper {
 
     XuatHangDTO toXuatHangDTO(XuatHang xuatHang);
 
+    XuatHang toXuatHangEntity(XuatHangDTO xuatHang);
+
     XuatHang update(UpdateXuatHangRequest command, @MappingTarget XuatHang entity);
 
     XuatHang create(CreateXuatHangRequest command);

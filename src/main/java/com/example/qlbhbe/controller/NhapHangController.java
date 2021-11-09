@@ -35,6 +35,11 @@ public class NhapHangController {
         return nhapHangService.save(command);
     }
 
+    @PostMapping("/update")
+    public MessageDTO update(@Valid @RequestBody NhapHangDTO command) {
+        return nhapHangService.update(command.getId(),command);
+    }
+
     @DeleteMapping("{id}")
     public void delete(@PathVariable(name = "id") long id) {
         nhapHangService.deleteById(id);

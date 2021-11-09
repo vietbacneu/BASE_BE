@@ -59,6 +59,13 @@ public class KhachHang implements Serializable {
     @Column(name = "nguoi_thay_doi")
     private String nguoiThayDoi;
 
+    public KhachHang() {
+    }
+
+    public KhachHang(long id) {
+        this.id = id;
+    }
+
     public long getId() {
         return this.id;
     }

@@ -2,6 +2,8 @@ package com.example.qlbhbe.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.time.LocalDate;
+
 /**
  * Generated at 2021/10/14 17:18:07
  */
@@ -16,6 +18,18 @@ public class XuatHangChiTietDTO {
 
     private String mieuTa;
 
+    private LocalDate ngayHetHan;
+
+    private LocalDate ngaySanXuat;
+
+    private Long idXuatHang;
+
+    private Long idSanPham;
+
+    private String tenSanPham;
+
+
+
     public XuatHangChiTietDTO() {
     }
 
@@ -24,6 +38,30 @@ public class XuatHangChiTietDTO {
         this.soLuong = soLuong;
         this.gia = gia;
         this.mieuTa = mieuTa;
+    }
+
+    public Long getIdXuatHang() {
+        return idXuatHang;
+    }
+
+    public void setIdXuatHang(Long idXuatHang) {
+        this.idXuatHang = idXuatHang;
+    }
+
+    public LocalDate getNgayHetHan() {
+        return ngayHetHan;
+    }
+
+    public void setNgayHetHan(LocalDate ngayHetHan) {
+        this.ngayHetHan = ngayHetHan;
+    }
+
+    public LocalDate getNgaySanXuat() {
+        return ngaySanXuat;
+    }
+
+    public void setNgaySanXuat(LocalDate ngaySanXuat) {
+        this.ngaySanXuat = ngaySanXuat;
     }
 
     public Long getId() {
@@ -56,5 +94,21 @@ public class XuatHangChiTietDTO {
 
     public void setMieuTa(String mieuTa) {
         this.mieuTa = mieuTa;
+    }
+
+    public String getTenSanPham() {
+        return tenSanPham;
+    }
+
+    public void setTenSanPham(String tenSanPham) {
+        this.tenSanPham = tenSanPham;
+    }
+
+    public Long getIdSanPham() {
+        return idSanPham;
+    }
+
+    public void setIdSanPham(Long idSanPham) {
+        this.idSanPham = idSanPham;
     }
 }

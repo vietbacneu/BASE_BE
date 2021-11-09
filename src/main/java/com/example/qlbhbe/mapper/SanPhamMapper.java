@@ -9,7 +9,7 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 import com.example.qlbhbe.dto.SanPhamDetailsDTO;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface SanPhamMapper {
 
     SanPhamMapper INSTANCE = Mappers.getMapper(SanPhamMapper.class);

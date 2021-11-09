@@ -32,6 +32,8 @@ public class NhapHangDTO {
 
     private String endDate;
 
+    private String tenCuaHang;
+
     private Long idCuaHang;
 
     List<NhapHangChiTietDTO> nhapHangChiTietDTOList;
@@ -49,6 +51,14 @@ public class NhapHangDTO {
         this.maNhapHang = maNhapHang;
         this.ngayNhap = ngayNhap;
         this.tenNhaCungCap = tenNhaCungCap;
+    }
+
+    public String getTenCuaHang() {
+        return tenCuaHang;
+    }
+
+    public void setTenCuaHang(String tenCuaHang) {
+        this.tenCuaHang = tenCuaHang;
     }
 
     public Long getIdCuaHang() {

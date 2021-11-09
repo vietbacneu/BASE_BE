@@ -8,6 +8,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface NhapHangChiTietRepo extends JpaRepository<NhapHangChiTiet, Long> {
     @Modifying
-    @Query("delete from NhapHangChiTiet n where n.idNhapHang.id = :id")
+    @Query("delete from NhapHangChiTiet n where n.nhapHang.id = :id")
     void deleteSanPham(@Param("id") Long id);
 }

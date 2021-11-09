@@ -9,7 +9,7 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 import com.example.qlbhbe.dto.XuatHangChiTietDetailsDTO;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface XuatHangChiTietMapper {
 
     XuatHangChiTietMapper INSTANCE = Mappers.getMapper(XuatHangChiTietMapper.class);

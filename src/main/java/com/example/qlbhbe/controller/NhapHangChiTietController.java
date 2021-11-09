@@ -34,18 +34,6 @@ public class NhapHangChiTietController {
     }
 
 
-    @PostMapping
-    public CreatedIdResponse create(@Valid @RequestBody CreateNhapHangChiTietRequest command) {
-        NhapHangChiTiet nhapHangChiTiet = NhapHangChiTietMapper.INSTANCE.create(command);
-        nhapHangChiTietService.save(nhapHangChiTiet);
-        return new CreatedIdResponse(nhapHangChiTiet.getId());
-    }
-
-    @PutMapping("{id}")
-    public void update(@PathVariable("id") long id, @Valid @RequestBody UpdateNhapHangChiTietRequest command) {
-        nhapHangChiTietService.update(id, command);
-    }
-
     @DeleteMapping("{id}")
     public void delete(@PathVariable(name = "id") long id) {
         nhapHangChiTietService.deleteById(id);

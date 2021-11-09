@@ -2,7 +2,6 @@ package com.example.qlbhbe.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -53,18 +52,18 @@ public class NhapHang implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_nha_cung_cap")
-    private NhaCungCap idNhaCungCap;
+    private NhaCungCap nhaCungCap;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_cua_hang")
-    private CuaHang idCuaHang;
+    private CuaHang cuaHang;
 
-    public CuaHang getIdCuaHang() {
-        return idCuaHang;
+    public CuaHang getCuaHang() {
+        return cuaHang;
     }
 
-    public void setIdCuaHang(CuaHang idCuaHang) {
-        this.idCuaHang = idCuaHang;
+    public void setCuaHang(CuaHang idCuaHang) {
+        this.cuaHang = idCuaHang;
     }
 
     public long getId() {
@@ -107,12 +106,12 @@ public class NhapHang implements Serializable {
         this.ngayThayDoi = ngayThayDoi;
     }
 
-    public NhaCungCap getIdNhaCungCap() {
-        return this.idNhaCungCap;
+    public NhaCungCap getNhaCungCap() {
+        return this.nhaCungCap;
     }
 
-    public void setIdNhaCungCap(NhaCungCap idNhaCungCap) {
-        this.idNhaCungCap = idNhaCungCap;
+    public void setNhaCungCap(NhaCungCap idNhaCungCap) {
+        this.nhaCungCap = idNhaCungCap;
     }
 
     public String getNguoiTao() {

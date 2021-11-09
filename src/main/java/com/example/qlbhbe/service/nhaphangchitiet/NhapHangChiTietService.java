@@ -12,7 +12,5 @@ import java.util.List;
 
 public interface NhapHangChiTietService extends BaseService<NhapHangChiTiet, Long> {
 
-    NhapHangChiTiet update(long id, UpdateNhapHangChiTietRequest command);
-
     List<NhapHangChiTietDTO> search(NhapHangChiTietDTO command) throws Exception;
 }

@@ -35,16 +35,6 @@ public class NhapHangChiTietServiceImpl extends AbstractService<NhapHangChiTiet,
     }
 
     @Override
-    public NhapHangChiTiet update(long id, UpdateNhapHangChiTietRequest command) {
-        Optional<NhapHangChiTiet> opt = nhapHangChiTietRepo.findById(id);
-        if (opt.isPresent()) {
-            NhapHangChiTiet nhapHangChiTiet = opt.get();
-            return NhapHangChiTietMapper.INSTANCE.update(command, nhapHangChiTiet);
-        }
-        return null;
-    }
-
-    @Override
     public List<NhapHangChiTietDTO> search(NhapHangChiTietDTO command) throws Exception {
         try {
             StringBuilder queryStr = new StringBuilder();

@@ -4,14 +4,11 @@ import com.example.qlbhbe.controller.response.CreatedIdResponse;
 import com.example.qlbhbe.dto.CuaHangDTO;
 import com.example.qlbhbe.entity.CuaHang;
 import com.example.qlbhbe.mapper.CuaHangMapper;
-import com.example.qlbhbe.service.cuahang.CuaHangDetailsService;
-import com.example.qlbhbe.service.cuahang.CuaHangSearchService;
 import com.example.qlbhbe.service.cuahang.CuaHangService;
 import com.example.qlbhbe.util.Constants;
 import com.example.qlbhbe.util.Utils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,13 +20,10 @@ import javax.validation.Valid;
 public class CuaHangController {
 
     private final CuaHangService cuaHangService;
-    private final CuaHangSearchService cuaHangSearchService;
-    private final CuaHangDetailsService cuaHangDetailsService;
 
-    public CuaHangController(CuaHangService cuaHangService, CuaHangSearchService cuaHangSearchService, CuaHangDetailsService cuaHangDetailsService) {
+
+    public CuaHangController(CuaHangService cuaHangService) {
         this.cuaHangService = cuaHangService;
-        this.cuaHangSearchService = cuaHangSearchService;
-        this.cuaHangDetailsService = cuaHangDetailsService;
     }
 
     @PostMapping

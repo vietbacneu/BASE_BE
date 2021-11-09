@@ -2,6 +2,7 @@ package com.example.qlbhbe.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Generated at 2021/10/14 17:18:02
@@ -23,6 +24,18 @@ public class XuatHangDTO {
 
     private LocalDate ngayNhap;
 
+    private Long idKhachHang;
+
+    private Long idCuaHang;
+
+    private String tenKhachHang;
+
+    private String startDate;
+
+    private String endDate;
+
+    List<XuatHangChiTietDTO> xuatHangChiTietDTOList;
+
     public XuatHangDTO() {
     }
 
@@ -34,6 +47,46 @@ public class XuatHangDTO {
         this.ngayThayDoi = ngayThayDoi;
         this.maXuatHang = maXuatHang;
         this.ngayNhap = ngayNhap;
+    }
+
+    public Long getIdCuaHang() {
+        return idCuaHang;
+    }
+
+    public void setIdCuaHang(Long idCuaHang) {
+        this.idCuaHang = idCuaHang;
+    }
+
+    public Long getIdKhachHang() {
+        return idKhachHang;
+    }
+
+    public void setIdKhachHang(Long idKhachHang) {
+        this.idKhachHang = idKhachHang;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getTenKhachHang() {
+        return tenKhachHang;
+    }
+
+    public void setTenKhachHang(String tenKhachHang) {
+        this.tenKhachHang = tenKhachHang;
     }
 
     public Long getId() {
@@ -90,5 +143,13 @@ public class XuatHangDTO {
 
     public void setNgayNhap(LocalDate ngayNhap) {
         this.ngayNhap = ngayNhap;
+    }
+
+    public List<XuatHangChiTietDTO> getXuatHangChiTietDTOList() {
+        return xuatHangChiTietDTOList;
+    }
+
+    public void setXuatHangChiTietDTOList(List<XuatHangChiTietDTO> xuatHangChiTietDTOList) {
+        this.xuatHangChiTietDTOList = xuatHangChiTietDTOList;
     }
 }

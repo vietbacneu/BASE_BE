@@ -4,8 +4,6 @@ import com.example.qlbhbe.controller.response.CreatedIdResponse;
 import com.example.qlbhbe.dto.KhachHangDTO;
 import com.example.qlbhbe.entity.KhachHang;
 import com.example.qlbhbe.mapper.KhachHangMapper;
-import com.example.qlbhbe.service.khachhang.KhachHangDetailsService;
-import com.example.qlbhbe.service.khachhang.KhachHangSearchService;
 import com.example.qlbhbe.service.khachhang.KhachHangService;
 import com.example.qlbhbe.util.Constants;
 import com.example.qlbhbe.util.Utils;
@@ -22,13 +20,9 @@ import javax.validation.Valid;
 public class KhachHangController {
 
     private final KhachHangService khachHangService;
-    private final KhachHangSearchService khachHangSearchService;
-    private final KhachHangDetailsService khachHangDetailsService;
 
-    public KhachHangController(KhachHangService khachHangService, KhachHangSearchService khachHangSearchService, KhachHangDetailsService khachHangDetailsService) {
+    public KhachHangController(KhachHangService khachHangService) {
         this.khachHangService = khachHangService;
-        this.khachHangSearchService = khachHangSearchService;
-        this.khachHangDetailsService = khachHangDetailsService;
     }
 
     @PostMapping

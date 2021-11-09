@@ -25,6 +25,8 @@ public class NhapHangChiTietDTO {
 
     private LocalDate ngaySanXuat;
 
+    private Long idSanPham;
+
     public NhapHangChiTietDTO() {
     }
 
@@ -34,6 +36,14 @@ public class NhapHangChiTietDTO {
         this.gia = gia;
         this.mieuTa = mieuTa;
         this.idNhapHang = idNhaCungCap;
+    }
+
+    public Long getIdSanPham() {
+        return idSanPham;
+    }
+
+    public void setIdSanPham(Long idSanPham) {
+        this.idSanPham = idSanPham;
     }
 
     public LocalDate getNgaySanXuat() {

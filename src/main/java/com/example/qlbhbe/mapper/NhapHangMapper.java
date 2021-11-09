@@ -10,7 +10,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface NhapHangMapper {
 
     NhapHangMapper INSTANCE = Mappers.getMapper(NhapHangMapper.class);
@@ -21,10 +21,8 @@ public interface NhapHangMapper {
         return nhapHang;
     }
 
-    @Mapping(source = "idNhaCungCap.id", target = "idNhaCungCap")
     NhapHangDTO toNhapHangDTO(NhapHang nhapHang);
 
-    @Mapping(target = "idNhaCungCap.id", source = "idNhaCungCap")
     NhapHang toNhapHangENTITY(NhapHangDTO nhapHang);
 
     NhapHang update(UpdateNhapHangRequest command, @MappingTarget NhapHang entity);

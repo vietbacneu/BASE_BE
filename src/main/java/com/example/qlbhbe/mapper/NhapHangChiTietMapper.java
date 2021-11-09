@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface NhapHangChiTietMapper {
 
     NhapHangChiTietMapper INSTANCE = Mappers.getMapper(NhapHangChiTietMapper.class);
@@ -21,7 +21,4 @@ public interface NhapHangChiTietMapper {
 
     NhapHangChiTiet toEntity(NhapHangChiTietDTO nhapHangChiTietDTO);
 
-    NhapHangChiTiet update(UpdateNhapHangChiTietRequest command, @MappingTarget NhapHangChiTiet entity);
-
-    NhapHangChiTiet create(CreateNhapHangChiTietRequest command);
 }

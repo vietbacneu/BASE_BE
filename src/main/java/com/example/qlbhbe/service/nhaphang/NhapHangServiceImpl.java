@@ -3,10 +3,7 @@ package com.example.qlbhbe.service.nhaphang;
 import com.example.qlbhbe.dto.MessageDTO;
 import com.example.qlbhbe.dto.NhapHangChiTietDTO;
 import com.example.qlbhbe.dto.NhapHangDTO;
-import com.example.qlbhbe.entity.CuaHang;
-import com.example.qlbhbe.entity.NhaCungCap;
-import com.example.qlbhbe.entity.NhapHang;
-import com.example.qlbhbe.entity.NhapHangChiTiet;
+import com.example.qlbhbe.entity.*;
 import com.example.qlbhbe.mapper.NhapHangChiTietMapper;
 import com.example.qlbhbe.mapper.NhapHangMapper;
 import com.example.qlbhbe.repo.nhaphang.NhapHangRepo;
@@ -86,9 +83,9 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
                     "    s.ngay_tao        ," +
                     "    s.nguoi_thay_doi  ," +
                     "    s.ngay_thay_doi   ," +
-                    "    n.ten_nha_cung_cap  ");
+                    "    n.ten_nha_cung_cap, id_cua_hang, (select ten_cua_hang from cua_hang c where c.id =  s.id_cua_hang )  tencuahang  ");
             count.append("select count(*) ");
-            from.append(" from nhap_hang s, nha_cung_cap n d where s.id_danh_muc = d.id  ");
+            from.append(" from nhap_hang s, nha_cung_cap n where s.id_nha_cung_cap = n.id  ");
             if (!DataUtil.isNullOrEmpty(command.getTenNhaCungCap())) {
                 from.append(" and lower(n.ten_nha_cung_cap) like :ten ");
                 params.put("ten", '%' + command.getMaNhapHang().toLowerCase(Locale.ROOT) + '%');
@@ -118,7 +115,7 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<NhapHangDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maNhapHang", "idNhaCungCap", "ngayNhap", "nguoiTao", "ngayTao",
-                            "nguoiThayDoi", "ngayThayDoi", "tenNhaCungCap")
+                            "nguoiThayDoi", "ngayThayDoi", "tenNhaCungCap", "idCuaHang", "tenCuaHang")
                     , objects, NhapHangDTO.class);
             for (NhapHangDTO danhMucDTO : danhMucDTOS) {
                 NhapHangChiTietDTO nhapHangChiTietDTO = new NhapHangChiTietDTO();
@@ -136,13 +133,16 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
     @Transactional
     public MessageDTO save(NhapHangDTO nhapHangDTO) {
         NhapHang nhapHang = nhapHangMapper.toNhapHangENTITY(nhapHangDTO);
-        nhapHang.setIdNhaCungCap(new NhaCungCap(nhapHangDTO.getIdNhaCungCap()));
-        nhapHang.setIdCuaHang(new CuaHang(nhapHangDTO.getIdCuaHang()));
+        nhapHang.setNhaCungCap(new NhaCungCap(nhapHangDTO.getIdNhaCungCap()));
+        nhapHang.setCuaHang(new CuaHang(nhapHangDTO.getIdCuaHang()));
         NhapHang newNH = nhapHangRepo.save(nhapHang);
         List<NhapHangChiTietDTO> ls = nhapHangDTO.getNhapHangChiTietDTOList();
         for (NhapHangChiTietDTO l : ls) {
             NhapHangChiTiet nhapHangChiTiet = nhapHangChiTietMapper.toEntity(l);
-            nhapHangChiTiet.setIdNhapHang(newNH);
+            SanPham sanPham = new SanPham();
+            sanPham.setId(l.getIdSanPham());
+            nhapHangChiTiet.setSanPham(sanPham);
+            nhapHangChiTiet.setNhapHang(newNH);
             nhapHangChiTietRepo.save(nhapHangChiTiet);
         }
         return new MessageDTO("Thêm mới thành công", 200l);

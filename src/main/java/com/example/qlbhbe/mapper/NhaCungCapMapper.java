@@ -9,7 +9,7 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 import com.example.qlbhbe.dto.NhaCungCapDetailsDTO;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface NhaCungCapMapper {
 
     NhaCungCapMapper INSTANCE = Mappers.getMapper(NhaCungCapMapper.class);

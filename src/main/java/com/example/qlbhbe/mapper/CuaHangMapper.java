@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface CuaHangMapper {
 
     CuaHangMapper INSTANCE = Mappers.getMapper(CuaHangMapper.class);

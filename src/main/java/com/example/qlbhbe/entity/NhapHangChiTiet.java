@@ -1,6 +1,7 @@
 package com.example.qlbhbe.entity;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.apache.tomcat.jni.Local;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -37,6 +40,12 @@ public class NhapHangChiTiet implements Serializable {
     @Column(name = "mieu_ta")
     private String mieuTa;
 
+    @Column(name = "ngay_het_han")
+    private LocalDate ngayHetHan;
+
+    @Column(name = "ngay_san_xuat")
+    private LocalDate ngaySanXuat;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_nhap_hang")
     private NhapHang idNhapHang;
@@ -44,6 +53,22 @@ public class NhapHangChiTiet implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_san_pham")
     private SanPham idSanPham;
+
+    public LocalDate getNgayHetHan() {
+        return ngayHetHan;
+    }
+
+    public void setNgayHetHan(LocalDate ngayHetHan) {
+        this.ngayHetHan = ngayHetHan;
+    }
+
+    public LocalDate getNgaySanXuat() {
+        return ngaySanXuat;
+    }
+
+    public void setNgaySanXuat(LocalDate ngaySanXuat) {
+        this.ngaySanXuat = ngaySanXuat;
+    }
 
     public long getId() {
         return this.id;

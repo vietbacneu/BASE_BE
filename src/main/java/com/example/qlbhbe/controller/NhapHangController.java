@@ -1,11 +1,8 @@
 package com.example.qlbhbe.controller;
 
-import com.example.qlbhbe.controller.request.CreateNhapHangRequest;
 import com.example.qlbhbe.controller.request.UpdateNhapHangRequest;
-import com.example.qlbhbe.controller.response.CreatedIdResponse;
+import com.example.qlbhbe.dto.MessageDTO;
 import com.example.qlbhbe.dto.NhapHangDTO;
-import com.example.qlbhbe.entity.NhapHang;
-import com.example.qlbhbe.mapper.NhapHangMapper;
 import com.example.qlbhbe.service.nhaphang.NhapHangService;
 import com.example.qlbhbe.util.Constants;
 import org.springframework.data.domain.Page;
@@ -34,15 +31,8 @@ public class NhapHangController {
     }
 
     @PostMapping
-    public CreatedIdResponse create(@Valid @RequestBody CreateNhapHangRequest command) {
-        NhapHang nhapHang = NhapHangMapper.INSTANCE.create(command);
-        nhapHangService.save(nhapHang);
-        return new CreatedIdResponse(nhapHang.getId());
-    }
-
-    @PutMapping("{id}")
-    public void update(@PathVariable("id") long id, @Valid @RequestBody UpdateNhapHangRequest command) {
-        nhapHangService.update(id, command);
+    public MessageDTO create(@Valid @RequestBody NhapHangDTO command) {
+        return nhapHangService.save(command);
     }
 
     @DeleteMapping("{id}")

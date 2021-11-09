@@ -127,6 +127,13 @@ public class NhaCungCap implements Serializable {
     }
 
 
+    public NhaCungCap(long id) {
+        this.id = id;
+    }
+
+    public NhaCungCap() {
+    }
+
     public String getNguoiTao() {
         return nguoiTao;
     }

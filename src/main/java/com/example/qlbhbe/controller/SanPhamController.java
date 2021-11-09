@@ -34,14 +34,14 @@ public class SanPhamController {
     }
 
     @PostMapping
-    public CreatedIdResponse create(@Valid @RequestBody CreateSanPhamRequest command) {
+    public CreatedIdResponse create(@Valid @RequestBody SanPhamDTO command) {
         SanPham sanPham = SanPhamMapper.INSTANCE.create(command);
         sanPhamService.save(sanPham);
         return new CreatedIdResponse(sanPham.getId());
     }
 
     @PutMapping("{id}")
-    public void update(@PathVariable("id") long id, @Valid @RequestBody UpdateSanPhamRequest command) {
+    public void update(@PathVariable("id") long id, @Valid @RequestBody SanPhamDTO command) {
         sanPhamService.update(id, command);
     }
 

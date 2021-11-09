@@ -29,6 +29,9 @@ public class SanPhamDetailsDTO {
 
     private String ngayThayDoi;
 
+    private String donVi ;
+
+
     public SanPhamDetailsDTO() {
     }
 

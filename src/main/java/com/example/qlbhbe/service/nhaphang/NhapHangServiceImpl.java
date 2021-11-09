@@ -1,11 +1,18 @@
 package com.example.qlbhbe.service.nhaphang;
 
-import com.example.qlbhbe.controller.request.UpdateNhapHangRequest;
+import com.example.qlbhbe.dto.MessageDTO;
+import com.example.qlbhbe.dto.NhapHangChiTietDTO;
 import com.example.qlbhbe.dto.NhapHangDTO;
+import com.example.qlbhbe.entity.CuaHang;
+import com.example.qlbhbe.entity.NhaCungCap;
 import com.example.qlbhbe.entity.NhapHang;
+import com.example.qlbhbe.entity.NhapHangChiTiet;
+import com.example.qlbhbe.mapper.NhapHangChiTietMapper;
 import com.example.qlbhbe.mapper.NhapHangMapper;
 import com.example.qlbhbe.repo.nhaphang.NhapHangRepo;
+import com.example.qlbhbe.repo.nhaphangchitiet.NhapHangChiTietRepo;
 import com.example.qlbhbe.service.AbstractService;
+import com.example.qlbhbe.service.nhaphangchitiet.NhapHangChiTietService;
 import com.example.qlbhbe.util.DataUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,6 +33,18 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
 
     private final NhapHangRepo nhapHangRepo;
 
+    @Autowired
+    NhapHangChiTietRepo nhapHangChiTietRepo;
+
+    @Autowired
+    NhapHangMapper nhapHangMapper;
+
+    @Autowired
+    NhapHangChiTietMapper nhapHangChiTietMapper;
+
+    @Autowired
+    NhapHangChiTietService nhapHangChiTietService;
+
     @PersistenceContext
     EntityManager entityManager;
 
@@ -36,13 +55,20 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
     }
 
     @Override
-    public NhapHang update(long id, UpdateNhapHangRequest command) {
+    @Transactional
+    public MessageDTO update(long id, NhapHangDTO command) {
         Optional<NhapHang> opt = nhapHangRepo.findById(id);
         if (opt.isPresent()) {
-            NhapHang nhapHang = opt.get();
-            return NhapHangMapper.INSTANCE.update(command, nhapHang);
+            nhapHangRepo.deleteSanPham(id);
+            nhapHangChiTietRepo.deleteSanPham(id);
         }
-        return null;
+        command.setId(null);
+        for (NhapHangChiTietDTO nhapHangChiTietDTO : command.getNhapHangChiTietDTOList()) {
+            nhapHangChiTietDTO.setId(null);
+            nhapHangChiTietDTO.setIdNhapHang(null);
+        }
+        save(command);
+        return new MessageDTO("Cập nhật thành công", 200l);
     }
 
     @Override
@@ -65,11 +91,11 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
             from.append(" from nhap_hang s, nha_cung_cap n d where s.id_danh_muc = d.id  ");
             if (!DataUtil.isNullOrEmpty(command.getTenNhaCungCap())) {
                 from.append(" and lower(n.ten_nha_cung_cap) like :ten ");
-                params.put("ten", command.getMaNhapHang().toLowerCase(Locale.ROOT));
+                params.put("ten", '%' + command.getMaNhapHang().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getMaNhapHang())) {
                 from.append(" and lower(s.ma_nhap_hang) like :ma ");
-                params.put("ma", command.getMaNhapHang().toLowerCase(Locale.ROOT));
+                params.put("ma", '%' + command.getMaNhapHang().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getStartDate())) {
                 from.append(" and s.ngay_nhap >= to_date(:startDate,'dd/MM/yyyy') ");
@@ -94,10 +120,31 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
             List<NhapHangDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maNhapHang", "idNhaCungCap", "ngayNhap", "nguoiTao", "ngayTao",
                             "nguoiThayDoi", "ngayThayDoi", "tenNhaCungCap")
                     , objects, NhapHangDTO.class);
-
+            for (NhapHangDTO danhMucDTO : danhMucDTOS) {
+                NhapHangChiTietDTO nhapHangChiTietDTO = new NhapHangChiTietDTO();
+                nhapHangChiTietDTO.setIdNhapHang(danhMucDTO.getId());
+                List<NhapHangChiTietDTO> tm = nhapHangChiTietService.search(nhapHangChiTietDTO);
+                danhMucDTO.setNhapHangChiTietDTOList(tm);
+            }
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    @Override
+    @Transactional
+    public MessageDTO save(NhapHangDTO nhapHangDTO) {
+        NhapHang nhapHang = nhapHangMapper.toNhapHangENTITY(nhapHangDTO);
+        nhapHang.setIdNhaCungCap(new NhaCungCap(nhapHangDTO.getIdNhaCungCap()));
+        nhapHang.setIdCuaHang(new CuaHang(nhapHangDTO.getIdCuaHang()));
+        NhapHang newNH = nhapHangRepo.save(nhapHang);
+        List<NhapHangChiTietDTO> ls = nhapHangDTO.getNhapHangChiTietDTOList();
+        for (NhapHangChiTietDTO l : ls) {
+            NhapHangChiTiet nhapHangChiTiet = nhapHangChiTietMapper.toEntity(l);
+            nhapHangChiTiet.setIdNhapHang(newNH);
+            nhapHangChiTietRepo.save(nhapHangChiTiet);
+        }
+        return new MessageDTO("Thêm mới thành công", 200l);
     }
 }

@@ -35,8 +35,11 @@ public class SanPham implements Serializable {
     @Column(name = "ten_san_pham")
     private String tenSanPham;
 
-    @Column(name = "gia_san_pham")
-    private Double giaSanPham;
+    @Column(name = "gia_ban_niem_yet")
+    private Double giaBanNiemYet;
+
+    @Column(name = "gia_nhap_niem_yet")
+    private Double giaNhapNiemYet;
 
     @Column(name = "so_luong")
     private Double soLuong;
@@ -64,6 +67,33 @@ public class SanPham implements Serializable {
     @JoinColumn(name = "id_danh_muc")
     private DanhMuc idDanhMuc;
 
+    @Column(name = "don_vi")
+    private String donVi ;
+
+    public Double getGiaBanNiemYet() {
+        return giaBanNiemYet;
+    }
+
+    public void setGiaBanNiemYet(Double giaBanNiemYet) {
+        this.giaBanNiemYet = giaBanNiemYet;
+    }
+
+    public Double getGiaNhapNiemYet() {
+        return giaNhapNiemYet;
+    }
+
+    public void setGiaNhapNiemYet(Double giaNhapNiemYet) {
+        this.giaNhapNiemYet = giaNhapNiemYet;
+    }
+
+    public String getDonVi() {
+        return donVi;
+    }
+
+    public void setDonVi(String donVi) {
+        this.donVi = donVi;
+    }
+
     public long getId() {
         return this.id;
     }
@@ -86,14 +116,6 @@ public class SanPham implements Serializable {
 
     public void setTenSanPham(String tenSanPham) {
         this.tenSanPham = tenSanPham;
-    }
-
-    public Double getGiaSanPham() {
-        return this.giaSanPham;
-    }
-
-    public void setGiaSanPham(Double giaSanPham) {
-        this.giaSanPham = giaSanPham;
     }
 
     public Double getSoLuong() {

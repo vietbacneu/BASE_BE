@@ -33,15 +33,15 @@ public class NhaCungCapController {
     }
 
     @PostMapping
-    public CreatedIdResponse create(@Valid @RequestBody CreateNhaCungCapRequest command) {
+    public CreatedIdResponse create(@Valid @RequestBody NhaCungCapDTO command) {
         NhaCungCap nhaCungCap = NhaCungCapMapper.INSTANCE.create(command);
         nhaCungCapService.save(nhaCungCap);
         return new CreatedIdResponse(nhaCungCap.getId());
     }
 
-    @PutMapping("{id}")
-    public void update(@PathVariable("id") long id, @Valid @RequestBody UpdateNhaCungCapRequest command) {
-        nhaCungCapService.update(id, command);
+    @PutMapping("/update")
+    public void update( @Valid @RequestBody NhaCungCapDTO command) {
+        nhaCungCapService.update(command.getId(), command);
     }
 
     @DeleteMapping("{id}")

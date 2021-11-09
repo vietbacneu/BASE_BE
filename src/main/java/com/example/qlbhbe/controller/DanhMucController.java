@@ -32,15 +32,15 @@ public class DanhMucController {
     }
 
     @PostMapping
-    public CreatedIdResponse create(@RequestBody CreateDanhMucRequest command) {
+    public CreatedIdResponse create(@RequestBody DanhMucDTO command) {
         DanhMuc danhMuc = DanhMucMapper.INSTANCE.create(command);
         danhMucService.save(danhMuc);
         return new CreatedIdResponse(danhMuc.getId());
     }
 
-    @PutMapping("{id}")
-    public void update(@PathVariable("id") long id, @RequestBody UpdateDanhMucRequest command) {
-        danhMucService.update(id, command);
+    @PutMapping("/update")
+    public void update(@PathVariable("id") long id, @RequestBody DanhMucDTO command) {
+        danhMucService.update(command.getId(), command);
     }
 
     @DeleteMapping("{id}")

@@ -45,7 +45,7 @@ public class NhapHangChiTietServiceImpl extends AbstractService<NhapHangChiTiet,
     }
 
     @Override
-    public Page<NhapHangChiTietDTO> search(NhapHangChiTietDTO command, Pageable pageable) throws Exception {
+    public List<NhapHangChiTietDTO> search(NhapHangChiTietDTO command) throws Exception {
         try {
             StringBuilder queryStr = new StringBuilder();
             StringBuilder count = new StringBuilder();
@@ -56,7 +56,7 @@ public class NhapHangChiTietServiceImpl extends AbstractService<NhapHangChiTiet,
                     "    id_san_pham ," +
                     "    so_luong ," +
                     "    gia," +
-                    "    mieu_ta ,  ");
+                    "    mieu_ta , ngay_het_han , ngay_san_xuat ");
             count.append("select count(*) ");
             from.append(" from nhap_hang_chi_tiet where 1=1 ");
             if (!DataUtil.isNullOrEmpty(command.getId())) {
@@ -75,14 +75,12 @@ public class NhapHangChiTietServiceImpl extends AbstractService<NhapHangChiTiet,
                 query.setParameter(p.getKey(), p.getValue());
                 countQuery.setParameter(p.getKey(), p.getValue());
             }
-            query.setFirstResult((int) pageable.getOffset());
-            query.setMaxResults(pageable.getPageSize());
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<NhapHangChiTietDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(
-                    Arrays.asList("id", "idNhapHang", "idSanPham", "soLuong", "mieuTa"),
+                    Arrays.asList("id", "idNhapHang", "idSanPham", "soLuong", "mieuTa","ngayHetHan","ngaySanXuat"),
                     objects, NhapHangChiTietDTO.class);
-            return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));
+            return danhMucDTOS;
         } catch (Exception e) {
             throw e;
         }

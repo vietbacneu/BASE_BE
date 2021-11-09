@@ -36,7 +36,7 @@ public class NhaCungCapServiceImpl extends AbstractService<NhaCungCap, Long> imp
     }
 
     @Override
-    public NhaCungCap update(long id, UpdateNhaCungCapRequest command) {
+    public NhaCungCap update(long id, NhaCungCapDTO command) {
         Optional<NhaCungCap> opt = nhaCungCapRepo.findById(id);
         if (opt.isPresent()) {
             NhaCungCap nhaCungCap = opt.get();
@@ -67,23 +67,23 @@ public class NhaCungCapServiceImpl extends AbstractService<NhaCungCap, Long> imp
             from.append(" from nha_cung_cap where 1 = 1 ");
             if (!DataUtil.isNullOrEmpty(command.getTenNhaCungCap())) {
                 from.append(" and lower(ten_nha_cung_cap) like :ten ");
-                params.put("ten", command.getTenNhaCungCap().toLowerCase(Locale.ROOT));
+                params.put("ten", '%' + command.getTenNhaCungCap().toLowerCase(Locale.ROOT) +'%');
             }
             if (!DataUtil.isNullOrEmpty(command.getMaNhaCungCap())) {
                 from.append(" and lower(ma_nha_cung_cap) like :ma ");
-                params.put("ma", command.getMaNhaCungCap().toLowerCase(Locale.ROOT));
+                params.put("ma", '%' + command.getMaNhaCungCap().toLowerCase(Locale.ROOT)+'%');
             }
             if (!DataUtil.isNullOrEmpty(command.getSdt())) {
                 from.append(" and lower(sdt) like :sdt ");
-                params.put("sdt", command.getSdt().toLowerCase(Locale.ROOT));
+                params.put("sdt", '%' + command.getSdt().toLowerCase(Locale.ROOT)+'%');
             }
             if (!DataUtil.isNullOrEmpty(command.getDiaChi())) {
                 from.append(" and lower(dia_chi) like :diachi ");
-                params.put("diachi", command.getDiaChi().toLowerCase(Locale.ROOT));
+                params.put("diachi", '%' + command.getDiaChi().toLowerCase(Locale.ROOT)+'%');
             }
             if (!DataUtil.isNullOrEmpty(command.getMaSoThue())) {
                 from.append(" and lower(ma_so_thue) like :thue ");
-                params.put("thue", command.getDiaChi().toLowerCase(Locale.ROOT));
+                params.put("thue", '%' + command.getDiaChi().toLowerCase(Locale.ROOT)+'%');
             }
             queryStr.append(from);
             count.append(from);

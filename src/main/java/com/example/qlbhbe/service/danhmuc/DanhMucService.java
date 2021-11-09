@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface DanhMucService extends BaseService<DanhMuc, Long> {
 
-    DanhMuc update(long id, UpdateDanhMucRequest command);
+    DanhMuc update(long id, DanhMucDTO command);
 
     Page<DanhMucDTO> searchAllDanhMuc(DanhMucDTO danhMucDTO, Pageable pageable) throws Exception;
 }

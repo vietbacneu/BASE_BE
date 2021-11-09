@@ -7,10 +7,12 @@ import com.example.qlbhbe.service.BaseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 
 public interface NhapHangChiTietService extends BaseService<NhapHangChiTiet, Long> {
 
     NhapHangChiTiet update(long id, UpdateNhapHangChiTietRequest command);
 
-    Page<NhapHangChiTietDTO> search(NhapHangChiTietDTO command, Pageable pageable) throws Exception;
+    List<NhapHangChiTietDTO> search(NhapHangChiTietDTO command) throws Exception;
 }

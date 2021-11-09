@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface SanPhamService extends BaseService<SanPham, Long> {
 
-    SanPham update(long id, UpdateSanPhamRequest command);
+    SanPham update(long id, SanPhamDTO command);
 
     Page<SanPhamDTO> search(SanPhamDTO command, Pageable pageable) throws Exception;
 }

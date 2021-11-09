@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface NhaCungCapService extends BaseService<NhaCungCap, Long> {
 
-    NhaCungCap update(long id, UpdateNhaCungCapRequest command);
+    NhaCungCap update(long id, NhaCungCapDTO command);
 
     Page<NhaCungCapDTO> search(NhaCungCapDTO command, Pageable pageable) throws Exception;
 }

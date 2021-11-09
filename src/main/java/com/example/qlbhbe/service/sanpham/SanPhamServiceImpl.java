@@ -1,7 +1,5 @@
 package com.example.qlbhbe.service.sanpham;
 
-import com.example.qlbhbe.controller.request.UpdateSanPhamRequest;
-import com.example.qlbhbe.dto.NhaCungCapDTO;
 import com.example.qlbhbe.dto.SanPhamDTO;
 import com.example.qlbhbe.entity.SanPham;
 import com.example.qlbhbe.mapper.SanPhamMapper;
@@ -37,7 +35,7 @@ public class SanPhamServiceImpl extends AbstractService<SanPham, Long> implement
     }
 
     @Override
-    public SanPham update(long id, UpdateSanPhamRequest command) {
+    public SanPham update(long id, SanPhamDTO command) {
         Optional<SanPham> opt = sanPhamRepo.findById(id);
         if (opt.isPresent()) {
             SanPham sanPham = opt.get();
@@ -57,27 +55,28 @@ public class SanPhamServiceImpl extends AbstractService<SanPham, Long> implement
                     "    s.ma_san_pham    ," +
                     "    s.ten_san_pham   ," +
                     "    s.id_danh_muc   ," +
-                    "    s.gia_san_pham   ," +
+                    "    s.gia_ban_niem_yet   ," +
                     "    s.so_luong       ," +
                     "    s.mieu_ta        ," +
                     "    s.nguoi_tao      ," +
                     "    s.ngay_tao       ," +
                     "    s.nguoi_thay_doi ," +
                     "    s.ngay_thay_doi  , " +
+                    "    s.gia_nhap_niem_yet   ," +
                     "     d.ten_danh_muc  ");
             count.append("select count(*) ");
             from.append(" from san_pham s, danh_muc d where s.id_danh_muc = d.id  ");
             if (!DataUtil.isNullOrEmpty(command.getTenSanPham())) {
                 from.append(" and lower(s.ten_san_pham) like :ten ");
-                params.put("ten", command.getTenSanPham().toLowerCase(Locale.ROOT));
+                params.put("ten", '%' + command.getTenSanPham().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getMaSanPham())) {
                 from.append(" and lower(s.ma_san_pham) like :ma ");
-                params.put("ma", command.getMaSanPham().toLowerCase(Locale.ROOT));
+                params.put("ma", '%' + command.getMaSanPham().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getTenDanhMuc())) {
                 from.append(" and lower(d.ten_danh_muc) like :dm ");
-                params.put("dm", command.getTenDanhMuc().toLowerCase(Locale.ROOT));
+                params.put("dm", '%' + command.getTenDanhMuc().toLowerCase(Locale.ROOT) + '%');
             }
             queryStr.append(from);
             count.append(from);
@@ -92,7 +91,7 @@ public class SanPhamServiceImpl extends AbstractService<SanPham, Long> implement
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<SanPhamDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maSanPham", "tenSanPham", "idDanhMuc",
-                            "giaSanPham", "soLuong", "mieuTa", "nguoiTao", "ngayTao", "nguoiThayDoi", "ngayThayDoi", "tenDanhMuc")
+                            "giaBanNiemYet", "soLuong", "mieuTa", "nguoiTao", "ngayTao", "nguoiThayDoi", "ngayThayDoi", "giaNhapNiemYet", "tenDanhMuc")
                     , objects, SanPhamDTO.class);
 
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));

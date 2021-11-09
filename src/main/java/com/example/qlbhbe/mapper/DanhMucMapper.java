@@ -22,9 +22,9 @@ public interface DanhMucMapper {
 
     DanhMucDTO toDanhMucDTO(DanhMuc danhMuc);
 
-    DanhMuc update(UpdateDanhMucRequest command, @MappingTarget DanhMuc entity);
+    DanhMuc update(DanhMucDTO command, @MappingTarget DanhMuc entity);
 
-    DanhMuc create(CreateDanhMucRequest command);
+    DanhMuc create(DanhMucDTO command);
 
     DanhMucDetailsDTO toDanhMucDetailsDTO(DanhMuc danhMuc);
 }

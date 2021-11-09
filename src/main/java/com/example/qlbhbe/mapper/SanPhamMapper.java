@@ -22,9 +22,9 @@ public interface SanPhamMapper {
 
     SanPhamDTO toSanPhamDTO(SanPham sanPham);
 
-    SanPham update(UpdateSanPhamRequest command, @MappingTarget SanPham entity);
+    SanPham update(SanPhamDTO command, @MappingTarget SanPham entity);
 
-    SanPham create(CreateSanPhamRequest command);
+    SanPham create(SanPhamDTO command);
 
     SanPhamDetailsDTO toSanPhamDetailsDTO(SanPham sanPham);
 }

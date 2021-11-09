@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping(Constants.API + "/nhapHangChiTiets")
@@ -28,8 +29,8 @@ public class NhapHangChiTietController {
     }
 
     @PostMapping("/search")
-    public Page<NhapHangChiTietDTO> search(@RequestBody(required = false) NhapHangChiTietDTO command, @PageableDefault Pageable pageable) throws Exception {
-        return nhapHangChiTietService.search(command, pageable);
+    public List<NhapHangChiTietDTO> search(@RequestBody(required = false) NhapHangChiTietDTO command) throws Exception {
+        return nhapHangChiTietService.search(command);
     }
 
 

@@ -1,6 +1,8 @@
 package com.example.qlbhbe.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.Column;
 import java.time.LocalDate;
 
 /**
@@ -30,6 +32,45 @@ public class SanPhamDTO {
     private String ngayThayDoi;
 
     private String tenDanhMuc;
+
+    private String hanSanPham;
+
+    private String donVi ;
+    private Double giaBanNiemYet;
+
+    private Double giaNhapNiemYet;
+
+    public Double getGiaBanNiemYet() {
+        return giaBanNiemYet;
+    }
+
+    public void setGiaBanNiemYet(Double giaBanNiemYet) {
+        this.giaBanNiemYet = giaBanNiemYet;
+    }
+
+    public Double getGiaNhapNiemYet() {
+        return giaNhapNiemYet;
+    }
+
+    public void setGiaNhapNiemYet(Double giaNhapNiemYet) {
+        this.giaNhapNiemYet = giaNhapNiemYet;
+    }
+
+    public String getHanSanPham() {
+        return hanSanPham;
+    }
+
+    public void setHanSanPham(String hanSanPham) {
+        this.hanSanPham = hanSanPham;
+    }
+
+    public String getDonVi() {
+        return donVi;
+    }
+
+    public void setDonVi(String donVi) {
+        this.donVi = donVi;
+    }
 
     public SanPhamDTO() {
     }

@@ -22,9 +22,9 @@ public interface NhaCungCapMapper {
 
     NhaCungCapDTO toNhaCungCapDTO(NhaCungCap nhaCungCap);
 
-    NhaCungCap update(UpdateNhaCungCapRequest command, @MappingTarget NhaCungCap entity);
+    NhaCungCap update(NhaCungCapDTO command, @MappingTarget NhaCungCap entity);
 
-    NhaCungCap create(CreateNhaCungCapRequest command);
+    NhaCungCap create(NhaCungCapDTO command);
 
     NhaCungCapDetailsDTO toNhaCungCapDetailsDTO(NhaCungCap nhaCungCap);
 }

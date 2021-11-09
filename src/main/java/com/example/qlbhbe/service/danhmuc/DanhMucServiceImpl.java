@@ -36,7 +36,7 @@ public class DanhMucServiceImpl extends AbstractService<DanhMuc, Long> implement
     }
 
     @Override
-    public DanhMuc update(long id, UpdateDanhMucRequest command) {
+    public DanhMuc update(long id, DanhMucDTO command) {
         Optional<DanhMuc> opt = danhMucRepo.findById(id);
         if (opt.isPresent()) {
             DanhMuc danhMuc = opt.get();
@@ -64,11 +64,11 @@ public class DanhMucServiceImpl extends AbstractService<DanhMuc, Long> implement
             from.append(" from danh_muc where 1 = 1 ");
             if (!DataUtil.isNullOrEmpty(danhMucDTO.getTenDanhMuc())) {
                 from.append(" and lower(ten_danh_muc) like :ten ");
-                params.put("ten", danhMucDTO.getTenDanhMuc().toLowerCase(Locale.ROOT));
+                params.put("ten", '%' + danhMucDTO.getTenDanhMuc().toLowerCase(Locale.ROOT) + '%' );
             }
             if (!DataUtil.isNullOrEmpty(danhMucDTO.getMaDanhMuc())) {
                 from.append(" and lower(ma_danh_muc) like :ma ");
-                params.put("ma", danhMucDTO.getMaDanhMuc().toLowerCase(Locale.ROOT));
+                params.put("ma", '%' + danhMucDTO.getMaDanhMuc().toLowerCase(Locale.ROOT) + '%' );
             }
             queryStr.append(from);
             count.append(from);

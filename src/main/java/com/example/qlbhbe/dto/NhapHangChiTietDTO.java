@@ -2,6 +2,9 @@ package com.example.qlbhbe.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.persistence.Column;
+import java.time.LocalDate;
+
 /**
  * Generated at 2021/10/14 17:17:51
  */
@@ -18,6 +21,10 @@ public class NhapHangChiTietDTO {
 
     private Long idNhapHang;
 
+    private LocalDate ngayHetHan;
+
+    private LocalDate ngaySanXuat;
+
     public NhapHangChiTietDTO() {
     }
 
@@ -27,6 +34,22 @@ public class NhapHangChiTietDTO {
         this.gia = gia;
         this.mieuTa = mieuTa;
         this.idNhapHang = idNhaCungCap;
+    }
+
+    public LocalDate getNgaySanXuat() {
+        return ngaySanXuat;
+    }
+
+    public void setNgaySanXuat(LocalDate ngaySanXuat) {
+        this.ngaySanXuat = ngaySanXuat;
+    }
+
+    public LocalDate getNgayHetHan() {
+        return ngayHetHan;
+    }
+
+    public void setNgayHetHan(LocalDate ngayHetHan) {
+        this.ngayHetHan = ngayHetHan;
     }
 
     public Long getIdNhapHang() {

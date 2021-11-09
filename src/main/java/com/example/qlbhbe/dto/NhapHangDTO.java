@@ -2,6 +2,7 @@ package com.example.qlbhbe.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Generated at 2021/10/14 17:17:46
@@ -31,6 +32,10 @@ public class NhapHangDTO {
 
     private String endDate;
 
+    private Long idCuaHang;
+
+    List<NhapHangChiTietDTO> nhapHangChiTietDTOList;
+
 
     public NhapHangDTO() {
     }
@@ -44,6 +49,14 @@ public class NhapHangDTO {
         this.maNhapHang = maNhapHang;
         this.ngayNhap = ngayNhap;
         this.tenNhaCungCap = tenNhaCungCap;
+    }
+
+    public Long getIdCuaHang() {
+        return idCuaHang;
+    }
+
+    public void setIdCuaHang(Long idCuaHang) {
+        this.idCuaHang = idCuaHang;
     }
 
     public String getStartDate() {
@@ -76,6 +89,14 @@ public class NhapHangDTO {
 
     public void setTenNhaCungCap(String tenNhaCungCap) {
         this.tenNhaCungCap = tenNhaCungCap;
+    }
+
+    public List<NhapHangChiTietDTO> getNhapHangChiTietDTOList() {
+        return nhapHangChiTietDTOList;
+    }
+
+    public void setNhapHangChiTietDTOList(List<NhapHangChiTietDTO> nhapHangChiTietDTOList) {
+        this.nhapHangChiTietDTOList = nhapHangChiTietDTOList;
     }
 
     public Long getId() {

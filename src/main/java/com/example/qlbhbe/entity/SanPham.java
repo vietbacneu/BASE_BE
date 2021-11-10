@@ -2,7 +2,6 @@ package com.example.qlbhbe.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -65,7 +64,7 @@ public class SanPham implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_danh_muc")
-    private DanhMuc idDanhMuc;
+    private DanhMuc danhMuc;
 
     @Column(name = "don_vi")
     private String donVi ;
@@ -167,11 +166,11 @@ public class SanPham implements Serializable {
     }
 
 
-    public DanhMuc getIdDanhMuc() {
-        return this.idDanhMuc;
+    public DanhMuc getDanhMuc() {
+        return this.danhMuc;
     }
 
-    public void setIdDanhMuc(DanhMuc idDanhMuc) {
-        this.idDanhMuc = idDanhMuc;
+    public void setDanhMuc(DanhMuc idDanhMuc) {
+        this.danhMuc = idDanhMuc;
     }
 }

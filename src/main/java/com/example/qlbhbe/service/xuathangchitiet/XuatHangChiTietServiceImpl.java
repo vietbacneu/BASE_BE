@@ -57,7 +57,7 @@ public class XuatHangChiTietServiceImpl extends AbstractService<XuatHangChiTiet,
                     "    gia," +
                     "    mieu_ta , ngay_het_han , ngay_san_xuat, (select ten_san_pham from san_pham s where s.id = id_san_pham) tenSanpham ");
             count.append("select count(*) ");
-            from.append(" from nhap_hang_chi_tiet where 1=1 ");
+            from.append(" from xuat_hang_chi_tiet where 1=1 ");
             if (!DataUtil.isNullOrEmpty(command.getId())) {
                 from.append(" and id = :id ");
                 params.put("id", command.getId());

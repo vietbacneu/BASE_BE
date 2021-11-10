@@ -9,7 +9,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "xuat_hang")
@@ -24,8 +23,8 @@ public class XuatHang implements Serializable {
     @Column(name = "ma_xuat_hang")
     private String maXuatHang;
 
-    @Column(name = "ngay_nhap")
-    private LocalDate ngayNhap;
+    @Column(name = "ngay_xuat")
+    private LocalDate ngayXuat;
 
     @CreatedDate
     @Column(name = "ngay_tao")
@@ -67,12 +66,12 @@ public class XuatHang implements Serializable {
         this.maXuatHang = maXuatHang;
     }
 
-    public java.time.LocalDate getNgayNhap() {
-        return this.ngayNhap;
+    public java.time.LocalDate getNgayXuat() {
+        return this.ngayXuat;
     }
 
-    public void setNgayNhap(java.time.LocalDate ngayNhap) {
-        this.ngayNhap = ngayNhap;
+    public void setNgayXuat(java.time.LocalDate ngayNhap) {
+        this.ngayXuat = ngayNhap;
     }
 
     public java.time.LocalDate getNgayTao() {

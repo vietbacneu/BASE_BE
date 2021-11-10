@@ -9,6 +9,7 @@ import com.example.qlbhbe.util.Constants;
 import com.example.qlbhbe.util.Utils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,15 +33,15 @@ public class KhachHangController {
         return new CreatedIdResponse(khachHang.getId());
     }
 
-    @GetMapping
-    public Page<KhachHangDTO> list(KhachHangDTO params, Pageable pageable) throws Exception {
+    @PostMapping("/search")
+    public Page<KhachHangDTO> list(@RequestBody KhachHangDTO params, @PageableDefault Pageable pageable) throws Exception {
         pageable = Utils.getDefaultSortPageable(pageable);
         return khachHangService.search(params, pageable);
     }
 
 
     @PutMapping("/update")
-    public void update(@PathVariable("id") long id, @Valid @RequestBody KhachHangDTO command) {
+    public void update(@Valid @RequestBody KhachHangDTO command) {
         khachHangService.update(command.getId(), command);
     }
 

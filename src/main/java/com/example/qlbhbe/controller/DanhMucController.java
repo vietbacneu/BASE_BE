@@ -39,7 +39,7 @@ public class DanhMucController {
     }
 
     @PutMapping("/update")
-    public void update(@PathVariable("id") long id, @RequestBody DanhMucDTO command) {
+    public void update(@RequestBody DanhMucDTO command) {
         danhMucService.update(command.getId(), command);
     }
 

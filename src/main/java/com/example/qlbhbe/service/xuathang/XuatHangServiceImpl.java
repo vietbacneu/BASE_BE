@@ -85,7 +85,9 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
                     "    s.nguoi_thay_doi  ," +
                     "    s.ngay_thay_doi   ," +
                     "    n.ten_khach_hang ," +
-                    " (select ten_cua_hang from cua_hang c where c.id =  s.id_cua_hang )  tencuahang");
+                    " (select ten_cua_hang from cua_hang c where c.id =  s.id_cua_hang )  tencuahang , " +
+                     " s.ngay_xuat  ");
+
             count.append("select count(*) ");
             from.append(" from xuat_hang s, khach_hang n  where s.id_khach_hang = n.id  ");
             if (!DataUtil.isNullOrEmpty(command.getTenKhachHang())) {
@@ -97,11 +99,11 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
                 params.put("ma", '%' + command.getMaXuatHang().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getStartDate())) {
-                from.append(" and s.ngay_nhap >= to_date(:startDate,'dd/MM/yyyy') ");
+                from.append(" and s.ngay_xuat >= to_date(:startDate,'dd/MM/yyyy') ");
                 params.put("startDate", command.getStartDate());
             }
             if (!DataUtil.isNullOrEmpty(command.getEndDate())) {
-                from.append(" and s.ngay_nhap <= to_date(:endDate,'dd/MM/yyyy') + 1 ");
+                from.append(" and s.ngay_xuat <= to_date(:endDate,'dd/MM/yyyy') + 1 ");
                 params.put("endDate", command.getEndDate());
             }
             queryStr.append(from);
@@ -117,7 +119,7 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<XuatHangDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maXuatHang", "idKhachHang", "idCuaHang", "nguoiTao", "ngayTao",
-                            "nguoiThayDoi", "ngayThayDoi", "tenKhachHang", "tencuahang")
+                            "nguoiThayDoi", "ngayThayDoi", "tenKhachHang", "tenCuaHang","ngayXuat")
                     , objects, XuatHangDTO.class);
             for (XuatHangDTO danhMucDTO : danhMucDTOS) {
                 XuatHangChiTietDTO xuatHangChiTietDTO = new XuatHangChiTietDTO();

@@ -68,6 +68,14 @@ public class SanPhamDTO {
 
     private Double totalDoanhThu;
 
+    public Double getTotalDoanhThu() {
+        return totalDoanhThu;
+    }
+
+    public void setTotalDoanhThu(Double totalDoanhThu) {
+        this.totalDoanhThu = totalDoanhThu;
+    }
+
     public Long getIdDanhMuc() {
         return idDanhMuc;
     }

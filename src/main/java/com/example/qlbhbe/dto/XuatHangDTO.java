@@ -1,6 +1,7 @@
 package com.example.qlbhbe.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,11 +23,13 @@ public class XuatHangDTO {
 
     private String maXuatHang;
 
-    private LocalDate ngayNhap;
+    private LocalDate ngayXuat;
 
     private Long idKhachHang;
 
     private Long idCuaHang;
+
+    private String tenCuaHang;
 
     private String tenKhachHang;
 
@@ -39,14 +42,14 @@ public class XuatHangDTO {
     public XuatHangDTO() {
     }
 
-    public XuatHangDTO(Long id, String nguoiTao, LocalDate ngayTao, String nguoiThayDoi, LocalDate ngayThayDoi, String maXuatHang, LocalDate ngayNhap) {
+    public XuatHangDTO(Long id, String nguoiTao, LocalDate ngayTao, String nguoiThayDoi, LocalDate ngayThayDoi, String maXuatHang, LocalDate ngayXuat) {
         this.id = id;
         this.nguoiTao = nguoiTao;
         this.ngayTao = ngayTao;
         this.nguoiThayDoi = nguoiThayDoi;
         this.ngayThayDoi = ngayThayDoi;
         this.maXuatHang = maXuatHang;
-        this.ngayNhap = ngayNhap;
+        this.ngayXuat = ngayXuat;
     }
 
     public Long getIdCuaHang() {
@@ -137,12 +140,12 @@ public class XuatHangDTO {
         this.maXuatHang = maXuatHang;
     }
 
-    public LocalDate getNgayNhap() {
-        return this.ngayNhap;
+    public LocalDate getNgayXuat() {
+        return this.ngayXuat;
     }
 
-    public void setNgayNhap(LocalDate ngayNhap) {
-        this.ngayNhap = ngayNhap;
+    public void setNgayXuat(LocalDate ngayXuat) {
+        this.ngayXuat = ngayXuat;
     }
 
     public List<XuatHangChiTietDTO> getXuatHangChiTietDTOList() {

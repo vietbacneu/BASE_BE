@@ -7,14 +7,22 @@ import com.example.qlbhbe.mapper.SanPhamMapper;
 import com.example.qlbhbe.service.baocao.SanPhamReport;
 import com.example.qlbhbe.service.sanpham.SanPhamService;
 import com.example.qlbhbe.util.Constants;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(Constants.API + "/sanPhams")
@@ -36,18 +44,49 @@ public class SanPhamController {
     }
 
     @PostMapping("/searchTon")
-    public List<SanPhamDTO> searchTon(SanPhamDTO command) throws Exception {
+    public List<SanPhamDTO> searchTon(@RequestBody SanPhamDTO command) throws Exception {
         return sanPhamReport.getSanPhamTon(command);
     }
 
     @PostMapping("/searchTongChiPhi")
-    public List<SanPhamDTO> searchTongChiPhi(SanPhamDTO command) throws Exception {
+    public List<SanPhamDTO> searchTongChiPhi(@RequestBody SanPhamDTO command) throws Exception {
         return sanPhamReport.getSanPhamChiPhiMax(command);
     }
 
     @PostMapping("/searchTongDoanhThu")
-    public List<SanPhamDTO> searchTongDoanhThu(SanPhamDTO command) throws Exception {
+    public List<SanPhamDTO> searchTongDoanhThu(@RequestBody SanPhamDTO command) throws Exception {
         return sanPhamReport.getSanPhamDoanhThuMax(command);
+    }
+
+    @PostMapping("/exportTonKho")
+    public Map<String, String> exportSanPhamTon(@RequestBody SanPhamDTO sanPhamDTO) throws Exception {
+        return sanPhamReport.exportSanPhamTon(sanPhamDTO);
+    }
+
+    @PostMapping("/exportDoanhThu")
+    public Map<String, String> exportDoanhThu(@RequestBody SanPhamDTO sanPhamDTO) throws Exception {
+        return sanPhamReport.exportSanPhamDoanhThuMax(sanPhamDTO);
+    }
+
+    @PostMapping("/exportChiPhi")
+    public Map<String, String> exportChiPhi(@RequestBody SanPhamDTO sanPhamDTO) throws Exception {
+        return sanPhamReport.exportSanPhamChiPhiMax(sanPhamDTO);
+    }
+
+    @GetMapping("/download")
+    public ResponseEntity<Object> download(@RequestParam String path) throws IOException {
+        HttpHeaders headers = new HttpHeaders();
+        File file = new File(path);
+        headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getName()));
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(file.length())
+                .contentType(MediaType.parseMediaType("application/txt"))
+                .body(resource);
     }
 
     @PostMapping

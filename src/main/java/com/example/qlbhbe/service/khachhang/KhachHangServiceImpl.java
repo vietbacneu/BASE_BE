@@ -63,7 +63,7 @@ public class KhachHangServiceImpl extends AbstractService<KhachHang, Long> imple
                     "    ngay_thay_doi    , " +
                     "    nguoi_thay_doi     ");
             count.append("select count(*) ");
-            from.append(" from nha_cung_cap where 1 = 1 ");
+            from.append(" from khach_hang where 1 = 1 ");
             if (!DataUtil.isNullOrEmpty(command.getTenKhachHang())) {
                 from.append(" and lower(ten_khach_hang) like :ten ");
                 params.put("ten", '%' + command.getTenKhachHang().toLowerCase(Locale.ROOT) + '%');

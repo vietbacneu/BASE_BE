@@ -29,6 +29,9 @@ public class NhapHangChiTietDTO {
 
     private String tenSanPham;
 
+    private Double tongTien;
+
+
     public NhapHangChiTietDTO() {
     }
 
@@ -38,6 +41,22 @@ public class NhapHangChiTietDTO {
         this.gia = gia;
         this.mieuTa = mieuTa;
         this.idNhapHang = idNhaCungCap;
+    }
+
+    public Double getTongTien() {
+        return tongTien;
+    }
+
+    public void setTongTien(Double tongTien) {
+        this.tongTien = tongTien;
+    }
+
+    public String getTenSanPham() {
+        return tenSanPham;
+    }
+
+    public void setTenSanPham(String tenSanPham) {
+        this.tenSanPham = tenSanPham;
     }
 
     public Long getIdSanPham() {

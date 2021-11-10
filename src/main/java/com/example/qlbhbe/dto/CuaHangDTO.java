@@ -27,6 +27,8 @@ public class CuaHangDTO {
 
     private LocalDate ngayThayDoi;
 
+    private Long isCount;
+
     public CuaHangDTO() {
     }
 
@@ -40,6 +42,14 @@ public class CuaHangDTO {
         this.ngayTao = ngayTao;
         this.nguoiThayDoi = nguoiThayDoi;
         this.ngayThayDoi = ngayThayDoi;
+    }
+
+    public Long getIsCount() {
+        return isCount;
+    }
+
+    public void setIsCount(Long isCount) {
+        this.isCount = isCount;
     }
 
     public Long getId() {

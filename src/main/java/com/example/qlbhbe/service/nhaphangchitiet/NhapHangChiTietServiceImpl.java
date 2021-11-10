@@ -1,23 +1,21 @@
 package com.example.qlbhbe.service.nhaphangchitiet;
 
-import com.example.qlbhbe.controller.request.UpdateNhapHangChiTietRequest;
 import com.example.qlbhbe.dto.NhapHangChiTietDTO;
 import com.example.qlbhbe.entity.NhapHangChiTiet;
-import com.example.qlbhbe.mapper.NhapHangChiTietMapper;
 import com.example.qlbhbe.repo.nhaphangchitiet.NhapHangChiTietRepo;
 import com.example.qlbhbe.service.AbstractService;
 import com.example.qlbhbe.util.DataUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -46,7 +44,7 @@ public class NhapHangChiTietServiceImpl extends AbstractService<NhapHangChiTiet,
                     "    id_san_pham ," +
                     "    so_luong ," +
                     "    gia," +
-                    "    mieu_ta , ngay_het_han , ngay_san_xuat, (select ten_san_pham from san_pham s where s.id = id_san_pham) tenSanpham ");
+                    "    mieu_ta , ngay_het_han , ngay_san_xuat, (select ten_san_pham from san_pham s where s.id = id_san_pham) tenSanpham, so_luong*gia  ");
             count.append("select count(*) ");
             from.append(" from nhap_hang_chi_tiet where 1=1 ");
             if (!DataUtil.isNullOrEmpty(command.getId())) {
@@ -68,7 +66,7 @@ public class NhapHangChiTietServiceImpl extends AbstractService<NhapHangChiTiet,
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<NhapHangChiTietDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(
-                    Arrays.asList("id", "idNhapHang", "idSanPham", "soLuong", "mieuTa","ngayHetHan","ngaySanXuat", "tenSanPham"),
+                    Arrays.asList("id", "idNhapHang", "idSanPham", "soLuong", "mieuTa", "ngayHetHan", "ngaySanXuat", "tenSanPham", "tongTien"),
                     objects, NhapHangChiTietDTO.class);
             return danhMucDTOS;
         } catch (Exception e) {

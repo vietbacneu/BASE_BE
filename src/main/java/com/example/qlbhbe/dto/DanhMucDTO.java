@@ -26,6 +26,8 @@ public class DanhMucDTO {
 
     private String nguoiThayDoi;
 
+    private Long isCount;
+
     public DanhMucDTO() {
     }
 
@@ -38,6 +40,14 @@ public class DanhMucDTO {
         this.nguoiTao = nguoiTao;
         this.ngayThayDoi = ngayThayDoi;
         this.nguoiThayDoi = nguoiThayDoi;
+    }
+
+    public Long getIsCount() {
+        return isCount;
+    }
+
+    public void setIsCount(Long isCount) {
+        this.isCount = isCount;
     }
 
     public Long getId() {

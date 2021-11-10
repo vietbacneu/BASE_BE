@@ -78,8 +78,10 @@ public class DanhMucServiceImpl extends AbstractService<DanhMuc, Long> implement
                 query.setParameter(p.getKey(), p.getValue());
                 countQuery.setParameter(p.getKey(), p.getValue());
             }
-            query.setFirstResult((int) pageable.getOffset());
-            query.setMaxResults(pageable.getPageSize());
+            if (!DataUtil.isNullOrEmpty(danhMucDTO.getIsCount()) && danhMucDTO.getIsCount() == 1) {
+                query.setFirstResult((int) pageable.getOffset());
+                query.setMaxResults(pageable.getPageSize());
+            }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<DanhMucDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maDanhMuc", "tenDanhMuc", "thongTin",

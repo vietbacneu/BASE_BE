@@ -80,6 +80,48 @@ public class SanPhamDTO {
 
     private Double totalDoanhThu = 0d;
 
+    private Long isCount;
+
+    public Long getIdNhaCungCap() {
+        return idNhaCungCap;
+    }
+
+    public void setIdNhaCungCap(Long idNhaCungCap) {
+        this.idNhaCungCap = idNhaCungCap;
+    }
+
+    public String getTenKhachHang() {
+        return tenKhachHang;
+    }
+
+    public void setTenKhachHang(String tenKhachHang) {
+        this.tenKhachHang = tenKhachHang;
+    }
+
+    public Long getIdKhachHang() {
+        return idKhachHang;
+    }
+
+    public void setIdKhachHang(Long idKhachHang) {
+        this.idKhachHang = idKhachHang;
+    }
+
+    public String getNgayXuat() {
+        return ngayXuat;
+    }
+
+    public void setNgayXuat(String ngayXuat) {
+        this.ngayXuat = ngayXuat;
+    }
+
+    public Long getIsCount() {
+        return isCount;
+    }
+
+    public void setIsCount(Long isCount) {
+        this.isCount = isCount;
+    }
+
     public String getTenNhaCungCap() {
         return tenNhaCungCap;
     }

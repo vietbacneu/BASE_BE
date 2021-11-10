@@ -43,6 +43,10 @@ public class SanPhamReportImpl implements SanPhamReport {
                 queryStr.append(" and n.id_cua_hang = :cuahang ");
                 params.put("cuahang", sanPhamDTO.getIdCuaHang());
             }
+            if (!DataUtil.isNullOrEmpty(sanPhamDTO.getIdDanhMuc())) {
+                queryStr.append(" and s.id_danh_muc = :danhmuc ");
+                params.put("danhmuc", sanPhamDTO.getIdDanhMuc());
+            }
             if (!DataUtil.isNullOrEmpty(sanPhamDTO.getIsTonKho()) && sanPhamDTO.getIsTonKho() == 1) {
                 queryStr.append(" and ( nd.ngay_het_han > now() or nd.ngay_het_han is null )");
             }

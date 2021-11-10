@@ -28,6 +28,7 @@ public class XuatHangChiTietDTO {
 
     private String tenSanPham;
 
+    private Double tongTien;
 
 
     public XuatHangChiTietDTO() {
@@ -38,6 +39,14 @@ public class XuatHangChiTietDTO {
         this.soLuong = soLuong;
         this.gia = gia;
         this.mieuTa = mieuTa;
+    }
+
+    public Double getTongTien() {
+        return tongTien;
+    }
+
+    public void setTongTien(Double tongTien) {
+        this.tongTien = tongTien;
     }
 
     public Long getIdXuatHang() {

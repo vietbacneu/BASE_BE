@@ -56,6 +56,8 @@ public class XuatHangChiTietServiceImpl extends AbstractService<XuatHangChiTiet,
                     "    so_luong ," +
                     "    gia," +
                     "    mieu_ta , ngay_het_han , ngay_san_xuat, (select ten_san_pham from san_pham s where s.id = id_san_pham) tenSanpham , so_luong*gia ");
+
+
             count.append("select count(*) ");
             from.append(" from xuat_hang_chi_tiet where 1=1 ");
             if (!DataUtil.isNullOrEmpty(command.getId())) {
@@ -77,7 +79,7 @@ public class XuatHangChiTietServiceImpl extends AbstractService<XuatHangChiTiet,
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<XuatHangChiTietDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(
-                    Arrays.asList("id", "idXuatHang", "idSanPham", "soLuong", "mieuTa","ngayHetHan","ngaySanXuat","tenSanPham", "tongTien"),
+                    Arrays.asList("id", "idXuatHang", "idSanPham", "soLuong", "gia", "mieuTa","ngayHetHan","ngaySanXuat","tenSanPham", "tongTien"),
                     objects, XuatHangChiTietDTO.class);
             return danhMucDTOS;
         } catch (Exception e) {

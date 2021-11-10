@@ -78,6 +78,10 @@ public class SanPhamServiceImpl extends AbstractService<SanPham, Long> implement
                 from.append(" and lower(d.ten_danh_muc) like :dm ");
                 params.put("dm", '%' + command.getTenDanhMuc().toLowerCase(Locale.ROOT) + '%');
             }
+            if (!DataUtil.isNullOrEmpty(command.getIdDanhMuc())) {
+                from.append(" and d.id = :id ");
+                params.put("id", command.getIdDanhMuc());
+            }
             queryStr.append(from);
             count.append(from);
             Query query = entityManager.createNativeQuery(queryStr.toString());

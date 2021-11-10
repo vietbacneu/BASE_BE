@@ -1,6 +1,7 @@
 package com.example.qlbhbe.service.sanpham;
 
 import com.example.qlbhbe.dto.SanPhamDTO;
+import com.example.qlbhbe.entity.DanhMuc;
 import com.example.qlbhbe.entity.SanPham;
 import com.example.qlbhbe.mapper.SanPhamMapper;
 import com.example.qlbhbe.repo.sanpham.SanPhamRepo;
@@ -39,7 +40,11 @@ public class SanPhamServiceImpl extends AbstractService<SanPham, Long> implement
         Optional<SanPham> opt = sanPhamRepo.findById(id);
         if (opt.isPresent()) {
             SanPham sanPham = opt.get();
-            return SanPhamMapper.INSTANCE.update(command, sanPham);
+            sanPham.setDanhMuc(new DanhMuc(command.getIdDanhMuc()));
+
+            SanPhamMapper.INSTANCE.update(command, sanPham);
+            sanPhamRepo.save(sanPham);
+
         }
         return null;
     }
@@ -63,7 +68,7 @@ public class SanPhamServiceImpl extends AbstractService<SanPham, Long> implement
                     "    s.nguoi_thay_doi ," +
                     "    s.ngay_thay_doi  , " +
                     "    s.gia_nhap_niem_yet   ," +
-                    "     d.ten_danh_muc  ");
+                    "     d.ten_danh_muc , s.don_vi ");
             count.append("select count(*) ");
             from.append(" from san_pham s, danh_muc d where s.id_danh_muc = d.id  ");
             if (!DataUtil.isNullOrEmpty(command.getTenSanPham())) {
@@ -97,7 +102,7 @@ public class SanPhamServiceImpl extends AbstractService<SanPham, Long> implement
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<SanPhamDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maSanPham", "tenSanPham", "idDanhMuc",
-                            "giaBanNiemYet", "soLuong", "mieuTa", "nguoiTao", "ngayTao", "nguoiThayDoi", "ngayThayDoi", "giaNhapNiemYet", "tenDanhMuc")
+                            "giaBanNiemYet", "soLuong", "mieuTa", "nguoiTao", "ngayTao", "nguoiThayDoi", "ngayThayDoi", "giaNhapNiemYet", "tenDanhMuc","donVi")
                     , objects, SanPhamDTO.class);
 
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));

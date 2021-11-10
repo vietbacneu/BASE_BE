@@ -2,6 +2,7 @@ package com.example.qlbhbe.controller;
 
 import com.example.qlbhbe.controller.response.CreatedIdResponse;
 import com.example.qlbhbe.dto.SanPhamDTO;
+import com.example.qlbhbe.entity.DanhMuc;
 import com.example.qlbhbe.entity.SanPham;
 import com.example.qlbhbe.mapper.SanPhamMapper;
 import com.example.qlbhbe.service.baocao.SanPhamReport;
@@ -57,10 +58,12 @@ public class SanPhamController {
     public List<SanPhamDTO> searchTongDoanhThu(@RequestBody SanPhamDTO command) throws Exception {
         return sanPhamReport.getSanPhamDoanhThuMax(command);
     }
+
     @PostMapping("/sanPhamXuat")
     public List<SanPhamDTO> sanPhamXuat(@RequestBody SanPhamDTO command) throws Exception {
         return sanPhamReport.getSanPhamXuat(command);
     }
+
     @PostMapping("/sanPhamNhap")
     public List<SanPhamDTO> sanPhamNhap(@RequestBody SanPhamDTO command) throws Exception {
         return sanPhamReport.getSanPhamNhap(command);
@@ -101,13 +104,14 @@ public class SanPhamController {
     @PostMapping
     public CreatedIdResponse create(@Valid @RequestBody SanPhamDTO command) {
         SanPham sanPham = SanPhamMapper.INSTANCE.create(command);
+        sanPham.setDanhMuc(new DanhMuc(command.getIdDanhMuc()));
         sanPhamService.save(sanPham);
         return new CreatedIdResponse(sanPham.getId());
     }
 
-    @PutMapping("{id}")
-    public void update(@PathVariable("id") long id, @Valid @RequestBody SanPhamDTO command) {
-        sanPhamService.update(id, command);
+    @PutMapping("/update")
+    public void update(@RequestBody SanPhamDTO command) {
+        sanPhamService.update(command.getId(), command);
     }
 
     @DeleteMapping("{id}")

@@ -45,6 +45,12 @@ public class DanhMuc implements Serializable {
     @Column(name = "nguoi_thay_doi")
     private String nguoiThayDoi;
 
+    public DanhMuc(long id) {
+        this.id = id;
+    }
+
+    public DanhMuc() {
+    }
 
     public long getId() {
         return this.id;

@@ -10,6 +10,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.io.FileOutputStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -42,7 +44,13 @@ public class SanPhamReportImpl implements SanPhamReport {
                 params.put("cuahang", sanPhamDTO.getIdCuaHang());
             }
             if (!DataUtil.isNullOrEmpty(sanPhamDTO.getIsTonKho()) && sanPhamDTO.getIsTonKho() == 1) {
-                queryStr.append(" and ( n.ngay_het_han > now() or n.ngay_het_han is null )");
+                queryStr.append(" and ( nd.ngay_het_han > now() or nd.ngay_het_han is null )");
+            }
+            if (!DataUtil.isNullOrEmpty(sanPhamDTO.getNgayHetHan())) {
+                queryStr.append(" and ( nd.ngay_het_han > :date or nd.ngay_het_han is null )");
+                DateTimeFormatter formatters = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                String text = sanPhamDTO.getNgayHetHan().format(formatters);
+                params.put("date", text);
             }
             queryStr.append(" group by  s.id,  s.ma_san_pham , n.id_cua_hang ");
 
@@ -62,7 +70,7 @@ public class SanPhamReportImpl implements SanPhamReport {
             Map<String, Object> params1 = new HashMap<>();
             queryStr1.append(" select s.id,  s.ma_san_pham, s.ten_san_pham, s.gia_ban_niem_yet, s.gia_nhap_niem_yet ," +
                     " nd.so_luong, nd.gia, n.id_cua_hang , (select c.ten_cua_hang from cua_hang c where c.id = n.id_cua_hang) ch," +
-                    "    s.id_danh_muc , (select d.ten_danh_muc from danh_muc d where d.id = s.id_danh_muc) dm " +
+                    "    s.id_danh_muc , (select d.ten_danh_muc from danh_muc d where d.id = s.id_danh_muc) dm , s.don_vi " +
                     " from san_pham s , xuat_hang n , xuat_hang_chi_tiet nd" +
                     " where s.id = nd.id_san_pham and n.id = nd.id_xuat_hang");
             if (!DataUtil.isNullOrEmpty(sanPhamDTO.getTenSanPham())) {
@@ -252,18 +260,22 @@ public class SanPhamReportImpl implements SanPhamReport {
                     cell.setCellStyle(headerCellStyle);
                 }
                 if (i == 5) {
-                    cell.setCellValue("Số Lượng Nhập");
+                    cell.setCellValue("Đơn vị");
                     cell.setCellStyle(headerCellStyle);
                 }
                 if (i == 6) {
-                    cell.setCellValue("Số Lượng Xuất");
+                    cell.setCellValue("Số Lượng Nhập");
                     cell.setCellStyle(headerCellStyle);
                 }
                 if (i == 7) {
-                    cell.setCellValue("Số Lượng Tồn");
+                    cell.setCellValue("Số Lượng Xuất");
                     cell.setCellStyle(headerCellStyle);
                 }
                 if (i == 8) {
+                    cell.setCellValue("Số Lượng Tồn");
+                    cell.setCellStyle(headerCellStyle);
+                }
+                if (i == 9) {
                     cell.setCellValue("Cửa Hàng");
                     cell.setCellStyle(headerCellStyle);
                 }
@@ -301,19 +313,23 @@ public class SanPhamReportImpl implements SanPhamReport {
                 cell4.setCellValue(sanPhamDTO1.getGiaNhapNiemYet());
                 cell4.setCellStyle(cellStyle);
 
-                Cell cell5 = row.createCell(5);
+                Cell cell41 = row.createCell(5);
+                cell41.setCellValue(sanPhamDTO1.getDonVi());
+                cell41.setCellStyle(cellStyle);
+
+                Cell cell5 = row.createCell(6);
                 cell5.setCellValue(sanPhamDTO1.getSoLuongNhap());
                 cell5.setCellStyle(cellStyle);
 
-                Cell cell6 = row.createCell(6);
+                Cell cell6 = row.createCell(7);
                 cell6.setCellValue(sanPhamDTO1.getSoLuongBan());
                 cell6.setCellStyle(cellStyle);
 
-                Cell cell7 = row.createCell(7);
+                Cell cell7 = row.createCell(8);
                 cell7.setCellValue(sanPhamDTO1.getSoLuongTon());
                 cell7.setCellStyle(cellStyle);
 
-                Cell cell8 = row.createCell(8);
+                Cell cell8 = row.createCell(9);
                 cell8.setCellValue(sanPhamDTO1.getTenCuaHang());
                 cell8.setCellStyle(cellStyle);
             }
@@ -353,7 +369,7 @@ public class SanPhamReportImpl implements SanPhamReport {
             headerCellStyle.setWrapText(true);
             Row headerRow = sheet.createRow(0);
 
-            for (int i = 0; i < 9; i++) {
+            for (int i = 0; i < 10; i++) {
                 sheet.setColumnWidth(i, 8500);
                 Cell cell = headerRow.createCell(i);
                 if (i == 0) {
@@ -377,18 +393,22 @@ public class SanPhamReportImpl implements SanPhamReport {
                     cell.setCellStyle(headerCellStyle);
                 }
                 if (i == 5) {
-                    cell.setCellValue("Số Lượng Xuất");
+                    cell.setCellValue("Đơn Vị");
                     cell.setCellStyle(headerCellStyle);
                 }
                 if (i == 6) {
-                    cell.setCellValue("Giá");
+                    cell.setCellValue("Số Lượng Xuất");
                     cell.setCellStyle(headerCellStyle);
                 }
                 if (i == 7) {
-                    cell.setCellValue("Thành Tiền");
+                    cell.setCellValue("Giá");
                     cell.setCellStyle(headerCellStyle);
                 }
                 if (i == 8) {
+                    cell.setCellValue("Thành Tiền");
+                    cell.setCellStyle(headerCellStyle);
+                }
+                if (i == 9) {
                     cell.setCellValue("Cửa Hàng");
                     cell.setCellStyle(headerCellStyle);
                 }
@@ -427,20 +447,24 @@ public class SanPhamReportImpl implements SanPhamReport {
                 cell4.setCellStyle(cellStyle);
 
                 Cell cell5 = row.createCell(5);
-                cell5.setCellValue(sanPhamDTO1.getSoLuongBan());
+                cell5.setCellValue(sanPhamDTO1.getDonVi());
                 cell5.setCellStyle(cellStyle);
 
-                Cell cell6 = row.createCell(6);
-                cell6.setCellValue(sanPhamDTO1.getGiaBan());
-                cell6.setCellStyle(cellStyle);
+                Cell cell51 = row.createCell(6);
+                cell51.setCellValue(sanPhamDTO1.getSoLuongBan());
+                cell51.setCellStyle(cellStyle);
 
-                Cell cell7 = row.createCell(7);
-                cell7.setCellValue(sanPhamDTO1.getTotalDoanhThu());
-                cell7.setCellStyle(cellStyle);
+                Cell cell61 = row.createCell(7);
+                cell61.setCellValue(sanPhamDTO1.getGiaBan());
+                cell61.setCellStyle(cellStyle);
 
-                Cell cell8 = row.createCell(8);
-                cell8.setCellValue(sanPhamDTO1.getTenCuaHang());
-                cell8.setCellStyle(cellStyle);
+                Cell cell71 = row.createCell(8);
+                cell71.setCellValue(sanPhamDTO1.getTotalDoanhThu());
+                cell71.setCellStyle(cellStyle);
+
+                Cell cell81 = row.createCell(9);
+                cell81.setCellValue(sanPhamDTO1.getTenCuaHang());
+                cell81.setCellStyle(cellStyle);
             }
             String path = "D:/SanPhamDoanhThu" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
@@ -477,7 +501,7 @@ public class SanPhamReportImpl implements SanPhamReport {
             headerCellStyle.setWrapText(true);
             Row headerRow = sheet.createRow(0);
 
-            for (int i = 0; i < 9; i++) {
+            for (int i = 0; i < 10; i++) {
                 sheet.setColumnWidth(i, 8500);
                 Cell cell = headerRow.createCell(i);
                 if (i == 0) {
@@ -501,18 +525,22 @@ public class SanPhamReportImpl implements SanPhamReport {
                     cell.setCellStyle(headerCellStyle);
                 }
                 if (i == 5) {
-                    cell.setCellValue("Số Lượng Nhập");
+                    cell.setCellValue("Đơn vị");
                     cell.setCellStyle(headerCellStyle);
                 }
                 if (i == 6) {
-                    cell.setCellValue("Giá");
+                    cell.setCellValue("Số Lượng Nhập");
                     cell.setCellStyle(headerCellStyle);
                 }
                 if (i == 7) {
-                    cell.setCellValue("Thành Tiền");
+                    cell.setCellValue("Giá");
                     cell.setCellStyle(headerCellStyle);
                 }
                 if (i == 8) {
+                    cell.setCellValue("Thành Tiền");
+                    cell.setCellStyle(headerCellStyle);
+                }
+                if (i == 9) {
                     cell.setCellValue("Cửa Hàng");
                     cell.setCellStyle(headerCellStyle);
                 }
@@ -549,6 +577,10 @@ public class SanPhamReportImpl implements SanPhamReport {
                 Cell cell4 = row.createCell(4);
                 cell4.setCellValue(sanPhamDTO1.getGiaNhapNiemYet());
                 cell4.setCellStyle(cellStyle);
+
+                Cell cell41 = row.createCell(5);
+                cell41.setCellValue(sanPhamDTO1.getDonVi());
+                cell41.setCellStyle(cellStyle);
 
                 Cell cell5 = row.createCell(5);
                 cell5.setCellValue(sanPhamDTO1.getSoLuongNhap());
@@ -614,11 +646,11 @@ public class SanPhamReportImpl implements SanPhamReport {
                     "            nd.ngay_het_han, " +
                     "            n.ngay_nhap, " +
                     "            nd.ngay_san_xuat , s.don_vi" +
-                    "FROM " +
+                    " FROM " +
                     "    san_pham s, " +
                     "    nhap_hang_chi_tiet nd, " +
                     "    nhap_hang n " +
-                    "WHERE " +
+                    " WHERE " +
                     "    n.id = nd.id_nhap_hang " +
                     "        AND s.id = nd.id_san_pham " );
 

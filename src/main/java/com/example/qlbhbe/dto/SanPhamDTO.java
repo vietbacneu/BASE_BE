@@ -12,15 +12,15 @@ public class SanPhamDTO {
 
     private Long id;
 
-    private Double soLuong;
+    private Double soLuong = 0d;
 
     private String mieuTa;
 
-    private String maSanPham;
+    private String maSanPham = "";
 
-    private String tenSanPham;
+    private String tenSanPham = "";
 
-    private Double giaSanPham;
+    private Double giaSanPham = 0d;
 
     private String nguoiTao;
 
@@ -32,17 +32,17 @@ public class SanPhamDTO {
 
     private String tenDanhMuc;
 
-    private String hanSanPham;
+    private String hanSanPham = "";
 
-    private String donVi;
+    private String donVi = "";
 
-    private Double giaBanNiemYet;
+    private Double giaBanNiemYet = 0d;
 
-    private Double giaBan;
+    private Double giaBan = 0d;
 
-    private Double giaNhapNiemYet;
+    private Double giaNhapNiemYet = 0d;
 
-    private Double giaNhap;
+    private Double giaNhap = 0d;
 
     private LocalDate ngayHetHan;
 
@@ -50,35 +50,35 @@ public class SanPhamDTO {
 
     private Long idCuaHang;
 
-    private String tenCuaHang;
+    private String tenCuaHang = "";
 
-    private String tenNhaCungCap;
+    private String tenNhaCungCap = "";
 
     private Long idNhaCungCap;
 
-    private String tenKhachHang;
+    private String tenKhachHang = "";
 
     private Long idKhachHang;
 
-    private String ngayXuat;
+    private String ngayXuat = "";
 
-    private String ngayNhap;
+    private String ngayNhap = "";
 
     private Long isTonKho;
 
-    private Double gia;
+    private Double gia = 0d;
 
-    private Double soLuongTon;
+    private Double soLuongTon = 0d;
 
-    private Double soLuongNhap;
+    private Double soLuongNhap = 0d;
 
-    private Double soLuongBan;
+    private Double soLuongBan = 0d;
 
     private Long idDanhMuc;
 
-    private Double totalChiPhi;
+    private Double totalChiPhi = 0d;
 
-    private Double totalDoanhThu;
+    private Double totalDoanhThu = 0d;
 
     public String getTenNhaCungCap() {
         return tenNhaCungCap;
@@ -88,37 +88,6 @@ public class SanPhamDTO {
         this.tenNhaCungCap = tenNhaCungCap;
     }
 
-    public Long getIdNhaCungCap() {
-        return idNhaCungCap;
-    }
-
-    public void setIdNhaCungCap(Long idNhaCungCap) {
-        this.idNhaCungCap = idNhaCungCap;
-    }
-
-    public String getTenKhachHang() {
-        return tenKhachHang;
-    }
-
-    public void setTenKhachHang(String tenKhachHang) {
-        this.tenKhachHang = tenKhachHang;
-    }
-
-    public Long getIdKhachHang() {
-        return idKhachHang;
-    }
-
-    public void setIdKhachHang(Long idKhachHang) {
-        this.idKhachHang = idKhachHang;
-    }
-
-    public String getNgayXuat() {
-        return ngayXuat;
-    }
-
-    public void setNgayXuat(String ngayXuat) {
-        this.ngayXuat = ngayXuat;
-    }
 
     public String getNgayNhap() {
         return ngayNhap;

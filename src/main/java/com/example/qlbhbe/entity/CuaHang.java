@@ -38,17 +38,21 @@ public class CuaHang implements Serializable {
     @Column(name = "trang_thai")
     private String trangThai;
 
-    @Column(name = "nguoi_tao")
-    private String nguoiTao;
-
+    @CreatedDate
     @Column(name = "ngay_tao")
     private LocalDate ngayTao;
 
-    @Column(name = "nguoi_thay_doi")
-    private String nguoiThayDoi;
+    @CreatedBy
+    @Column(name = "nguoi_tao")
+    private String nguoiTao;
 
+    @LastModifiedDate
     @Column(name = "ngay_thay_doi")
     private LocalDate ngayThayDoi;
+
+    @LastModifiedBy
+    @Column(name = "nguoi_thay_doi")
+    private String nguoiThayDoi;
 
     public CuaHang() {
     }

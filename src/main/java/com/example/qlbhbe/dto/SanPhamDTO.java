@@ -52,6 +52,18 @@ public class SanPhamDTO {
 
     private String tenCuaHang;
 
+    private String tenNhaCungCap;
+
+    private Long idNhaCungCap;
+
+    private String tenKhachHang;
+
+    private Long idKhachHang;
+
+    private String ngayXuat;
+
+    private String ngayNhap;
+
     private Long isTonKho;
 
     private Double gia;
@@ -67,6 +79,54 @@ public class SanPhamDTO {
     private Double totalChiPhi;
 
     private Double totalDoanhThu;
+
+    public String getTenNhaCungCap() {
+        return tenNhaCungCap;
+    }
+
+    public void setTenNhaCungCap(String tenNhaCungCap) {
+        this.tenNhaCungCap = tenNhaCungCap;
+    }
+
+    public Long getIdNhaCungCap() {
+        return idNhaCungCap;
+    }
+
+    public void setIdNhaCungCap(Long idNhaCungCap) {
+        this.idNhaCungCap = idNhaCungCap;
+    }
+
+    public String getTenKhachHang() {
+        return tenKhachHang;
+    }
+
+    public void setTenKhachHang(String tenKhachHang) {
+        this.tenKhachHang = tenKhachHang;
+    }
+
+    public Long getIdKhachHang() {
+        return idKhachHang;
+    }
+
+    public void setIdKhachHang(Long idKhachHang) {
+        this.idKhachHang = idKhachHang;
+    }
+
+    public String getNgayXuat() {
+        return ngayXuat;
+    }
+
+    public void setNgayXuat(String ngayXuat) {
+        this.ngayXuat = ngayXuat;
+    }
+
+    public String getNgayNhap() {
+        return ngayNhap;
+    }
+
+    public void setNgayNhap(String ngayNhap) {
+        this.ngayNhap = ngayNhap;
+    }
 
     public Double getTotalDoanhThu() {
         return totalDoanhThu;

@@ -57,6 +57,15 @@ public class SanPhamController {
     public List<SanPhamDTO> searchTongDoanhThu(@RequestBody SanPhamDTO command) throws Exception {
         return sanPhamReport.getSanPhamDoanhThuMax(command);
     }
+    @PostMapping("/sanPhamXuat")
+    public List<SanPhamDTO> sanPhamXuat(@RequestBody SanPhamDTO command) throws Exception {
+        return sanPhamReport.getSanPhamXuat(command);
+    }
+    @PostMapping("/sanPhamNhap")
+    public List<SanPhamDTO> sanPhamNhap(@RequestBody SanPhamDTO command) throws Exception {
+        return sanPhamReport.getSanPhamNhap(command);
+    }
+
 
     @PostMapping("/exportTonKho")
     public Map<String, String> exportSanPhamTon(@RequestBody SanPhamDTO sanPhamDTO) throws Exception {

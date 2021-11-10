@@ -20,4 +20,8 @@ public interface SanPhamReport {
 
     public Map<String,String> exportSanPhamChiPhiMax(SanPhamDTO sanPhamDTO) throws Exception;
 
+    public List<SanPhamDTO> getSanPhamNhap(SanPhamDTO sanPhamDTO) throws Exception;
+
+    public List<SanPhamDTO> getSanPhamXuat(SanPhamDTO sanPhamDTO) throws Exception;
+
 }

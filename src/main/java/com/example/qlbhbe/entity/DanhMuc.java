@@ -29,21 +29,21 @@ public class DanhMuc implements Serializable {
     @Column(name = "thong_tin")
     private String thongTin;
 
-    @CreatedDate
+     @CreatedDate
     @Column(name = "ngay_tao")
-    private LocalDate ngayTao;
+    private LocalDate ngayTao = LocalDate.now();
 
     @CreatedBy
     @Column(name = "nguoi_tao")
-    private String nguoiTao;
+    private String nguoiTao = "admin";
 
     @LastModifiedDate
     @Column(name = "ngay_thay_doi")
-    private LocalDate ngayThayDoi;
+    private LocalDate ngayThayDoi = LocalDate.now();
 
     @LastModifiedBy
     @Column(name = "nguoi_thay_doi")
-    private String nguoiThayDoi;
+    private String nguoiThayDoi = "admin";
 
     public DanhMuc(long id) {
         this.id = id;

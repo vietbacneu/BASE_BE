@@ -22,13 +22,13 @@ public class SanPhamDTO {
 
     private Double giaSanPham = 0d;
 
-    private String nguoiTao;
+   private LocalDate ngayTao = LocalDate.now();
 
-    private LocalDate ngayTao;
+    private String nguoiTao = "admin";
 
-    private LocalDate nguoiThayDoi;
+    private LocalDate ngayThayDoi = LocalDate.now();
 
-    private String ngayThayDoi;
+    private String nguoiThayDoi = "admin";
 
     private String tenDanhMuc;
 
@@ -286,20 +286,6 @@ public class SanPhamDTO {
     public SanPhamDTO() {
     }
 
-    public SanPhamDTO(Long id, Double soLuong, String mieuTa, String maSanPham, String tenSanPham, Double giaSanPham, String nguoiTao, LocalDate ngayTao, LocalDate nguoiThayDoi, String ngayThayDoi, String tenDanhMuc) {
-        this.id = id;
-        this.soLuong = soLuong;
-        this.mieuTa = mieuTa;
-        this.maSanPham = maSanPham;
-        this.tenSanPham = tenSanPham;
-        this.giaSanPham = giaSanPham;
-        this.nguoiTao = nguoiTao;
-        this.ngayTao = ngayTao;
-        this.nguoiThayDoi = nguoiThayDoi;
-        this.ngayThayDoi = ngayThayDoi;
-        this.tenDanhMuc = tenDanhMuc;
-    }
-
     public String getTenDanhMuc() {
         return tenDanhMuc;
     }
@@ -372,19 +358,19 @@ public class SanPhamDTO {
         this.ngayTao = ngayTao;
     }
 
-    public LocalDate getNguoiThayDoi() {
-        return this.nguoiThayDoi;
+    public LocalDate getNgayThayDoi() {
+        return ngayThayDoi;
     }
 
-    public void setNguoiThayDoi(LocalDate nguoiThayDoi) {
-        this.nguoiThayDoi = nguoiThayDoi;
-    }
-
-    public String getNgayThayDoi() {
-        return this.ngayThayDoi;
-    }
-
-    public void setNgayThayDoi(String ngayThayDoi) {
+    public void setNgayThayDoi(LocalDate ngayThayDoi) {
         this.ngayThayDoi = ngayThayDoi;
+    }
+
+    public String getNguoiThayDoi() {
+        return nguoiThayDoi;
+    }
+
+    public void setNguoiThayDoi(String nguoiThayDoi) {
+        this.nguoiThayDoi = nguoiThayDoi;
     }
 }

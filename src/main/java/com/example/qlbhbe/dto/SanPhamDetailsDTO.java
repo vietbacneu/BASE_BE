@@ -21,13 +21,13 @@ public class SanPhamDetailsDTO {
 
     private String mieuTa;
 
-    private String nguoiTao;
+   private LocalDate ngayTao = LocalDate.now();
 
-    private LocalDate ngayTao;
+    private String nguoiTao = "admin";
 
-    private LocalDate nguoiThayDoi;
+    private LocalDate ngayThayDoi = LocalDate.now();
 
-    private String ngayThayDoi;
+    private String nguoiThayDoi = "admin";
 
     private String donVi ;
 
@@ -35,18 +35,6 @@ public class SanPhamDetailsDTO {
     public SanPhamDetailsDTO() {
     }
 
-    public SanPhamDetailsDTO(Long id, String maSanPham, String tenSanPham, Double giaSanPham, Double soLuong, String mieuTa, String nguoiTao, LocalDate ngayTao, LocalDate nguoiThayDoi, String ngayThayDoi) {
-        this.id = id;
-        this.maSanPham = maSanPham;
-        this.tenSanPham = tenSanPham;
-        this.giaSanPham = giaSanPham;
-        this.soLuong = soLuong;
-        this.mieuTa = mieuTa;
-        this.nguoiTao = nguoiTao;
-        this.ngayTao = ngayTao;
-        this.nguoiThayDoi = nguoiThayDoi;
-        this.ngayThayDoi = ngayThayDoi;
-    }
 
     public Long getId() {
         return this.id;
@@ -112,19 +100,27 @@ public class SanPhamDetailsDTO {
         this.ngayTao = ngayTao;
     }
 
-    public LocalDate getNguoiThayDoi() {
-        return this.nguoiThayDoi;
+    public LocalDate getNgayThayDoi() {
+        return ngayThayDoi;
     }
 
-    public void setNguoiThayDoi(LocalDate nguoiThayDoi) {
+    public void setNgayThayDoi(LocalDate ngayThayDoi) {
+        this.ngayThayDoi = ngayThayDoi;
+    }
+
+    public String getNguoiThayDoi() {
+        return nguoiThayDoi;
+    }
+
+    public void setNguoiThayDoi(String nguoiThayDoi) {
         this.nguoiThayDoi = nguoiThayDoi;
     }
 
-    public String getNgayThayDoi() {
-        return this.ngayThayDoi;
+    public String getDonVi() {
+        return donVi;
     }
 
-    public void setNgayThayDoi(String ngayThayDoi) {
-        this.ngayThayDoi = ngayThayDoi;
+    public void setDonVi(String donVi) {
+        this.donVi = donVi;
     }
 }

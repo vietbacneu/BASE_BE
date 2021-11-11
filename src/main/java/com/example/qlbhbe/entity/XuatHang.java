@@ -43,11 +43,11 @@ public class XuatHang implements Serializable {
     private String nguoiThayDoi;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cua_hang")
+    @JoinColumn(name = "id_cua_hang")
     private CuaHang cuaHang;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "khach_hang")
+    @JoinColumn(name = "id_khach_hang")
     private KhachHang khachHang;
 
     public long getId() {

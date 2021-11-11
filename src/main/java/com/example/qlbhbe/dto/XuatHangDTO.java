@@ -52,6 +52,14 @@ public class XuatHangDTO {
         this.ngayXuat = ngayXuat;
     }
 
+    public String getTenCuaHang() {
+        return tenCuaHang;
+    }
+
+    public void setTenCuaHang(String tenCuaHang) {
+        this.tenCuaHang = tenCuaHang;
+    }
+
     public Long getIdCuaHang() {
         return idCuaHang;
     }

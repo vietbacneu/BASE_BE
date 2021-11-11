@@ -26,7 +26,7 @@ public class SanPhamReportImpl implements SanPhamReport {
             StringBuilder queryStr = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
             queryStr.append("select s.id,  s.ma_san_pham, s.ten_san_pham, s.gia_ban_niem_yet, s.gia_nhap_niem_yet ," +
-                    " sum(nd.so_luong), nd.gia, n.id_cua_hang , (select c.ten_cua_hang from cua_hang c where c.id = n.id_cua_hang) ch, " +
+                    "  sum(nd.so_luong), nd.gia, n.id_cua_hang , (select c.ten_cua_hang from cua_hang c where c.id = n.id_cua_hang) ch, " +
                     " s.id_danh_muc , (select d.ten_danh_muc from danh_muc d where d.id = s.id_danh_muc) dm , s.don_vi " +
                     " from san_pham s , nhap_hang n , nhap_hang_chi_tiet nd " +
                     " where s.id = nd.id_san_pham and n.id = nd.id_nhap_hang");
@@ -73,7 +73,7 @@ public class SanPhamReportImpl implements SanPhamReport {
             StringBuilder queryStr1 = new StringBuilder();
             Map<String, Object> params1 = new HashMap<>();
             queryStr1.append(" select s.id,  s.ma_san_pham, s.ten_san_pham, s.gia_ban_niem_yet, s.gia_nhap_niem_yet ," +
-                    " nd.so_luong, nd.gia, n.id_cua_hang , (select c.ten_cua_hang from cua_hang c where c.id = n.id_cua_hang) ch," +
+                    "  sum(nd.so_luong), nd.gia, n.id_cua_hang , (select c.ten_cua_hang from cua_hang c where c.id = n.id_cua_hang) ch," +
                     "    s.id_danh_muc , (select d.ten_danh_muc from danh_muc d where d.id = s.id_danh_muc) dm , s.don_vi " +
                     " from san_pham s , xuat_hang n , xuat_hang_chi_tiet nd" +
                     " where s.id = nd.id_san_pham and n.id = nd.id_xuat_hang");

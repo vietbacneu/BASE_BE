@@ -1,22 +1,14 @@
 package com.example.qlbhbe.entity;
 
-import java.io.Serializable;
-import java.time.LocalDate;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "san_pham")
@@ -48,26 +40,26 @@ public class SanPham implements Serializable {
 
     @CreatedDate
     @Column(name = "ngay_tao")
-    private LocalDate ngayTao;
+    private LocalDate ngayTao = LocalDate.now();
 
     @CreatedBy
     @Column(name = "nguoi_tao")
-    private String nguoiTao;
+    private String nguoiTao = "admin";
 
     @LastModifiedDate
     @Column(name = "ngay_thay_doi")
-    private LocalDate ngayThayDoi;
+    private LocalDate ngayThayDoi = LocalDate.now();
 
     @LastModifiedBy
     @Column(name = "nguoi_thay_doi")
-    private String nguoiThayDoi;
+    private String nguoiThayDoi = "admin";
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_danh_muc")
     private DanhMuc danhMuc;
 
     @Column(name = "don_vi")
-    private String donVi ;
+    private String donVi;
 
     public Double getGiaBanNiemYet() {
         return giaBanNiemYet;

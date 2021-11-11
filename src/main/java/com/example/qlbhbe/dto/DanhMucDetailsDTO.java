@@ -17,13 +17,13 @@ public class DanhMucDetailsDTO {
 
     private String thongTin;
 
-    private LocalDate ngayTao;
+    private LocalDate ngayTao = LocalDate.now();
 
-    private String nguoiTao;
+    private String nguoiTao = "admin";
 
-    private LocalDate ngayThayDoi;
+    private LocalDate ngayThayDoi = LocalDate.now();
 
-    private String nguoiThayDoi;
+    private String nguoiThayDoi = "admin";
 
     public DanhMucDetailsDTO() {
     }

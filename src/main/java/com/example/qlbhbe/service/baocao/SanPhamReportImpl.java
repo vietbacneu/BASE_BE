@@ -3,6 +3,7 @@ package com.example.qlbhbe.service.baocao;
 import com.example.qlbhbe.dto.SanPhamDTO;
 import com.example.qlbhbe.util.DataUtil;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
@@ -225,11 +226,27 @@ public class SanPhamReportImpl implements SanPhamReport {
             Workbook workbook = new XSSFWorkbook();
             Sheet sheet = workbook.createSheet("SanPhamTon");
 
+            Font headerFontTitle = workbook.createFont();
+            headerFontTitle.setBold(true);
+            headerFontTitle.setFontHeightInPoints((short) 20);
+            headerFontTitle.setColor(IndexedColors.RED.getIndex());
+            CellStyle headerCellStyle1 = workbook.createCellStyle();
+            headerCellStyle1.setFont(headerFontTitle);
+            headerCellStyle1.setBorderBottom(BorderStyle.THIN);
+            headerCellStyle1.setBorderTop(BorderStyle.THIN);
+            headerCellStyle1.setAlignment(HorizontalAlignment.CENTER);
+            headerCellStyle1.setWrapText(true);
+            Row title = sheet.createRow(0);
+            Cell cellTitle = title.createCell(2);
+            cellTitle.setCellValue("BÁO CÁO SẢN PHẨM TỒN KHO");
+            cellTitle.setCellStyle(headerCellStyle1);
+            CellRangeAddress cellMerge = new CellRangeAddress(0, 1, 2, 6);
+            sheet.addMergedRegion(cellMerge);
+
             Font headerFont = workbook.createFont();
             headerFont.setBold(true);
             headerFont.setFontHeightInPoints((short) 14);
-            headerFont.setColor(IndexedColors.RED.getIndex());
-
+            headerFont.setColor(IndexedColors.BLACK.getIndex());
 // Create a CellStyle with the font
             CellStyle headerCellStyle = workbook.createCellStyle();
             headerCellStyle.setFont(headerFont);
@@ -239,7 +256,8 @@ public class SanPhamReportImpl implements SanPhamReport {
             headerCellStyle.setBorderTop(BorderStyle.THIN);
             headerCellStyle.setAlignment(HorizontalAlignment.CENTER);
             headerCellStyle.setWrapText(true);
-            Row headerRow = sheet.createRow(0);
+
+            Row headerRow = sheet.createRow(3);
             for (int i = 0; i < 10; i++) {
                 sheet.setColumnWidth(i, 8500);
                 Cell cell = headerRow.createCell(i);
@@ -284,7 +302,7 @@ public class SanPhamReportImpl implements SanPhamReport {
                     cell.setCellStyle(headerCellStyle);
                 }
             }
-            int rowNum = 1;
+            int rowNum = 4;
             List<SanPhamDTO> sanPhamDTOList = getSanPhamTon(sanPhamDTO);
             CellStyle cellStyle = workbook.createCellStyle();
 
@@ -357,10 +375,28 @@ public class SanPhamReportImpl implements SanPhamReport {
             Workbook workbook = new XSSFWorkbook();
             Sheet sheet = workbook.createSheet("SanPhamDoanhThu");
 
+            Font headerFontTitle = workbook.createFont();
+            headerFontTitle.setBold(true);
+            headerFontTitle.setFontHeightInPoints((short) 20);
+            headerFontTitle.setColor(IndexedColors.RED.getIndex());
+            CellStyle headerCellStyle1 = workbook.createCellStyle();
+            headerCellStyle1.setFont(headerFontTitle);
+            headerCellStyle1.setBorderBottom(BorderStyle.THIN);
+            headerCellStyle1.setBorderTop(BorderStyle.THIN);
+            headerCellStyle1.setAlignment(HorizontalAlignment.CENTER);
+            headerCellStyle1.setWrapText(true);
+            Row title = sheet.createRow(0);
+            Cell cellTitle = title.createCell(2);
+            cellTitle.setCellValue("BÁO CÁO SẢN PHẨM DOANH THU");
+            cellTitle.setCellStyle(headerCellStyle1);
+            CellRangeAddress cellMerge = new CellRangeAddress(0, 1, 2, 6);
+            sheet.addMergedRegion(cellMerge);
+
+
             Font headerFont = workbook.createFont();
             headerFont.setBold(true);
             headerFont.setFontHeightInPoints((short) 14);
-            headerFont.setColor(IndexedColors.RED.getIndex());
+            headerFont.setColor(IndexedColors.BLACK.getIndex());
 
 // Create a CellStyle with the font
             CellStyle headerCellStyle = workbook.createCellStyle();
@@ -371,7 +407,7 @@ public class SanPhamReportImpl implements SanPhamReport {
             headerCellStyle.setBorderTop(BorderStyle.THIN);
             headerCellStyle.setAlignment(HorizontalAlignment.CENTER);
             headerCellStyle.setWrapText(true);
-            Row headerRow = sheet.createRow(0);
+            Row headerRow = sheet.createRow(3);
 
             for (int i = 0; i < 10; i++) {
                 sheet.setColumnWidth(i, 8500);
@@ -417,7 +453,7 @@ public class SanPhamReportImpl implements SanPhamReport {
                     cell.setCellStyle(headerCellStyle);
                 }
             }
-            int rowNum = 1;
+            int rowNum = 4;
             List<SanPhamDTO> sanPhamDTOList = getSanPhamDoanhThuMax(sanPhamDTO);
             CellStyle cellStyle = workbook.createCellStyle();
 
@@ -489,10 +525,27 @@ public class SanPhamReportImpl implements SanPhamReport {
             Workbook workbook = new XSSFWorkbook();
             Sheet sheet = workbook.createSheet("SanPhamChiPhi");
 
+            Font headerFontTitle = workbook.createFont();
+            headerFontTitle.setBold(true);
+            headerFontTitle.setFontHeightInPoints((short) 20);
+            headerFontTitle.setColor(IndexedColors.RED.getIndex());
+            CellStyle headerCellStyle1 = workbook.createCellStyle();
+            headerCellStyle1.setFont(headerFontTitle);
+            headerCellStyle1.setBorderBottom(BorderStyle.THIN);
+            headerCellStyle1.setBorderTop(BorderStyle.THIN);
+            headerCellStyle1.setAlignment(HorizontalAlignment.CENTER);
+            headerCellStyle1.setWrapText(true);
+            Row title = sheet.createRow(0);
+            Cell cellTitle = title.createCell(2);
+            cellTitle.setCellValue("BÁO CÁO SẢN PHẨM CHI PHÍ");
+            cellTitle.setCellStyle(headerCellStyle1);
+            CellRangeAddress cellMerge = new CellRangeAddress(0, 1, 2, 6);
+            sheet.addMergedRegion(cellMerge);
+
             Font headerFont = workbook.createFont();
             headerFont.setBold(true);
             headerFont.setFontHeightInPoints((short) 14);
-            headerFont.setColor(IndexedColors.RED.getIndex());
+            headerFont.setColor(IndexedColors.BLACK.getIndex());
 
 // Create a CellStyle with the font
             CellStyle headerCellStyle = workbook.createCellStyle();
@@ -503,7 +556,7 @@ public class SanPhamReportImpl implements SanPhamReport {
             headerCellStyle.setBorderTop(BorderStyle.THIN);
             headerCellStyle.setAlignment(HorizontalAlignment.CENTER);
             headerCellStyle.setWrapText(true);
-            Row headerRow = sheet.createRow(0);
+            Row headerRow = sheet.createRow(3);
 
             for (int i = 0; i < 10; i++) {
                 sheet.setColumnWidth(i, 8500);
@@ -549,7 +602,7 @@ public class SanPhamReportImpl implements SanPhamReport {
                     cell.setCellStyle(headerCellStyle);
                 }
             }
-            int rowNum = 1;
+            int rowNum = 4;
             List<SanPhamDTO> sanPhamDTOList = getSanPhamChiPhiMax(sanPhamDTO);
             CellStyle cellStyle = workbook.createCellStyle();
 
@@ -586,19 +639,19 @@ public class SanPhamReportImpl implements SanPhamReport {
                 cell41.setCellValue(sanPhamDTO1.getDonVi());
                 cell41.setCellStyle(cellStyle);
 
-                Cell cell5 = row.createCell(5);
+                Cell cell5 = row.createCell(6);
                 cell5.setCellValue(sanPhamDTO1.getSoLuongNhap());
                 cell5.setCellStyle(cellStyle);
 
-                Cell cell6 = row.createCell(6);
+                Cell cell6 = row.createCell(7);
                 cell6.setCellValue(sanPhamDTO1.getGiaNhap());
                 cell6.setCellStyle(cellStyle);
 
-                Cell cell7 = row.createCell(7);
+                Cell cell7 = row.createCell(8);
                 cell7.setCellValue(sanPhamDTO1.getTotalChiPhi());
                 cell7.setCellStyle(cellStyle);
 
-                Cell cell8 = row.createCell(8);
+                Cell cell8 = row.createCell(9);
                 cell8.setCellValue(sanPhamDTO1.getTenCuaHang());
                 cell8.setCellStyle(cellStyle);
             }

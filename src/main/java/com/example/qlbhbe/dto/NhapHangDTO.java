@@ -1,6 +1,7 @@
 package com.example.qlbhbe.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -12,13 +13,13 @@ public class NhapHangDTO {
 
     private Long id;
 
-    private LocalDate ngayTao;
+    private LocalDate ngayTao = LocalDate.now();
 
-    private String nguoiTao;
+    private String nguoiTao = "admin";
 
-    private LocalDate ngayThayDoi;
+    private LocalDate ngayThayDoi = LocalDate.now();
 
-    private String nguoiThayDoi;
+    private String nguoiThayDoi = "admin";
 
     private String maNhapHang;
 

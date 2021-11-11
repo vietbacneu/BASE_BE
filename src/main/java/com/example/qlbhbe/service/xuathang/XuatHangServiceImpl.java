@@ -1,6 +1,7 @@
 package com.example.qlbhbe.service.xuathang;
 
 import com.example.qlbhbe.dto.MessageDTO;
+import com.example.qlbhbe.dto.NhapHangDTO;
 import com.example.qlbhbe.dto.XuatHangChiTietDTO;
 import com.example.qlbhbe.dto.XuatHangDTO;
 import com.example.qlbhbe.entity.*;
@@ -154,5 +155,53 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
             xuatHangChiTietRepo.save(xuatHangChiTiet);
         }
         return new MessageDTO("Thêm mới thành công", 200l);
+    }
+
+    @Override
+    public List<NhapHangDTO> searchXuatMax(XuatHangDTO command) throws Exception {
+        try {
+            StringBuilder queryStr = new StringBuilder();
+            StringBuilder from = new StringBuilder();
+            Map<String, Object> params = new HashMap<>();
+            queryStr.append("select n.id,n.ma_nhap_hang, " +
+                    "n.id_nha_cung_cap, " +
+                    "(select ten_nha_cung_cap from nha_cung_cap ncc where ncc.id = n.id_nha_cung_cap) tenncc, " +
+                    "n.id_cua_hang, " +
+                    "(select ten_cua_hang from cua_hang ncc where ncc.id = n.id_cua_hang) tench,  " +
+                    " sum(nd.so_luong*nd.gia) , n.ngay_nhap , n.ngay_tao , n.nguoi_tao, id_thanh_toan,  " +
+                    "   (select ten_phuong_thuc from phuong_thuc_thanh_toan ncc where ncc.id = n.id_thanh_toan) tt " +
+                    " from nhap_hang n , nhap_hang_chi_tiet nd  " +
+                    "where n.id = nd.id_nhap_hang ");
+
+            if (!DataUtil.isNullOrEmpty(command.getTenKhachHang())) {
+                from.append(" and lower(n.ten_nha_cung_cap) like :ten ");
+                params.put("ten", '%' + command.getTenKhachHang().toLowerCase(Locale.ROOT) + '%');
+            }
+            if (!DataUtil.isNullOrEmpty(command.getMaXuatHang())) {
+                from.append(" and lower(s.ma_nhap_hang) like :ma ");
+                params.put("ma", '%' + command.getMaXuatHang().toLowerCase(Locale.ROOT) + '%');
+            }
+            from.append("group by n.id " +
+                    "order by sum(nd.so_luong*nd.gia) desc   ");
+            queryStr.append(from);
+            Query query = entityManager.createNativeQuery(queryStr.toString());
+            for (Map.Entry<String, Object> p : params.entrySet()) {
+                query.setParameter(p.getKey(), p.getValue());
+            }
+            List<Object[]> objects = query.getResultList();
+
+            List<NhapHangDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maNhapHang", "idNhaCungCap", "tenNhaCungCap", "idCuaHang", "tenCuaHang",
+                            "totalDT", "ngayNhap", "ngayTao", "nguoiTao","idPhuongThuc","tenPhuongThuc")
+                    , objects, NhapHangDTO.class);
+
+            return danhMucDTOS;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    @Override
+    public Map<String, String> exportXuatMax(XuatHangDTO command) throws Exception {
+        return null;
     }
 }

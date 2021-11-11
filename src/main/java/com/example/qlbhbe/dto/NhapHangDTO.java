@@ -41,8 +41,17 @@ public class NhapHangDTO {
 
     private String tenPhuongThuc;
 
+    private Double totalDT;
+
     List<NhapHangChiTietDTO> nhapHangChiTietDTOList;
 
+    public Double getTotalDT() {
+        return totalDT;
+    }
+
+    public void setTotalDT(Double totalDT) {
+        this.totalDT = totalDT;
+    }
 
     public Long getIdPhuongThuc() {
         return idPhuongThuc;

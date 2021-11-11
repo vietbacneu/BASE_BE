@@ -17,6 +17,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(Constants.API + "/xuatHangs")
@@ -34,6 +36,15 @@ public class XuatHangController {
         return xuatHangService.search(command, pageable);
     }
 
+    @PostMapping("/searchXuatMax")
+    public List<NhapHangDTO> searchXuatMax(@RequestBody XuatHangDTO command) throws Exception {
+        return xuatHangService.searchXuatMax(command);
+    }
+
+    @PostMapping("/exportXuatMax")
+    public Map<String, String> exportXuatMax(@RequestBody XuatHangDTO command) throws Exception {
+        return xuatHangService.exportXuatMax(command);
+    }
 
     @PostMapping
     public MessageDTO create(@Valid @RequestBody XuatHangDTO command) {

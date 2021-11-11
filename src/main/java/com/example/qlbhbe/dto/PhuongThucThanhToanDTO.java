@@ -20,13 +20,13 @@ public class PhuongThucThanhToanDTO {
 
     private String mieuTa;
 
-    private LocalDate ngayTao;
+   private LocalDate ngayTao = LocalDate.now();
 
-    private String nguoiTao;
+    private String nguoiTao = "admin";
 
-    private String nguoiThayDoi;
+    private LocalDate ngayThayDoi = LocalDate.now();
 
-    private LocalDate ngayThayDoi;
+    private String nguoiThayDoi = "admin";
 
     private Long isCount;
 

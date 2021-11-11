@@ -41,6 +41,8 @@ public class XuatHangDTO {
 
     private String tenPhuongThuc;
 
+    private String totalDT;
+
     List<XuatHangChiTietDTO> xuatHangChiTietDTOList;
 
     public XuatHangDTO() {
@@ -54,6 +56,14 @@ public class XuatHangDTO {
         this.ngayThayDoi = ngayThayDoi;
         this.maXuatHang = maXuatHang;
         this.ngayXuat = ngayXuat;
+    }
+
+    public String getTotalDT() {
+        return totalDT;
+    }
+
+    public void setTotalDT(String totalDT) {
+        this.totalDT = totalDT;
     }
 
     public String getTenCuaHang() {

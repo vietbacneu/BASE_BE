@@ -20,7 +20,7 @@ public interface XuatHangService extends BaseService<XuatHang, Long> {
 
     MessageDTO save(XuatHangDTO xuatHangDTO);
 
-    List<NhapHangDTO> searchXuatMax(XuatHangDTO command) throws Exception;
+    List<XuatHangDTO> searchXuatMax(XuatHangDTO command) throws Exception;
 
     Map<String, String> exportXuatMax(XuatHangDTO command) throws Exception;
 

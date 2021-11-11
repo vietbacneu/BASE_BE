@@ -12,6 +12,9 @@ import com.example.qlbhbe.repo.xuathangchitiet.XuatHangChiTietRepo;
 import com.example.qlbhbe.service.AbstractService;
 import com.example.qlbhbe.service.xuathangchitiet.XuatHangChiTietService;
 import com.example.qlbhbe.util.DataUtil;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -22,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.io.FileOutputStream;
 import java.util.*;
 
 
@@ -87,7 +91,7 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
                     "    s.ngay_thay_doi   ," +
                     "    n.ten_khach_hang ," +
                     " (select ten_cua_hang from cua_hang c where c.id =  s.id_cua_hang )  tencuahang , " +
-                     " s.ngay_xuat , " +
+                    " s.ngay_xuat , " +
                     "   id_thanh_toan, (select ten_phuong_thuc from phuong_thuc_thanh_toan c where c.id =  s.id_thanh_toan )  ten_phuong_thuc  ");
 
             count.append("select count(*) ");
@@ -121,7 +125,7 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<XuatHangDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maXuatHang", "idKhachHang", "idCuaHang", "nguoiTao", "ngayTao",
-                            "nguoiThayDoi", "ngayThayDoi", "tenKhachHang", "tenCuaHang","ngayXuat","idPhuongThuc","tenPhuongThuc")
+                            "nguoiThayDoi", "ngayThayDoi", "tenKhachHang", "tenCuaHang", "ngayXuat", "idPhuongThuc", "tenPhuongThuc")
                     , objects, XuatHangDTO.class);
             for (XuatHangDTO danhMucDTO : danhMucDTOS) {
                 XuatHangChiTietDTO xuatHangChiTietDTO = new XuatHangChiTietDTO();
@@ -158,27 +162,27 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
     }
 
     @Override
-    public List<NhapHangDTO> searchXuatMax(XuatHangDTO command) throws Exception {
+    public List<XuatHangDTO> searchXuatMax(XuatHangDTO command) throws Exception {
         try {
             StringBuilder queryStr = new StringBuilder();
             StringBuilder from = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
-            queryStr.append("select n.id,n.ma_nhap_hang, " +
-                    "n.id_nha_cung_cap, " +
-                    "(select ten_nha_cung_cap from nha_cung_cap ncc where ncc.id = n.id_nha_cung_cap) tenncc, " +
+            queryStr.append("select n.id,n.ma_xuat_hang, " +
+                    "n.id_khach_hang, " +
+                    "(select ten_khach_hang from khach_hang ncc where ncc.id = n.id_khach_hang) tenncc, " +
                     "n.id_cua_hang, " +
                     "(select ten_cua_hang from cua_hang ncc where ncc.id = n.id_cua_hang) tench,  " +
-                    " sum(nd.so_luong*nd.gia) , n.ngay_nhap , n.ngay_tao , n.nguoi_tao, id_thanh_toan,  " +
+                    " sum(nd.so_luong*nd.gia) , n.ngay_xuat , n.ngay_tao , n.nguoi_tao, id_thanh_toan,  " +
                     "   (select ten_phuong_thuc from phuong_thuc_thanh_toan ncc where ncc.id = n.id_thanh_toan) tt " +
-                    " from nhap_hang n , nhap_hang_chi_tiet nd  " +
-                    "where n.id = nd.id_nhap_hang ");
+                    " from xuat_hang n , xuat_hang_chi_tiet nd  " +
+                    "where n.id = nd.id_xuat_hang ");
 
             if (!DataUtil.isNullOrEmpty(command.getTenKhachHang())) {
-                from.append(" and lower(n.ten_nha_cung_cap) like :ten ");
+                from.append(" and lower(n.ten_khach_hang) like :ten ");
                 params.put("ten", '%' + command.getTenKhachHang().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getMaXuatHang())) {
-                from.append(" and lower(s.ma_nhap_hang) like :ma ");
+                from.append(" and lower(s.ma_xuat_hang) like :ma ");
                 params.put("ma", '%' + command.getMaXuatHang().toLowerCase(Locale.ROOT) + '%');
             }
             from.append("group by n.id " +
@@ -190,9 +194,9 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
             }
             List<Object[]> objects = query.getResultList();
 
-            List<NhapHangDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maNhapHang", "idNhaCungCap", "tenNhaCungCap", "idCuaHang", "tenCuaHang",
-                            "totalDT", "ngayNhap", "ngayTao", "nguoiTao","idPhuongThuc","tenPhuongThuc")
-                    , objects, NhapHangDTO.class);
+            List<XuatHangDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maXuatHang", "idKhachHang", "tenKhachHang", "idCuaHang", "tenCuaHang",
+                            "totalDT", "ngayNhap", "ngayTao", "nguoiTao", "idPhuongThuc", "tenPhuongThuc")
+                    , objects, XuatHangDTO.class);
 
             return danhMucDTOS;
         } catch (Exception e) {
@@ -202,6 +206,126 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
 
     @Override
     public Map<String, String> exportXuatMax(XuatHangDTO command) throws Exception {
-        return null;
+        try {
+            Workbook workbook = new XSSFWorkbook();
+            Sheet sheet = workbook.createSheet("HoaDonBanHang");
+
+            Font headerFontTitle = workbook.createFont();
+            headerFontTitle.setBold(true);
+            headerFontTitle.setFontHeightInPoints((short) 20);
+            headerFontTitle.setColor(IndexedColors.RED.getIndex());
+            CellStyle headerCellStyle1 = workbook.createCellStyle();
+            headerCellStyle1.setFont(headerFontTitle);
+            headerCellStyle1.setBorderBottom(BorderStyle.THIN);
+            headerCellStyle1.setBorderTop(BorderStyle.THIN);
+            headerCellStyle1.setAlignment(HorizontalAlignment.CENTER);
+            headerCellStyle1.setWrapText(true);
+            Row title = sheet.createRow(0);
+            Cell cellTitle = title.createCell(1);
+            cellTitle.setCellValue("BÁO CÁO HÓA ĐƠN BÁN HÀNG");
+            cellTitle.setCellStyle(headerCellStyle1);
+            CellRangeAddress cellMerge = new CellRangeAddress(0, 1, 1, 6);
+            sheet.addMergedRegion(cellMerge);
+
+            Font headerFont = workbook.createFont();
+            headerFont.setBold(true);
+            headerFont.setFontHeightInPoints((short) 14);
+            headerFont.setColor(IndexedColors.BLACK.getIndex());
+// Create a CellStyle with the font
+            CellStyle headerCellStyle = workbook.createCellStyle();
+            headerCellStyle.setFont(headerFont);
+            headerCellStyle.setBorderBottom(BorderStyle.THIN);
+            headerCellStyle.setBorderLeft(BorderStyle.THIN);
+            headerCellStyle.setBorderRight(BorderStyle.THIN);
+            headerCellStyle.setBorderTop(BorderStyle.THIN);
+            headerCellStyle.setAlignment(HorizontalAlignment.CENTER);
+            headerCellStyle.setWrapText(true);
+
+            Row headerRow = sheet.createRow(3);
+            for (int i = 0; i < 6; i++) {
+                sheet.setColumnWidth(i, 8500);
+                Cell cell = headerRow.createCell(i);
+                if (i == 0) {
+                    cell.setCellValue("Mã Bán Hàng");
+                    cell.setCellStyle(headerCellStyle);
+                }
+                if (i == 1) {
+                    cell.setCellValue("Tên Khách Hàng");
+                    cell.setCellStyle(headerCellStyle);
+                }
+                if (i == 2) {
+                    cell.setCellValue("Tên Cửa Hàng");
+                    cell.setCellStyle(headerCellStyle);
+                }
+                if (i == 3) {
+                    cell.setCellValue("Phương Thức Thanh Toán");
+                    cell.setCellStyle(headerCellStyle);
+                }
+                if (i == 4) {
+                    cell.setCellValue("Tổng Tiền");
+                    cell.setCellStyle(headerCellStyle);
+                }
+                if (i == 5) {
+                    cell.setCellValue("Ngày Nhập");
+                    cell.setCellStyle(headerCellStyle);
+                }
+                if (i == 6) {
+                    cell.setCellValue("Người Nhập");
+                    cell.setCellStyle(headerCellStyle);
+                }
+            }
+            int rowNum = 4;
+            List<XuatHangDTO> nhapHangDTOS = searchXuatMax(command);
+            CellStyle cellStyle = workbook.createCellStyle();
+
+            cellStyle.setBorderBottom(BorderStyle.THIN);
+            cellStyle.setBorderLeft(BorderStyle.THIN);
+            cellStyle.setBorderRight(BorderStyle.THIN);
+            cellStyle.setBorderTop(BorderStyle.THIN);
+            cellStyle.setAlignment(HorizontalAlignment.CENTER);
+            cellStyle.setWrapText(true);
+            for (XuatHangDTO sanPhamDTO1 : nhapHangDTOS) {
+                Row row = sheet.createRow(rowNum++);
+
+                Cell cell = row.createCell(0);
+                cell.setCellValue(sanPhamDTO1.getMaXuatHang());
+                cell.setCellStyle(cellStyle);
+
+                Cell cell1 = row.createCell(1);
+                cell1.setCellValue(sanPhamDTO1.getTenKhachHang());
+                cell1.setCellStyle(cellStyle);
+
+                Cell cell2 = row.createCell(2);
+                cell2.setCellValue(sanPhamDTO1.getTenCuaHang());
+                cell2.setCellStyle(cellStyle);
+
+                Cell cell23 = row.createCell(3);
+                cell23.setCellValue(sanPhamDTO1.getTenPhuongThuc());
+                cell23.setCellStyle(cellStyle);
+
+                Cell cell3 = row.createCell(4);
+                cell3.setCellValue(sanPhamDTO1.getTotalDT());
+                cell3.setCellStyle(cellStyle);
+
+                Cell cell4 = row.createCell(5);
+                cell4.setCellValue(sanPhamDTO1.getNgayXuat());
+                cell4.setCellStyle(cellStyle);
+
+                Cell cell41 = row.createCell(6);
+                cell41.setCellValue(sanPhamDTO1.getNgayTao());
+                cell41.setCellStyle(cellStyle);
+            }
+
+            String path = "D:/HoaDonXuatHang" + System.currentTimeMillis() + ".xlsx";
+            FileOutputStream fileOut = new FileOutputStream(path);
+            workbook.write(fileOut);
+            fileOut.close();
+            workbook.close();
+            Map<String, String> result = new HashMap<>();
+            result.put("path", path);
+            return result;
+        } catch (Exception e) {
+            throw e;
+        }
     }
 }

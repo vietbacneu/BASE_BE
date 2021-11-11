@@ -57,8 +57,8 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
     public MessageDTO update(long id, XuatHangDTO command) {
         Optional<XuatHang> opt = xuatHangRepo.findById(id);
         if (opt.isPresent()) {
-            xuatHangRepo.deleteSanPham(id);
             xuatHangChiTietRepo.deleteSanPham(id);
+            xuatHangRepo.deleteSanPham(id);
         }
         command.setId(null);
         for (XuatHangChiTietDTO nhapHangChiTietDTO : command.getXuatHangChiTietDTOList()) {
@@ -86,7 +86,8 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
                     "    s.ngay_thay_doi   ," +
                     "    n.ten_khach_hang ," +
                     " (select ten_cua_hang from cua_hang c where c.id =  s.id_cua_hang )  tencuahang , " +
-                     " s.ngay_xuat  ");
+                     " s.ngay_xuat , " +
+                    "   id_thanh_toan, (select ten_phuong_thuc from phuong_thuc_thanh_toan c where c.id =  s.id_thanh_toan )  ten_phuong_thuc  ");
 
             count.append("select count(*) ");
             from.append(" from xuat_hang s, khach_hang n  where s.id_khach_hang = n.id  ");
@@ -119,7 +120,7 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<XuatHangDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maXuatHang", "idKhachHang", "idCuaHang", "nguoiTao", "ngayTao",
-                            "nguoiThayDoi", "ngayThayDoi", "tenKhachHang", "tenCuaHang","ngayXuat")
+                            "nguoiThayDoi", "ngayThayDoi", "tenKhachHang", "tenCuaHang","ngayXuat","idPhuongThuc","tenPhuongThuc")
                     , objects, XuatHangDTO.class);
             for (XuatHangDTO danhMucDTO : danhMucDTOS) {
                 XuatHangChiTietDTO xuatHangChiTietDTO = new XuatHangChiTietDTO();
@@ -139,6 +140,9 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
         XuatHang nhapHang = xuatHangMapper.toXuatHangEntity(xuatHangDTO);
         nhapHang.setKhachHang(new KhachHang(xuatHangDTO.getIdKhachHang()));
         nhapHang.setCuaHang(new CuaHang(xuatHangDTO.getIdCuaHang()));
+        PhuongThucThanhToan phuongThucThanhToan = new PhuongThucThanhToan();
+        phuongThucThanhToan.setId(xuatHangDTO.getIdPhuongThuc());
+        nhapHang.setThanhToan(phuongThucThanhToan);
         XuatHang newNH = xuatHangRepo.save(nhapHang);
         List<XuatHangChiTietDTO> ls = xuatHangDTO.getXuatHangChiTietDTOList();
         for (XuatHangChiTietDTO l : ls) {

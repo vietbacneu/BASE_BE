@@ -56,8 +56,8 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
     public MessageDTO update(long id, NhapHangDTO command) {
         Optional<NhapHang> opt = nhapHangRepo.findById(id);
         if (opt.isPresent()) {
-            nhapHangRepo.deleteSanPham(id);
             nhapHangChiTietRepo.deleteSanPham(id);
+            nhapHangRepo.deleteSanPham(id);
         }
         command.setId(null);
         for (NhapHangChiTietDTO nhapHangChiTietDTO : command.getNhapHangChiTietDTOList()) {
@@ -83,7 +83,8 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
                     "    s.ngay_tao        ," +
                     "    s.nguoi_thay_doi  ," +
                     "    s.ngay_thay_doi   ," +
-                    "    n.ten_nha_cung_cap, id_cua_hang, (select ten_cua_hang from cua_hang c where c.id =  s.id_cua_hang )  tencuahang  ");
+                    "    n.ten_nha_cung_cap, id_cua_hang, (select ten_cua_hang from cua_hang c where c.id =  s.id_cua_hang )  tencuahang ," +
+                    "   id_thanh_toan, (select ten_phuong_thuc from phuong_thuc_thanh_toan c where c.id =  s.id_thanh_toan )  ten_phuong_thuc  ");
             count.append("select count(*) ");
             from.append(" from nhap_hang s, nha_cung_cap n where s.id_nha_cung_cap = n.id  ");
             if (!DataUtil.isNullOrEmpty(command.getTenNhaCungCap())) {
@@ -115,7 +116,7 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<NhapHangDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maNhapHang", "idNhaCungCap", "ngayNhap", "nguoiTao", "ngayTao",
-                            "nguoiThayDoi", "ngayThayDoi", "tenNhaCungCap", "idCuaHang", "tenCuaHang")
+                            "nguoiThayDoi", "ngayThayDoi", "tenNhaCungCap", "idCuaHang", "tenCuaHang","idPhuongThuc", "tenPhuongThuc")
                     , objects, NhapHangDTO.class);
             for (NhapHangDTO danhMucDTO : danhMucDTOS) {
                 NhapHangChiTietDTO nhapHangChiTietDTO = new NhapHangChiTietDTO();
@@ -135,6 +136,9 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
         NhapHang nhapHang = nhapHangMapper.toNhapHangENTITY(nhapHangDTO);
         nhapHang.setNhaCungCap(new NhaCungCap(nhapHangDTO.getIdNhaCungCap()));
         nhapHang.setCuaHang(new CuaHang(nhapHangDTO.getIdCuaHang()));
+        PhuongThucThanhToan phuongThucThanhToan = new PhuongThucThanhToan();
+        phuongThucThanhToan.setId(nhapHangDTO.getIdPhuongThuc());
+        nhapHang.setThanhToan(phuongThucThanhToan);
         NhapHang newNH = nhapHangRepo.save(nhapHang);
         List<NhapHangChiTietDTO> ls = nhapHangDTO.getNhapHangChiTietDTOList();
         for (NhapHangChiTietDTO l : ls) {

@@ -11,7 +11,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.io.FileOutputStream;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -68,7 +67,7 @@ public class SanPhamReportImpl implements SanPhamReport {
 
 
             List<SanPhamDTO> sanPhamDTOSNhapHangTon = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maSanPham", "tenSanPham", "giaBanNiemYet", "giaNhapNiemYet", "soLuong",
-                            "gia", "idCuaHang", "tenCuaHang", "idDanhMuc", "tenDanhMuc","donVi")
+                            "gia", "idCuaHang", "tenCuaHang", "idDanhMuc", "tenDanhMuc", "donVi")
                     , objects, SanPhamDTO.class);
 
             StringBuilder queryStr1 = new StringBuilder();
@@ -102,7 +101,7 @@ public class SanPhamReportImpl implements SanPhamReport {
             List<Object[]> objects1 = query1.getResultList();
 
             List<SanPhamDTO> sanPhamDTOSXuatHangTon = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maSanPham", "tenSanPham", "giaBanNiemYet", "giaNhapNiemYet", "soLuong",
-                            "gia", "idCuaHang", "tenCuaHang", "idDanhMuc", "tenDanhMuc","donVi")
+                            "gia", "idCuaHang", "tenCuaHang", "idDanhMuc", "tenDanhMuc", "donVi")
                     , objects1, SanPhamDTO.class);
 
             for (SanPhamDTO phamDTO : sanPhamDTOSNhapHangTon) {
@@ -113,7 +112,7 @@ public class SanPhamReportImpl implements SanPhamReport {
                 phamDTO.setSoLuongTon(phamDTO.getSoLuongNhap());
                 if (!sanPhamDTOSXuatHangTon.isEmpty()) {
                     for (SanPhamDTO dto : sanPhamDTOSXuatHangTon) {
-                        if (phamDTO.getId().equals(dto.getId())) {
+                        if (phamDTO.getId().equals(dto.getId()) && phamDTO.getIdCuaHang().equals(dto.getIdCuaHang())) {
                             phamDTO.setSoLuongBan(dto.getSoLuong());
                             phamDTO.setSoLuongTon(DataUtil.safeToDouble(phamDTO.getSoLuongNhap()) - DataUtil.safeToDouble(dto.getSoLuong()));
                         }
@@ -165,7 +164,7 @@ public class SanPhamReportImpl implements SanPhamReport {
 
 
             List<SanPhamDTO> sanPhamDTOSNhapHangTon = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maSanPham", "tenSanPham", "giaBanNiemYet",
-                            "giaNhapNiemYet", "idDanhMuc", "tenDanhMuc", "soLuongNhap", "giaNhap", "tenCuaHang", "totalChiPhi","donVi")
+                            "giaNhapNiemYet", "idDanhMuc", "tenDanhMuc", "soLuongNhap", "giaNhap", "tenCuaHang", "totalChiPhi", "donVi")
                     , objects, SanPhamDTO.class);
 
             return sanPhamDTOSNhapHangTon;
@@ -211,7 +210,7 @@ public class SanPhamReportImpl implements SanPhamReport {
 
 
             List<SanPhamDTO> sanPhamDTOSNhapHangTon = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maSanPham", "tenSanPham", "giaBanNiemYet",
-                            "giaNhapNiemYet", "idDanhMuc", "tenDanhMuc", "soLuongBan", "giaBan", "tenCuaHang", "totalDoanhThu","donVi")
+                            "giaNhapNiemYet", "idDanhMuc", "tenDanhMuc", "soLuongBan", "giaBan", "tenCuaHang", "totalDoanhThu", "donVi")
                     , objects, SanPhamDTO.class);
 
             return sanPhamDTOSNhapHangTon;
@@ -667,6 +666,7 @@ public class SanPhamReportImpl implements SanPhamReport {
             throw e;
         }
     }
+
     public List<SanPhamDTO> getSanPhamNhap(SanPhamDTO sanPhamDTO) throws Exception {
         try {
             StringBuilder queryStr = new StringBuilder();
@@ -709,7 +709,7 @@ public class SanPhamReportImpl implements SanPhamReport {
                     "    nhap_hang n " +
                     " WHERE " +
                     "    n.id = nd.id_nhap_hang " +
-                    "        AND s.id = nd.id_san_pham " );
+                    "        AND s.id = nd.id_san_pham ");
 
             if (!DataUtil.isNullOrEmpty(sanPhamDTO.getTenSanPham())) {
                 queryStr.append(" and lower(s.ten_san_pham) like :ten ");
@@ -739,7 +739,7 @@ public class SanPhamReportImpl implements SanPhamReport {
 
 
             List<SanPhamDTO> sanPhamDTOSNhapHangTon = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maSanPham", "tenSanPham", "giaBanNiemYet",
-                            "giaNhapNiemYet", "idDanhMuc", "tenDanhMuc", "soLuongNhap", "giaNhap", "tenCuaHang", "totalChiPhi","idNhaCungCap","tenNhaCungCap","ngayHetHan","ngayNhap","ngaySanXuat","donVi")
+                            "giaNhapNiemYet", "idDanhMuc", "tenDanhMuc", "soLuongNhap", "giaNhap", "tenCuaHang", "totalChiPhi", "idNhaCungCap", "tenNhaCungCap", "ngayHetHan", "ngayNhap", "ngaySanXuat", "donVi")
                     , objects, SanPhamDTO.class);
 
             return sanPhamDTOSNhapHangTon;
@@ -791,7 +791,7 @@ public class SanPhamReportImpl implements SanPhamReport {
                     "    xuat_hang n " +
                     "WHERE " +
                     "    n.id = nd.id_xuat_hang " +
-                    "        AND s.id = nd.id_san_pham " );
+                    "        AND s.id = nd.id_san_pham ");
 
             if (!DataUtil.isNullOrEmpty(sanPhamDTO.getTenSanPham())) {
                 queryStr.append(" and lower(s.ten_san_pham) like :ten ");
@@ -818,7 +818,7 @@ public class SanPhamReportImpl implements SanPhamReport {
             List<Object[]> objects = query.getResultList();
             List<SanPhamDTO> sanPhamDTOSNhapHangTon = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maSanPham", "tenSanPham", "giaBanNiemYet",
                             "giaNhapNiemYet", "idDanhMuc", "tenDanhMuc", "soLuongBan", "giaBan", "tenCuaHang", "totalDoanhThu",
-                            "idKhachHang","tenKhachHang","ngayHetHan","ngayXuat","ngaySanXuat","donVi")
+                            "idKhachHang", "tenKhachHang", "ngayHetHan", "ngayXuat", "ngaySanXuat", "donVi")
                     , objects, SanPhamDTO.class);
 
             return sanPhamDTOSNhapHangTon;

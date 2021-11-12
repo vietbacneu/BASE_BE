@@ -94,7 +94,7 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
             from.append(" from nhap_hang s, nha_cung_cap n where s.id_nha_cung_cap = n.id  ");
             if (!DataUtil.isNullOrEmpty(command.getTenNhaCungCap())) {
                 from.append(" and lower(n.ten_nha_cung_cap) like :ten ");
-                params.put("ten", '%' + command.getMaNhapHang().toLowerCase(Locale.ROOT) + '%');
+                params.put("ten", '%' + command.getTenNhaCungCap().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getMaNhapHang())) {
                 from.append(" and lower(s.ma_nhap_hang) like :ma ");

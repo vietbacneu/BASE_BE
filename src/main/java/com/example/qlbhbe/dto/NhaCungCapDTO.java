@@ -31,6 +31,8 @@ public class NhaCungCapDTO {
 
     private String sdt;
 
+    private Long isCount;
+
     public NhaCungCapDTO() {
     }
 
@@ -46,6 +48,14 @@ public class NhaCungCapDTO {
         this.maSoThue = maSoThue;
         this.diaChi = diaChi;
         this.sdt = sdt;
+    }
+
+    public Long getIsCount() {
+        return isCount;
+    }
+
+    public void setIsCount(Long isCount) {
+        this.isCount = isCount;
     }
 
     public Long getId() {

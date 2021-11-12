@@ -92,8 +92,10 @@ public class KhachHangServiceImpl extends AbstractService<KhachHang, Long> imple
                 query.setParameter(p.getKey(), p.getValue());
                 countQuery.setParameter(p.getKey(), p.getValue());
             }
-            query.setFirstResult((int) pageable.getOffset());
-            query.setMaxResults(pageable.getPageSize());
+            if (!DataUtil.isNullOrEmpty(command.getIsCount()) && command.getIsCount() == 1) {
+                query.setFirstResult((int) pageable.getOffset());
+                query.setMaxResults(pageable.getPageSize());
+            }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<KhachHangDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maKhachHang", "tenKhachHang",

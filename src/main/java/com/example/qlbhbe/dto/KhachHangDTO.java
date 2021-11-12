@@ -34,6 +34,8 @@ public class KhachHangDTO {
 
     private String nguoiThayDoi = "admin";
 
+    private Long isCount;
+
     public KhachHangDTO() {
     }
 
@@ -50,6 +52,14 @@ public class KhachHangDTO {
         this.nguoiTao = nguoiTao;
         this.ngayThayDoi = ngayThayDoi;
         this.nguoiThayDoi = nguoiThayDoi;
+    }
+
+    public Long getIsCount() {
+        return isCount;
+    }
+
+    public void setIsCount(Long isCount) {
+        this.isCount = isCount;
     }
 
     public Long getId() {

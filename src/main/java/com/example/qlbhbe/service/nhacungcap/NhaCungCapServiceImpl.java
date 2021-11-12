@@ -93,8 +93,10 @@ public class NhaCungCapServiceImpl extends AbstractService<NhaCungCap, Long> imp
                 query.setParameter(p.getKey(), p.getValue());
                 countQuery.setParameter(p.getKey(), p.getValue());
             }
-            query.setFirstResult((int) pageable.getOffset());
-            query.setMaxResults(pageable.getPageSize());
+            if (!DataUtil.isNullOrEmpty(command.getIsCount()) && command.getIsCount() == 1) {
+                query.setFirstResult((int) pageable.getOffset());
+                query.setMaxResults(pageable.getPageSize());
+            }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<NhaCungCapDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maNhaCungCap", "tenNhaCungCap", "maSoThue",

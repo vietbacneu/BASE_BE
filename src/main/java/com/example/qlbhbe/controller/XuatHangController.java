@@ -37,7 +37,7 @@ public class XuatHangController {
     }
 
     @PostMapping("/searchXuatMax")
-    public List<NhapHangDTO> searchXuatMax(@RequestBody XuatHangDTO command) throws Exception {
+    public List<XuatHangDTO> searchXuatMax(@RequestBody XuatHangDTO command) throws Exception {
         return xuatHangService.searchXuatMax(command);
     }
 

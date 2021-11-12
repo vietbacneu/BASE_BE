@@ -62,7 +62,7 @@ public class PhuongThucThanhToanServiceImpl extends AbstractService<PhuongThucTh
                     "       ngay_thay_doi, " +
                     "       nguoi_thay_doi ");
             count.append("select count(*) ");
-            from.append(" from danh_muc where 1 = 1 ");
+            from.append(" from phuong_thuc_thanh_toan where 1 = 1 ");
             if (!DataUtil.isNullOrEmpty(danhMucDTO.getTenPhuongThuc())) {
                 from.append(" and lower(ten_phuong_thuc) like :ten ");
                 params.put("ten", '%' + danhMucDTO.getTenPhuongThuc().toLowerCase(Locale.ROOT) + '%' );

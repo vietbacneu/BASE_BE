@@ -16,6 +16,8 @@ public class KyLuatDTO {
 
     private String mieuTa;
 
+    private Long isCount;
+
     public KyLuatDTO() {
     }
 
@@ -24,6 +26,14 @@ public class KyLuatDTO {
         this.tenLoi = tenLoi;
         this.mucPhat = mucPhat;
         this.mieuTa = mieuTa;
+    }
+
+    public Long getIsCount() {
+        return isCount;
+    }
+
+    public void setIsCount(Long isCount) {
+        this.isCount = isCount;
     }
 
     public Long getId() {

@@ -19,23 +19,23 @@ public class ChamCongDetailsDTO {
 
     private Long idNhanVienId;
 
-    private String idNhanVienHo;
+    private String hoNhanVien;
 
-    private String idNhanVienTen;
+    private String idTenNhanVien;
 
-    private String idNhanVienSdt;
+    private String idSdtNhanVien;
 
-    private String idNhanVienEmail;
+    private String idEmailNhanVien;
 
-    private String idNhanVienGioiTinh;
+    private String idGioiTinhNhanVien;
 
-    private String idNhanVienDiaChi;
+    private String idDiaChiNhanVien;
 
-    private LocalDateTime idNhanVienNgaySinh;
+    private LocalDateTime idNgaySinhNhanVien;
 
-    private LocalDateTime idNhanVienNgayBatDau;
+    private LocalDateTime idNgayBatDauNhanVien;
 
-    private LocalDateTime idNhanVienNgayKetThuc;
+    private LocalDateTime idNgayKetThucNhanVien;
 
     private Long idPhongBanId;
 
@@ -48,21 +48,21 @@ public class ChamCongDetailsDTO {
     public ChamCongDetailsDTO() {
     }
 
-    public ChamCongDetailsDTO(Long id, Double soGioLam, LocalDateTime ngayLam, String mieuTa, Long idNhanVienId, String idNhanVienHo, String idNhanVienTen, String idNhanVienSdt, String idNhanVienEmail, String idNhanVienGioiTinh, String idNhanVienDiaChi, LocalDateTime idNhanVienNgaySinh, LocalDateTime idNhanVienNgayBatDau, LocalDateTime idNhanVienNgayKetThuc, Long idPhongBanId, String idPhongBanTen, String idPhongBanThongTin, String idPhongBanMieuTa) {
+    public ChamCongDetailsDTO(Long id, Double soGioLam, LocalDateTime ngayLam, String mieuTa, Long idNhanVienId, String hoNhanVien, String idTenNhanVien, String idSdtNhanVien, String idEmailNhanVien, String idGioiTinhNhanVien, String idDiaChiNhanVien, LocalDateTime idNgaySinhNhanVien, LocalDateTime idNgayBatDauNhanVien, LocalDateTime idNgayKetThucNhanVien, Long idPhongBanId, String idPhongBanTen, String idPhongBanThongTin, String idPhongBanMieuTa) {
         this.id = id;
         this.soGioLam = soGioLam;
         this.ngayLam = ngayLam;
         this.mieuTa = mieuTa;
         this.idNhanVienId = idNhanVienId;
-        this.idNhanVienHo = idNhanVienHo;
-        this.idNhanVienTen = idNhanVienTen;
-        this.idNhanVienSdt = idNhanVienSdt;
-        this.idNhanVienEmail = idNhanVienEmail;
-        this.idNhanVienGioiTinh = idNhanVienGioiTinh;
-        this.idNhanVienDiaChi = idNhanVienDiaChi;
-        this.idNhanVienNgaySinh = idNhanVienNgaySinh;
-        this.idNhanVienNgayBatDau = idNhanVienNgayBatDau;
-        this.idNhanVienNgayKetThuc = idNhanVienNgayKetThuc;
+        this.hoNhanVien = hoNhanVien;
+        this.idTenNhanVien = idTenNhanVien;
+        this.idSdtNhanVien = idSdtNhanVien;
+        this.idEmailNhanVien = idEmailNhanVien;
+        this.idGioiTinhNhanVien = idGioiTinhNhanVien;
+        this.idDiaChiNhanVien = idDiaChiNhanVien;
+        this.idNgaySinhNhanVien = idNgaySinhNhanVien;
+        this.idNgayBatDauNhanVien = idNgayBatDauNhanVien;
+        this.idNgayKetThucNhanVien = idNgayKetThucNhanVien;
         this.idPhongBanId = idPhongBanId;
         this.idPhongBanTen = idPhongBanTen;
         this.idPhongBanThongTin = idPhongBanThongTin;
@@ -109,76 +109,76 @@ public class ChamCongDetailsDTO {
         this.idNhanVienId = idNhanVienId;
     }
 
-    public String getIdNhanVienHo() {
-        return this.idNhanVienHo;
+    public String getHoNhanVien() {
+        return this.hoNhanVien;
     }
 
-    public void setIdNhanVienHo(String idNhanVienHo) {
-        this.idNhanVienHo = idNhanVienHo;
+    public void setHoNhanVien(String hoNhanVien) {
+        this.hoNhanVien = hoNhanVien;
     }
 
-    public String getIdNhanVienTen() {
-        return this.idNhanVienTen;
+    public String getIdTenNhanVien() {
+        return this.idTenNhanVien;
     }
 
-    public void setIdNhanVienTen(String idNhanVienTen) {
-        this.idNhanVienTen = idNhanVienTen;
+    public void setIdTenNhanVien(String idTenNhanVien) {
+        this.idTenNhanVien = idTenNhanVien;
     }
 
-    public String getIdNhanVienSdt() {
-        return this.idNhanVienSdt;
+    public String getIdSdtNhanVien() {
+        return this.idSdtNhanVien;
     }
 
-    public void setIdNhanVienSdt(String idNhanVienSdt) {
-        this.idNhanVienSdt = idNhanVienSdt;
+    public void setIdSdtNhanVien(String idSdtNhanVien) {
+        this.idSdtNhanVien = idSdtNhanVien;
     }
 
-    public String getIdNhanVienEmail() {
-        return this.idNhanVienEmail;
+    public String getIdEmailNhanVien() {
+        return this.idEmailNhanVien;
     }
 
-    public void setIdNhanVienEmail(String idNhanVienEmail) {
-        this.idNhanVienEmail = idNhanVienEmail;
+    public void setIdEmailNhanVien(String idEmailNhanVien) {
+        this.idEmailNhanVien = idEmailNhanVien;
     }
 
-    public String getIdNhanVienGioiTinh() {
-        return this.idNhanVienGioiTinh;
+    public String getIdGioiTinhNhanVien() {
+        return this.idGioiTinhNhanVien;
     }
 
-    public void setIdNhanVienGioiTinh(String idNhanVienGioiTinh) {
-        this.idNhanVienGioiTinh = idNhanVienGioiTinh;
+    public void setIdGioiTinhNhanVien(String idGioiTinhNhanVien) {
+        this.idGioiTinhNhanVien = idGioiTinhNhanVien;
     }
 
-    public String getIdNhanVienDiaChi() {
-        return this.idNhanVienDiaChi;
+    public String getIdDiaChiNhanVien() {
+        return this.idDiaChiNhanVien;
     }
 
-    public void setIdNhanVienDiaChi(String idNhanVienDiaChi) {
-        this.idNhanVienDiaChi = idNhanVienDiaChi;
+    public void setIdDiaChiNhanVien(String idDiaChiNhanVien) {
+        this.idDiaChiNhanVien = idDiaChiNhanVien;
     }
 
-    public LocalDateTime getIdNhanVienNgaySinh() {
-        return this.idNhanVienNgaySinh;
+    public LocalDateTime getIdNgaySinhNhanVien() {
+        return this.idNgaySinhNhanVien;
     }
 
-    public void setIdNhanVienNgaySinh(LocalDateTime idNhanVienNgaySinh) {
-        this.idNhanVienNgaySinh = idNhanVienNgaySinh;
+    public void setIdNgaySinhNhanVien(LocalDateTime idNgaySinhNhanVien) {
+        this.idNgaySinhNhanVien = idNgaySinhNhanVien;
     }
 
-    public LocalDateTime getIdNhanVienNgayBatDau() {
-        return this.idNhanVienNgayBatDau;
+    public LocalDateTime getIdNgayBatDauNhanVien() {
+        return this.idNgayBatDauNhanVien;
     }
 
-    public void setIdNhanVienNgayBatDau(LocalDateTime idNhanVienNgayBatDau) {
-        this.idNhanVienNgayBatDau = idNhanVienNgayBatDau;
+    public void setIdNgayBatDauNhanVien(LocalDateTime idNgayBatDauNhanVien) {
+        this.idNgayBatDauNhanVien = idNgayBatDauNhanVien;
     }
 
-    public LocalDateTime getIdNhanVienNgayKetThuc() {
-        return this.idNhanVienNgayKetThuc;
+    public LocalDateTime getIdNgayKetThucNhanVien() {
+        return this.idNgayKetThucNhanVien;
     }
 
-    public void setIdNhanVienNgayKetThuc(LocalDateTime idNhanVienNgayKetThuc) {
-        this.idNhanVienNgayKetThuc = idNhanVienNgayKetThuc;
+    public void setIdNgayKetThucNhanVien(LocalDateTime idNgayKetThucNhanVien) {
+        this.idNgayKetThucNhanVien = idNgayKetThucNhanVien;
     }
 
     public Long getIdPhongBanId() {

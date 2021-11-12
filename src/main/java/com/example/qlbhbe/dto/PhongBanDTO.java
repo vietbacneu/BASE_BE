@@ -16,6 +16,8 @@ public class PhongBanDTO {
 
     private String mieuTa;
 
+    private Long isCount;
+
     public PhongBanDTO() {
     }
 
@@ -24,6 +26,14 @@ public class PhongBanDTO {
         this.ten = ten;
         this.thongTin = thongTin;
         this.mieuTa = mieuTa;
+    }
+
+    public Long getIsCount() {
+        return isCount;
+    }
+
+    public void setIsCount(Long isCount) {
+        this.isCount = isCount;
     }
 
     public Long getId() {

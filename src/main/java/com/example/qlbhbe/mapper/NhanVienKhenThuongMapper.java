@@ -20,20 +20,7 @@ public interface NhanVienKhenThuongMapper {
         return nhanVienKhenThuong;
     }
 
-    @Mapping(source = "nhanVien.id", target = "nhanVienId")
-    @Mapping(source = "nhanVien.ho", target = "nhanVienHo")
-    @Mapping(source = "nhanVien.ten", target = "nhanVienTen")
-    @Mapping(source = "nhanVien.sdt", target = "nhanVienSdt")
-    @Mapping(source = "nhanVien.email", target = "nhanVienEmail")
-    @Mapping(source = "nhanVien.gioiTinh", target = "nhanVienGioiTinh")
-    @Mapping(source = "nhanVien.diaChi", target = "nhanVienDiaChi")
-    @Mapping(source = "nhanVien.ngaySinh", target = "nhanVienNgaySinh")
-    @Mapping(source = "nhanVien.ngayBatDau", target = "nhanVienNgayBatDau")
-    @Mapping(source = "nhanVien.ngayKetThuc", target = "nhanVienNgayKetThuc")
-    @Mapping(source = "khenThuong.id", target = "khenThuongId")
-    @Mapping(source = "khenThuong.ten", target = "khenThuongTen")
-    @Mapping(source = "khenThuong.mucThuong", target = "khenThuongMucThuong")
-    @Mapping(source = "khenThuong.mieuta", target = "khenThuongMieuta")
+
     NhanVienKhenThuongDTO toNhanVienKhenThuongDTO(NhanVienKhenThuong nhanVienKhenThuong);
 
     NhanVienKhenThuong toNhanVienKhenThuongEntity(NhanVienKhenThuongDTO nhanVienKhenThuong);

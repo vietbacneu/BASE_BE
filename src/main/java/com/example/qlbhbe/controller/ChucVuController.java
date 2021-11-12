@@ -5,6 +5,7 @@ import com.example.qlbhbe.controller.request.UpdateChucVuRequest;
 import com.example.qlbhbe.controller.request.searchparams.ChucVuSearchParams;
 import com.example.qlbhbe.controller.response.CreatedIdResponse;
 import com.example.qlbhbe.controller.response.PaginationDataResponse;
+import com.example.qlbhbe.dto.BaoHiemDTO;
 import com.example.qlbhbe.dto.ChucVuDTO;
 import com.example.qlbhbe.entity.ChucVu;
 import com.example.qlbhbe.mapper.ChucVuMapper;
@@ -13,6 +14,7 @@ import com.example.qlbhbe.util.Constants;
 import com.example.qlbhbe.util.Utils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -47,6 +49,10 @@ public class ChucVuController {
         return new CreatedIdResponse(chucVu.getId());
     }
 
+    @PostMapping("/search")
+    public Page<ChucVuDTO> search(@RequestBody(required = false) ChucVuDTO command, @PageableDefault Pageable pageable) throws Exception {
+        return chucVuService.search(command, pageable);
+    }
 
     @PutMapping("/update")
     public void update( @Valid @RequestBody ChucVuDTO command) {

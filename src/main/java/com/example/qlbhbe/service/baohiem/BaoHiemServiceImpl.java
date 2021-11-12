@@ -54,7 +54,6 @@ public class BaoHiemServiceImpl extends AbstractService<BaoHiem, Long> implement
             queryStr.append("select id, " +
                     "       ma_so, " +
                     "       ten, " +
-                    "       muc_dong, " +
                     "       thong_tin ");
             count.append("select count(*) ");
             from.append(" from bao_hiem where 1 = 1 ");
@@ -81,7 +80,7 @@ public class BaoHiemServiceImpl extends AbstractService<BaoHiem, Long> implement
             }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
-            List<BaoHiemDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maSo", "ten", "mucDong", "thongTin")
+            List<BaoHiemDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maSo", "ten", "thongTin")
                     , objects, BaoHiemDTO.class);
 
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));

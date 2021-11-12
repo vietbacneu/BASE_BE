@@ -16,6 +16,8 @@ public class ChucVuDTO {
 
     private Double heSoLuong;
 
+    private Long isCount;
+
     public ChucVuDTO() {
     }
 
@@ -24,6 +26,14 @@ public class ChucVuDTO {
         this.tenChucVu = tenChucVu;
         this.mieuTa = mieuTa;
         this.heSoLuong = heSoLuong;
+    }
+
+    public Long getIsCount() {
+        return isCount;
+    }
+
+    public void setIsCount(Long isCount) {
+        this.isCount = isCount;
     }
 
     public Long getId() {

@@ -1,11 +1,15 @@
 package com.example.qlbhbe.controller;
 
 import com.example.qlbhbe.controller.response.CreatedIdResponse;
+import com.example.qlbhbe.dto.KhenThuongDTO;
 import com.example.qlbhbe.dto.KyLuatDTO;
 import com.example.qlbhbe.entity.KyLuat;
 import com.example.qlbhbe.mapper.KyLuatMapper;
 import com.example.qlbhbe.service.kyluat.KyLuatService;
 import com.example.qlbhbe.util.Constants;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +31,10 @@ public class KyLuatController {
         KyLuat kyLuat = KyLuatMapper.INSTANCE.create(command);
         kyLuatService.save(kyLuat);
         return new CreatedIdResponse(kyLuat.getId());
+    }
+    @PostMapping("/search")
+    public Page<KyLuatDTO> search(@RequestBody(required = false) KyLuatDTO command, @PageableDefault Pageable pageable) throws Exception {
+        return kyLuatService.search(command, pageable);
     }
 
     @PutMapping("{id}")

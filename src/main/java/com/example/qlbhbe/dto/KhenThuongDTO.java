@@ -16,6 +16,8 @@ public class KhenThuongDTO {
 
     private String mieuta;
 
+    private Long isCount;
+
     public KhenThuongDTO() {
     }
 
@@ -24,6 +26,14 @@ public class KhenThuongDTO {
         this.ten = ten;
         this.mucThuong = mucThuong;
         this.mieuta = mieuta;
+    }
+
+    public Long getIsCount() {
+        return isCount;
+    }
+
+    public void setIsCount(Long isCount) {
+        this.isCount = isCount;
     }
 
     public Long getId() {

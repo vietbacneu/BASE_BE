@@ -31,9 +31,6 @@ public class BaoHiem implements Serializable {
     @Column(name = "ten")
     private String ten;
 
-    @Column(name = "muc_dong")
-    private Integer mucDong;
-
     @Column(name = "thong_tin")
     private String thongTin;
 
@@ -59,14 +56,6 @@ public class BaoHiem implements Serializable {
 
     public void setTen(String ten) {
         this.ten = ten;
-    }
-
-    public Integer getMucDong() {
-        return this.mucDong;
-    }
-
-    public void setMucDong(Integer mucDong) {
-        this.mucDong = mucDong;
     }
 
     public String getThongTin() {

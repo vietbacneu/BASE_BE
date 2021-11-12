@@ -15,25 +15,25 @@ public class NhanVienKhenThuongDTO {
 
     private String mieuta;
 
-    private Long nhanVienId;
+    private Long idNhanVien;
 
-    private String nhanVienHo;
+    private String  hoNhanVien;
 
-    private String nhanVienTen;
+    private String tenNhanVien;
 
-    private String nhanVienSdt;
+    private String sdtNhanVien;
 
-    private String nhanVienEmail;
+    private String emailNhanVien;
 
-    private String nhanVienGioiTinh;
+    private String gioiTinhNhanVien;
 
-    private String nhanVienDiaChi;
+    private String diaChiNhanVien;
 
-    private LocalDateTime nhanVienNgaySinh;
+    private LocalDateTime ngaySinhNhanVien;
 
-    private LocalDateTime nhanVienNgayBatDau;
+    private LocalDateTime ngayBatDauNhanVien;
 
-    private LocalDateTime nhanVienNgayKetThuc;
+    private LocalDateTime ngayKetThucNhanVien;
 
     private Long khenThuongId;
 
@@ -46,20 +46,20 @@ public class NhanVienKhenThuongDTO {
     public NhanVienKhenThuongDTO() {
     }
 
-    public NhanVienKhenThuongDTO(Long id, LocalDateTime ngay, String mieuta, Long nhanVienId, String nhanVienHo, String nhanVienTen, String nhanVienSdt, String nhanVienEmail, String nhanVienGioiTinh, String nhanVienDiaChi, LocalDateTime nhanVienNgaySinh, LocalDateTime nhanVienNgayBatDau, LocalDateTime nhanVienNgayKetThuc, Long khenThuongId, String khenThuongTen, Double khenThuongMucThuong, String khenThuongMieuta) {
+    public NhanVienKhenThuongDTO(Long id, LocalDateTime ngay, String mieuta, Long idNhanVien, String  hoNhanVien, String tenNhanVien, String sdtNhanVien, String emailNhanVien, String gioiTinhNhanVien, String diaChiNhanVien, LocalDateTime ngaySinhNhanVien, LocalDateTime ngayBatDauNhanVien, LocalDateTime ngayKetThucNhanVien, Long khenThuongId, String khenThuongTen, Double khenThuongMucThuong, String khenThuongMieuta) {
         this.id = id;
         this.ngay = ngay;
         this.mieuta = mieuta;
-        this.nhanVienId = nhanVienId;
-        this.nhanVienHo = nhanVienHo;
-        this.nhanVienTen = nhanVienTen;
-        this.nhanVienSdt = nhanVienSdt;
-        this.nhanVienEmail = nhanVienEmail;
-        this.nhanVienGioiTinh = nhanVienGioiTinh;
-        this.nhanVienDiaChi = nhanVienDiaChi;
-        this.nhanVienNgaySinh = nhanVienNgaySinh;
-        this.nhanVienNgayBatDau = nhanVienNgayBatDau;
-        this.nhanVienNgayKetThuc = nhanVienNgayKetThuc;
+        this.idNhanVien = idNhanVien;
+        this.hoNhanVien =  hoNhanVien;
+        this.tenNhanVien = tenNhanVien;
+        this.sdtNhanVien = sdtNhanVien;
+        this.emailNhanVien = emailNhanVien;
+        this.gioiTinhNhanVien = gioiTinhNhanVien;
+        this.diaChiNhanVien = diaChiNhanVien;
+        this.ngaySinhNhanVien = ngaySinhNhanVien;
+        this.ngayBatDauNhanVien = ngayBatDauNhanVien;
+        this.ngayKetThucNhanVien = ngayKetThucNhanVien;
         this.khenThuongId = khenThuongId;
         this.khenThuongTen = khenThuongTen;
         this.khenThuongMucThuong = khenThuongMucThuong;
@@ -91,83 +91,83 @@ public class NhanVienKhenThuongDTO {
     }
 
     public Long getNhanVienId() {
-        return this.nhanVienId;
+        return this.idNhanVien;
     }
 
-    public void setNhanVienId(Long nhanVienId) {
-        this.nhanVienId = nhanVienId;
+    public void setNhanVienId(Long idNhanVien) {
+        this.idNhanVien = idNhanVien;
     }
 
-    public String getNhanVienHo() {
-        return this.nhanVienHo;
+    public String getHoNhanVien() {
+        return this.hoNhanVien;
     }
 
-    public void setNhanVienHo(String nhanVienHo) {
-        this.nhanVienHo = nhanVienHo;
+    public void setHoNhanVien(String  hoNhanVien) {
+        this.hoNhanVien =  hoNhanVien;
     }
 
-    public String getNhanVienTen() {
-        return this.nhanVienTen;
+    public String getTenNhanVien() {
+        return this.tenNhanVien;
     }
 
-    public void setNhanVienTen(String nhanVienTen) {
-        this.nhanVienTen = nhanVienTen;
+    public void setTenNhanVien(String tenNhanVien) {
+        this.tenNhanVien = tenNhanVien;
     }
 
-    public String getNhanVienSdt() {
-        return this.nhanVienSdt;
+    public String getSdtNhanVien() {
+        return this.sdtNhanVien;
     }
 
-    public void setNhanVienSdt(String nhanVienSdt) {
-        this.nhanVienSdt = nhanVienSdt;
+    public void setSdtNhanVien(String sdtNhanVien) {
+        this.sdtNhanVien = sdtNhanVien;
     }
 
-    public String getNhanVienEmail() {
-        return this.nhanVienEmail;
+    public String getEmailNhanVien() {
+        return this.emailNhanVien;
     }
 
-    public void setNhanVienEmail(String nhanVienEmail) {
-        this.nhanVienEmail = nhanVienEmail;
+    public void setEmailNhanVien(String emailNhanVien) {
+        this.emailNhanVien = emailNhanVien;
     }
 
-    public String getNhanVienGioiTinh() {
-        return this.nhanVienGioiTinh;
+    public String getGioiTinhNhanVien() {
+        return this.gioiTinhNhanVien;
     }
 
-    public void setNhanVienGioiTinh(String nhanVienGioiTinh) {
-        this.nhanVienGioiTinh = nhanVienGioiTinh;
+    public void setGioiTinhNhanVien(String gioiTinhNhanVien) {
+        this.gioiTinhNhanVien = gioiTinhNhanVien;
     }
 
-    public String getNhanVienDiaChi() {
-        return this.nhanVienDiaChi;
+    public String getDiaChiNhanVien() {
+        return this.diaChiNhanVien;
     }
 
-    public void setNhanVienDiaChi(String nhanVienDiaChi) {
-        this.nhanVienDiaChi = nhanVienDiaChi;
+    public void setDiaChiNhanVien(String diaChiNhanVien) {
+        this.diaChiNhanVien = diaChiNhanVien;
     }
 
-    public LocalDateTime getNhanVienNgaySinh() {
-        return this.nhanVienNgaySinh;
+    public LocalDateTime getNgaySinhNhanVien() {
+        return this.ngaySinhNhanVien;
     }
 
-    public void setNhanVienNgaySinh(LocalDateTime nhanVienNgaySinh) {
-        this.nhanVienNgaySinh = nhanVienNgaySinh;
+    public void setNgaySinhNhanVien(LocalDateTime ngaySinhNhanVien) {
+        this.ngaySinhNhanVien = ngaySinhNhanVien;
     }
 
-    public LocalDateTime getNhanVienNgayBatDau() {
-        return this.nhanVienNgayBatDau;
+    public LocalDateTime getNgayBatDauNhanVien() {
+        return this.ngayBatDauNhanVien;
     }
 
-    public void setNhanVienNgayBatDau(LocalDateTime nhanVienNgayBatDau) {
-        this.nhanVienNgayBatDau = nhanVienNgayBatDau;
+    public void setNgayBatDauNhanVien(LocalDateTime ngayBatDauNhanVien) {
+        this.ngayBatDauNhanVien = ngayBatDauNhanVien;
     }
 
-    public LocalDateTime getNhanVienNgayKetThuc() {
-        return this.nhanVienNgayKetThuc;
+    public LocalDateTime getNgayKetThucNhanVien() {
+        return this.ngayKetThucNhanVien;
     }
 
-    public void setNhanVienNgayKetThuc(LocalDateTime nhanVienNgayKetThuc) {
-        this.nhanVienNgayKetThuc = nhanVienNgayKetThuc;
+    public void setNgayKetThucNhanVien(LocalDateTime ngayKetThucNhanVien) {
+        this.ngayKetThucNhanVien = ngayKetThucNhanVien;
     }
 
     public Long getKhenThuongId() {

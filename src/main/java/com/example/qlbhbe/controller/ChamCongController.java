@@ -1,0 +1,43 @@
+package com.example.qlbhbe.controller;
+
+import com.example.qlbhbe.controller.response.CreatedIdResponse;
+import com.example.qlbhbe.dto.ChamCongDTO;
+import com.example.qlbhbe.entity.ChamCong;
+import com.example.qlbhbe.mapper.ChamCongMapper;
+import com.example.qlbhbe.service.chamcong.ChamCongService;
+import com.example.qlbhbe.util.Constants;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+
+@RestController
+@RequestMapping(Constants.API + "/chamCongs")
+@Validated
+public class ChamCongController {
+
+    private final ChamCongService chamCongService;
+
+    public ChamCongController(ChamCongService chamCongService) {
+        this.chamCongService = chamCongService;
+    }
+
+    @PostMapping
+    public CreatedIdResponse create(@Valid @RequestBody ChamCongDTO command) {
+        ChamCong chamCong = ChamCongMapper.INSTANCE.create(command);
+        chamCongService.save(chamCong);
+        return new CreatedIdResponse(chamCong.getId());
+    }
+
+    @PutMapping("/update")
+    public void update(@Valid @RequestBody ChamCongDTO command) {
+        chamCongService.update(command.getId(), command);
+    }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable(name = "id") long id) {
+        chamCongService.deleteById(id);
+    }
+
+}

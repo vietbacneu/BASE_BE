@@ -94,6 +94,10 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
                 from.append(" and lower(s.ma_nhap_hang) like :ma ");
                 params.put("ma", '%' + command.getMaNhapHang().toLowerCase(Locale.ROOT) + '%');
             }
+            if (!DataUtil.isNullOrEmpty(command.getIdCuaHang())) {
+                from.append(" and s.id_cua_hang = :ch ");
+                params.put("ch", command.getIdCuaHang());
+            }
             if (!DataUtil.isNullOrEmpty(command.getStartDate())) {
                 from.append(" and s.ngay_nhap >= to_date(:startDate,'dd/MM/yyyy') ");
                 params.put("startDate", command.getStartDate());

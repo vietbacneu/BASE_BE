@@ -98,6 +98,10 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
                 from.append(" and lower(s.ma_xuat_hang) like :ma ");
                 params.put("ma", '%' + command.getMaXuatHang().toLowerCase(Locale.ROOT) + '%');
             }
+            if (!DataUtil.isNullOrEmpty(command.getIdCuaHang())) {
+                from.append(" and s.id_cua_hang = :ch ");
+                params.put("ch", command.getIdCuaHang());
+            }
             if (!DataUtil.isNullOrEmpty(command.getStartDate())) {
                 from.append(" and s.ngay_xuat >= to_date(:startDate,'dd/MM/yyyy') ");
                 params.put("startDate", command.getStartDate());

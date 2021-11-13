@@ -41,7 +41,7 @@ public class XuatHangDTO {
 
     private String tenPhuongThuc;
 
-    private String totalDT;
+    private Double totalDT;
 
     List<XuatHangChiTietDTO> xuatHangChiTietDTOList;
 
@@ -58,11 +58,13 @@ public class XuatHangDTO {
         this.ngayXuat = ngayXuat;
     }
 
-    public String getTotalDT() {
+
+
+    public Double getTotalDT() {
         return totalDT;
     }
 
-    public void setTotalDT(String totalDT) {
+    public void setTotalDT(Double totalDT) {
         this.totalDT = totalDT;
     }
 

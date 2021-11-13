@@ -26,6 +26,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.io.FileOutputStream;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 
@@ -104,6 +105,10 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
                 from.append(" and lower(s.ma_xuat_hang) like :ma ");
                 params.put("ma", '%' + command.getMaXuatHang().toLowerCase(Locale.ROOT) + '%');
             }
+            if (!DataUtil.isNullOrEmpty(command.getIdCuaHang())) {
+                from.append(" and s.id_cua_hang = :ch ");
+                params.put("ch", command.getIdCuaHang());
+            }
             if (!DataUtil.isNullOrEmpty(command.getStartDate())) {
                 from.append(" and s.ngay_xuat >= to_date(:startDate,'dd/MM/yyyy') ");
                 params.put("startDate", command.getStartDate());
@@ -167,7 +172,7 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
             StringBuilder queryStr = new StringBuilder();
             StringBuilder from = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
-            queryStr.append("select n.id,n.ma_xuat_hang, " +
+            queryStr.append("select n.id , n.ma_xuat_hang, " +
                     "n.id_khach_hang, " +
                     "(select ten_khach_hang from khach_hang ncc where ncc.id = n.id_khach_hang) tenncc, " +
                     "n.id_cua_hang, " +
@@ -177,16 +182,16 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
                     " from xuat_hang n , xuat_hang_chi_tiet nd  " +
                     "where n.id = nd.id_xuat_hang ");
 
-            if (!DataUtil.isNullOrEmpty(command.getTenKhachHang())) {
-                from.append(" and lower(n.ten_khach_hang) like :ten ");
-                params.put("ten", '%' + command.getTenKhachHang().toLowerCase(Locale.ROOT) + '%');
+            if (!DataUtil.isNullOrEmpty(command.getIdKhachHang())) {
+                from.append(" and n.id_khach_hang = :ten ");
+                params.put("ten",  command.getIdKhachHang());
             }
             if (!DataUtil.isNullOrEmpty(command.getMaXuatHang())) {
-                from.append(" and lower(s.ma_xuat_hang) like :ma ");
+                from.append(" and lower(n.ma_xuat_hang) like :ma ");
                 params.put("ma", '%' + command.getMaXuatHang().toLowerCase(Locale.ROOT) + '%');
             }
             from.append("group by n.id " +
-                    "order by sum(nd.so_luong*nd.gia) desc   ");
+                    "order by sum(nd.so_luong*nd.gia) desc  ");
             queryStr.append(from);
             Query query = entityManager.createNativeQuery(queryStr.toString());
             for (Map.Entry<String, Object> p : params.entrySet()) {
@@ -195,7 +200,7 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
             List<Object[]> objects = query.getResultList();
 
             List<XuatHangDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maXuatHang", "idKhachHang", "tenKhachHang", "idCuaHang", "tenCuaHang",
-                            "totalDT", "ngayNhap", "ngayTao", "nguoiTao", "idPhuongThuc", "tenPhuongThuc")
+                            "totalDT", "ngayXuat", "ngayTao", "nguoiTao", "idPhuongThuc", "tenPhuongThuc")
                     , objects, XuatHangDTO.class);
 
             return danhMucDTOS;
@@ -242,7 +247,7 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
             headerCellStyle.setWrapText(true);
 
             Row headerRow = sheet.createRow(3);
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 7; i++) {
                 sheet.setColumnWidth(i, 8500);
                 Cell cell = headerRow.createCell(i);
                 if (i == 0) {
@@ -308,11 +313,13 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
                 cell3.setCellStyle(cellStyle);
 
                 Cell cell4 = row.createCell(5);
-                cell4.setCellValue(sanPhamDTO1.getNgayXuat());
+                if (!DataUtil.isNullOrEmpty(sanPhamDTO1.getNgayXuat())) {
+                    cell4.setCellValue(sanPhamDTO1.getNgayXuat().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                }
                 cell4.setCellStyle(cellStyle);
 
                 Cell cell41 = row.createCell(6);
-                cell41.setCellValue(sanPhamDTO1.getNgayTao());
+                cell41.setCellValue(sanPhamDTO1.getNguoiTao());
                 cell41.setCellStyle(cellStyle);
             }
 

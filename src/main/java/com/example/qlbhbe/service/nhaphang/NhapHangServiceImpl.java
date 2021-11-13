@@ -26,6 +26,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.io.FileOutputStream;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 
@@ -100,6 +101,10 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
                 from.append(" and lower(s.ma_nhap_hang) like :ma ");
                 params.put("ma", '%' + command.getMaNhapHang().toLowerCase(Locale.ROOT) + '%');
             }
+            if (!DataUtil.isNullOrEmpty(command.getIdCuaHang())) {
+                from.append(" and s.id_cua_hang = :ch ");
+                params.put("ch", command.getIdCuaHang());
+            }
             if (!DataUtil.isNullOrEmpty(command.getStartDate())) {
                 from.append(" and s.ngay_nhap >= to_date(:startDate,'dd/MM/yyyy') ");
                 params.put("startDate", command.getStartDate());
@@ -173,12 +178,12 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
                     " from nhap_hang n , nhap_hang_chi_tiet nd  " +
                     "where n.id = nd.id_nhap_hang ");
 
-            if (!DataUtil.isNullOrEmpty(command.getTenNhaCungCap())) {
-                from.append(" and lower(n.ten_nha_cung_cap) like :ten ");
-                params.put("ten", '%' + command.getTenNhaCungCap().toLowerCase(Locale.ROOT) + '%');
+            if (!DataUtil.isNullOrEmpty(command.getIdNhaCungCap())) {
+                from.append(" and n.id_nha_cung_cap = :ten ");
+                params.put("ten",command.getIdNhaCungCap());
             }
             if (!DataUtil.isNullOrEmpty(command.getMaNhapHang())) {
-                from.append(" and lower(s.ma_nhap_hang) like :ma ");
+                from.append(" and lower(n.ma_nhap_hang) like :ma ");
                 params.put("ma", '%' + command.getMaNhapHang().toLowerCase(Locale.ROOT) + '%');
             }
             from.append("group by n.id " +
@@ -238,7 +243,7 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
             headerCellStyle.setWrapText(true);
 
             Row headerRow = sheet.createRow(3);
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 7; i++) {
                 sheet.setColumnWidth(i, 8500);
                 Cell cell = headerRow.createCell(i);
                 if (i == 0) {
@@ -304,11 +309,13 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
                 cell3.setCellStyle(cellStyle);
 
                 Cell cell4 = row.createCell(5);
-                cell4.setCellValue(sanPhamDTO1.getNgayNhap());
+                if (!DataUtil.isNullOrEmpty(sanPhamDTO1.getNgayNhap())) {
+                    cell4.setCellValue(sanPhamDTO1.getNgayNhap().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                }
                 cell4.setCellStyle(cellStyle);
 
                 Cell cell41 = row.createCell(6);
-                cell41.setCellValue(sanPhamDTO1.getNgayTao());
+                cell41.setCellValue(sanPhamDTO1.getNguoiTao());
                 cell41.setCellStyle(cellStyle);
             }
 

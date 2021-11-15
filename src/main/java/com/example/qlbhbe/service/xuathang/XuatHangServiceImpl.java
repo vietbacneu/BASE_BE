@@ -323,7 +323,7 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
                 cell41.setCellStyle(cellStyle);
             }
 
-            String path = "D:/HoaDonXuatHang" + System.currentTimeMillis() + ".xlsx";
+            String path = "./HoaDonXuatHang" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
             workbook.write(fileOut);
             fileOut.close();

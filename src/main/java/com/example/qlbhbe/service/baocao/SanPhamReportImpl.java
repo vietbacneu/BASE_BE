@@ -355,7 +355,7 @@ public class SanPhamReportImpl implements SanPhamReport {
                 cell8.setCellStyle(cellStyle);
             }
 
-            String path = "D:/SanPhamTonKho" + System.currentTimeMillis() + ".xlsx";
+            String path = "./SanPhamTonKho" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
             workbook.write(fileOut);
             fileOut.close();

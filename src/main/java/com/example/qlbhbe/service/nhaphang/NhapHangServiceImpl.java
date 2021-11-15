@@ -319,7 +319,7 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
                 cell41.setCellStyle(cellStyle);
             }
 
-            String path = "D:/HoaDonNhapHang" + System.currentTimeMillis() + ".xlsx";
+            String path = "./HoaDonNhapHang" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
             workbook.write(fileOut);
             fileOut.close();

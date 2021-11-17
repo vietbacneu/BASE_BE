@@ -33,7 +33,7 @@ public class NhanVienKyLuatController {
     public CreatedIdResponse create(@Valid @RequestBody NhanVienKyLuatDTO command) {
         NhanVienKyLuat nhanVienKyLuat = NhanVienKyLuatMapper.INSTANCE.create(command);
         NhanVien nhanVien = new NhanVien();
-        nhanVien.setId(command.getNhanVienId());
+        nhanVien.setId(command.getIdNhanVien());
         nhanVienKyLuat.setNhanVien(nhanVien);
         KyLuat kt = new KyLuat();
         kt.setId(command.getIdKyLuat());

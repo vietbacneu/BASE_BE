@@ -1,9 +1,5 @@
 package com.example.qlbhbe.entity;
 
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "khen_thuong")
@@ -33,8 +28,8 @@ public class KhenThuong implements Serializable {
     @Column(name = "muc_thuong")
     private Double mucThuong;
 
-    @Column(name = "mieuta")
-    private String mieuta;
+    @Column(name = "mieu_ta")
+    private String mieuTa;
 
     public long getId() {
         return this.id;
@@ -60,12 +55,12 @@ public class KhenThuong implements Serializable {
         this.mucThuong = mucThuong;
     }
 
-    public String getMieuta() {
-        return this.mieuta;
+    public String getMieuTa() {
+        return this.mieuTa;
     }
 
-    public void setMieuta(String mieuta) {
-        this.mieuta = mieuta;
+    public void setMieuTa(String mieuta) {
+        this.mieuTa = mieuta;
     }
 
     public String getMaKhenThuong() {

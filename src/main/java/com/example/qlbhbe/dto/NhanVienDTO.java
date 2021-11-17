@@ -35,7 +35,7 @@ public class NhanVienDTO {
 
     private Long chucVuId;
 
-    private String chucVuTenChucVu;
+    private String tenChucVu;
 
     private String chucVuMieuTa;
 
@@ -43,11 +43,13 @@ public class NhanVienDTO {
 
     private Long phongBanId;
 
-    private String phongBanTen;
+    private String tenPhongBan;
 
     private String phongBanThongTin;
 
     private String phongBanMieuTa;
+
+    private Double heSoLuong;
 
     private Long isCount;
 
@@ -68,17 +70,25 @@ public class NhanVienDTO {
         this.trinhDo = trinhDo;
         this.quocTich = quocTich;
         this.chucVuId = chucVuId;
-        this.chucVuTenChucVu = chucVuTenChucVu;
+        this.tenChucVu = chucVuTenChucVu;
         this.chucVuMieuTa = chucVuMieuTa;
         this.chucVuHeSoLuong = chucVuHeSoLuong;
         this.phongBanId = phongBanId;
-        this.phongBanTen = phongBanTen;
+        this.tenPhongBan = phongBanTen;
         this.phongBanThongTin = phongBanThongTin;
         this.phongBanMieuTa = phongBanMieuTa;
     }
 
     public Long getIsCount() {
         return isCount;
+    }
+
+    public Double getHeSoLuong() {
+        return heSoLuong;
+    }
+
+    public void setHeSoLuong(Double heSoLuong) {
+        this.heSoLuong = heSoLuong;
     }
 
     public void setIsCount(Long isCount) {
@@ -189,12 +199,12 @@ public class NhanVienDTO {
         this.chucVuId = chucVuId;
     }
 
-    public String getChucVuTenChucVu() {
-        return this.chucVuTenChucVu;
+    public String getTenChucVu() {
+        return this.tenChucVu;
     }
 
-    public void setChucVuTenChucVu(String chucVuTenChucVu) {
-        this.chucVuTenChucVu = chucVuTenChucVu;
+    public void setTenChucVu(String tenChucVu) {
+        this.tenChucVu = tenChucVu;
     }
 
     public String getChucVuMieuTa() {
@@ -221,12 +231,12 @@ public class NhanVienDTO {
         this.phongBanId = phongBanId;
     }
 
-    public String getPhongBanTen() {
-        return this.phongBanTen;
+    public String getTenPhongBan() {
+        return this.tenPhongBan;
     }
 
-    public void setPhongBanTen(String phongBanTen) {
-        this.phongBanTen = phongBanTen;
+    public void setTenPhongBan(String tenPhongBan) {
+        this.tenPhongBan = tenPhongBan;
     }
 
     public String getPhongBanThongTin() {

@@ -2,7 +2,6 @@ package com.example.qlbhbe.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -15,7 +14,7 @@ public class NhanVienKhenThuongDTO {
 
     private LocalDateTime ngay;
 
-    private String mieuta;
+    private String mieuTa;
 
     private Long idNhanVien;
 
@@ -47,13 +46,17 @@ public class NhanVienKhenThuongDTO {
 
     private Long isCount;
 
+    private String tenChucVu;
+
+    private String tenPhongBan;
+
     public NhanVienKhenThuongDTO() {
     }
 
-    public NhanVienKhenThuongDTO(Long id, LocalDateTime ngay, String mieuta, Long idNhanVien, String  hoNhanVien, String tenNhanVien, String sdtNhanVien, String emailNhanVien, String gioiTinhNhanVien, String diaChiNhanVien, LocalDateTime ngaySinhNhanVien, LocalDateTime ngayBatDauNhanVien, LocalDateTime ngayKetThucNhanVien, Long idKhenThuong, String tenKhenThuong, Double khenThuongMucThuong, String khenThuongMieuta) {
+    public NhanVienKhenThuongDTO(Long id, LocalDateTime ngay, String mieuTa, Long idNhanVien, String  hoNhanVien, String tenNhanVien, String sdtNhanVien, String emailNhanVien, String gioiTinhNhanVien, String diaChiNhanVien, LocalDateTime ngaySinhNhanVien, LocalDateTime ngayBatDauNhanVien, LocalDateTime ngayKetThucNhanVien, Long idKhenThuong, String tenKhenThuong, Double khenThuongMucThuong, String khenThuongMieuta) {
         this.id = id;
         this.ngay = ngay;
-        this.mieuta = mieuta;
+        this.mieuTa = mieuTa;
         this.idNhanVien = idNhanVien;
         this.hoNhanVien =  hoNhanVien;
         this.tenNhanVien = tenNhanVien;
@@ -68,6 +71,22 @@ public class NhanVienKhenThuongDTO {
         this.tenKhenThuong = tenKhenThuong;
         this.khenThuongMucThuong = khenThuongMucThuong;
         this.khenThuongMieuta = khenThuongMieuta;
+    }
+
+    public String getTenPhongBan() {
+        return tenPhongBan;
+    }
+
+    public void setTenPhongBan(String tenPhongBan) {
+        this.tenPhongBan = tenPhongBan;
+    }
+
+    public String getTenChucVu() {
+        return tenChucVu;
+    }
+
+    public void setTenChucVu(String tenChucVu) {
+        this.tenChucVu = tenChucVu;
     }
 
     public Long getIsCount() {
@@ -102,12 +121,12 @@ public class NhanVienKhenThuongDTO {
         this.ngay = ngay;
     }
 
-    public String getMieuta() {
-        return this.mieuta;
+    public String getMieuTa() {
+        return this.mieuTa;
     }
 
-    public void setMieuta(String mieuta) {
-        this.mieuta = mieuta;
+    public void setMieuTa(String mieuTa) {
+        this.mieuTa = mieuTa;
     }
 
     public Long getNhanVienId() {

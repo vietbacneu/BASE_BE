@@ -43,7 +43,7 @@ public class NhanVienKyLuatServiceImpl extends AbstractService<NhanVienKyLuat, L
         if (opt.isPresent()) {
             NhanVienKyLuat nhanVienKyLuat = opt.get();
             NhanVien nhanVien = new NhanVien();
-            nhanVien.setId(command.getNhanVienId());
+            nhanVien.setId(command.getIdNhanVien());
             nhanVienKyLuat.setNhanVien(nhanVien);
             KyLuat kt = new KyLuat();
             kt.setId(command.getIdKyLuat());
@@ -63,7 +63,7 @@ public class NhanVienKyLuatServiceImpl extends AbstractService<NhanVienKyLuat, L
             queryStr.append(" select n.id, n.ho , n.ten, " +
                     "(select ten_chuc_vu from chuc_vu c where c.id = n.id_chuc_vu) tenChucvu, " +
                     "(select ten from phong_ban c where c.id = n.id_phong_ban) tenPP, " +
-                    " bh.ten as tenBh, bh.thuc_thuong, nbh.ngay, nbh.mieuta ");
+                    " bh.ten_loi as tenBh, bh.muc_phat, nbh.ngay, nbh.mieu_ta ");
             count.append("select count(*) ");
             from.append(" from nhan_vien n, nhan_vien_khen_thuong nbh, ky_luat bh  " +
                     "   where n.id = nbh.id_nhan_vien and nbh.id_khen_thuong = bh.id ");
@@ -72,9 +72,9 @@ public class NhanVienKyLuatServiceImpl extends AbstractService<NhanVienKyLuat, L
                 from.append(" and ( lower(n.ten) like :ten or lower(n.ho) like :ten ) ");
                 params.put("ten", '%' + command.getTenNhanVien().toLowerCase(Locale.ROOT) + '%');
             }
-            if (!DataUtil.isNullOrEmpty(command.getidKyLuat())) {
+            if (!DataUtil.isNullOrEmpty(command.getIdKyLuat())) {
                 from.append(" and bh.id = :ma ");
-                params.put("ma", command.getidKyLuat());
+                params.put("ma", command.getIdKyLuat());
             }
             queryStr.append(from);
             count.append(from);
@@ -91,7 +91,7 @@ public class NhanVienKyLuatServiceImpl extends AbstractService<NhanVienKyLuat, L
             }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
-            List<NhanVienKyLuatDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("idNhanVien", " hoNhanVien", "tenNhanVien",
+            List<NhanVienKyLuatDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("idNhanVien", "hoNhanVien", "tenNhanVien",
                             "tenChucVu", "tenPhongBan", "tenLoi", "mucPhat", "ngay", "nhanVienMieuTa")
                     , objects, NhanVienKyLuatDTO.class);
 

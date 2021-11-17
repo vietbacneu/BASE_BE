@@ -16,18 +16,18 @@ public class KhenThuongDTO {
 
     private Double mucThuong;
 
-    private String mieuta;
+    private String mieuTa;
 
     private Long isCount;
 
     public KhenThuongDTO() {
     }
 
-    public KhenThuongDTO(Long id, String ten, Double mucThuong, String mieuta) {
+    public KhenThuongDTO(Long id, String ten, Double mucThuong, String mieuTa) {
         this.id = id;
         this.ten = ten;
         this.mucThuong = mucThuong;
-        this.mieuta = mieuta;
+        this.mieuTa = mieuTa;
     }
 
 
@@ -71,11 +71,11 @@ public class KhenThuongDTO {
         this.mucThuong = mucThuong;
     }
 
-    public String getMieuta() {
-        return this.mieuta;
+    public String getMieuTa() {
+        return this.mieuTa;
     }
 
-    public void setMieuta(String mieuta) {
-        this.mieuta = mieuta;
+    public void setMieuTa(String mieuTa) {
+        this.mieuTa = mieuTa;
     }
 }

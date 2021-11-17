@@ -25,6 +25,12 @@ public class ChamCongDTO {
     private String tenPhongBan;
     private Long isCount;
     private Long idPhongBan;
+    private Double heSoLuong = 0d;
+    private Double totalBaoHiem = 0d;
+    private Double totalKhenThuong = 0d;
+    private Double totalKyLuat = 0d;
+    private Double totalLuongBefore = 0d;
+    private Double totalLuongAfter = 0d;
 
     public ChamCongDTO() {
     }
@@ -36,6 +42,8 @@ public class ChamCongDTO {
         this.mieuTa = mieuTa;
     }
 
+
+
     public Long getIdNhanVien() {
         return idNhanVien;
     }
@@ -46,6 +54,54 @@ public class ChamCongDTO {
 
     public void setIdPhongBan(Long idPhongBan) {
         this.idPhongBan = idPhongBan;
+    }
+
+    public Double getHeSoLuong() {
+        return heSoLuong;
+    }
+
+    public void setHeSoLuong(Double heSoLuong) {
+        this.heSoLuong = heSoLuong;
+    }
+
+    public Double getTotalBaoHiem() {
+        return totalBaoHiem;
+    }
+
+    public void setTotalBaoHiem(Double totalBaoHiem) {
+        this.totalBaoHiem = totalBaoHiem;
+    }
+
+    public Double getTotalKhenThuong() {
+        return totalKhenThuong;
+    }
+
+    public void setTotalKhenThuong(Double totalKhenThuong) {
+        this.totalKhenThuong = totalKhenThuong;
+    }
+
+    public Double getTotalKyLuat() {
+        return totalKyLuat;
+    }
+
+    public void setTotalKyLuat(Double totalKyLuat) {
+        this.totalKyLuat = totalKyLuat;
+    }
+
+    public Double getTotalLuongBefore() {
+        return totalLuongBefore;
+    }
+
+    public void setTotalLuongBefore(Double totalLuongBefore) {
+        this.totalLuongBefore = totalLuongBefore;
+    }
+
+    public Double getTotalLuongAfter() {
+        return totalLuongAfter;
+    }
+
+    public void setTotalLuongAfter(Double totalLuongAfter) {
+        this.totalLuongAfter = totalLuongAfter;
     }
 
     public Long getIsCount() {

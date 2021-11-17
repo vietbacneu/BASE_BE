@@ -25,8 +25,8 @@ public class NhanVienKyLuat implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "mieuta")
-    private String mieuta;
+    @Column(name = "mieu_ta")
+    private String mieuTa;
 
     @Column(name = "ngay")
     private LocalDateTime ngay;
@@ -47,12 +47,12 @@ public class NhanVienKyLuat implements Serializable {
         this.id = id;
     }
 
-    public String getMieuta() {
-        return this.mieuta;
+    public String getMieuTa() {
+        return this.mieuTa;
     }
 
-    public void setMieuta(String mieuta) {
-        this.mieuta = mieuta;
+    public void setMieuTa(String mieuta) {
+        this.mieuTa = mieuta;
     }
 
     public java.time.LocalDateTime getNgay() {

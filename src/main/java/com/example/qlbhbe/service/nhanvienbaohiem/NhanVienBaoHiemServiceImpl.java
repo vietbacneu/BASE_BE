@@ -42,10 +42,10 @@ public class NhanVienBaoHiemServiceImpl extends AbstractService<NhanVienBaoHiem,
         if (opt.isPresent()) {
             NhanVienBaoHiem nhanVienBaoHiem = opt.get();
             NhanVien nhanVien = new NhanVien();
-            nhanVien.setId(command.getNhanVienId());
+            nhanVien.setId(command.getIdNhanVien());
             nhanVienBaoHiem.setNhanVien(nhanVien);
             BaoHiem baoHiem = new BaoHiem();
-            baoHiem.setId(command.getidBaoHiem());
+            baoHiem.setId(command.getIdBaoHiem());
             nhanVienBaoHiem.setBaoHiem(baoHiem);
             return NhanVienBaoHiemMapper.INSTANCE.update(command, nhanVienBaoHiem);
         }
@@ -62,7 +62,7 @@ public class NhanVienBaoHiemServiceImpl extends AbstractService<NhanVienBaoHiem,
             queryStr.append(" select n.id, n.ho , n.ten, " +
                     "(select ten_chuc_vu from chuc_vu c where c.id = n.id_chuc_vu) tenChucvu, " +
                     "(select ten from phong_ban c where c.id = n.id_phong_ban) tenPP, " +
-                    " bh.ten as tenBh, bh.muc_dong, nbh.ngay_dong, nbh.mieu_ta ");
+                    " bh.ten as tenBh, nbh.muc_dong, nbh.ngay_dong, nbh.mieu_ta ");
 
             count.append("select count(*) ");
             from.append(" from nhan_vien n, nhan_vien_bao_hiem nbh, bao_hiem bh  " +
@@ -71,9 +71,9 @@ public class NhanVienBaoHiemServiceImpl extends AbstractService<NhanVienBaoHiem,
                 from.append(" and ( lower(n.ten) like :ten or lower(n.ho) like :ten ) ");
                 params.put("ten", '%' + command.getTenNhanVien().toLowerCase(Locale.ROOT) + '%');
             }
-            if (!DataUtil.isNullOrEmpty(command.getidBaoHiem())) {
+            if (!DataUtil.isNullOrEmpty(command.getIdBaoHiem())) {
                 from.append(" and bh.id = :ma ");
-                params.put("ma", command.getidBaoHiem());
+                params.put("ma", command.getIdBaoHiem());
             }
             queryStr.append(from);
             count.append(from);
@@ -90,7 +90,7 @@ public class NhanVienBaoHiemServiceImpl extends AbstractService<NhanVienBaoHiem,
             }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
-            List<NhanVienBaoHiemDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("idNhanVien", " hoNhanVien", "tenNhanVien",
+            List<NhanVienBaoHiemDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("idNhanVien", "hoNhanVien", "tenNhanVien",
                             "tenChucVu", "tenPhongBan", "tenBaoHiem", "mucDong", "ngayDong","mieuTa")
                     , objects, NhanVienBaoHiemDTO.class);
 

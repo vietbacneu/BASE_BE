@@ -28,8 +28,8 @@ public class NhanVienKhenThuong implements Serializable {
     @Column(name = "ngay")
     private LocalDateTime ngay;
 
-    @Column(name = "mieuta")
-    private String mieuta;
+    @Column(name = "mieu_ta")
+    private String mieuTa;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_nhan_vien")
@@ -55,12 +55,12 @@ public class NhanVienKhenThuong implements Serializable {
         this.ngay = ngay;
     }
 
-    public String getMieuta() {
-        return this.mieuta;
+    public String getMieuTa() {
+        return this.mieuTa;
     }
 
-    public void setMieuta(String mieuta) {
-        this.mieuta = mieuta;
+    public void setMieuTa(String mieuta) {
+        this.mieuTa = mieuta;
     }
 
     public NhanVien getNhanVien() {

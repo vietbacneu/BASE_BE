@@ -68,7 +68,8 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
             queryStr.append(" select n.id, n.ho , n.ten, " +
                     " (select ten_chuc_vu from chuc_vu c where c.id = n.id_chuc_vu) tenChucvu, " +
                     " (select ten from phong_ban c where c.id = n.id_phong_ban) tenPP, " +
-                    " n.sdt, n.email, n.gioi_tinh, n.dia_chi, n.ngay_sinh, n.trinh_do, n.quoc_tich, n.ngay_bat_dau");
+                    " n.sdt, n.email, n.gioi_tinh, n.dia_chi, n.ngay_sinh, n.trinh_do, n.quoc_tich, n.ngay_bat_dau, " +
+                    "  (select he_so_luong from chuc_vu c where c.id = n.id_chuc_vu) hsl ");
 
             count.append("select count(*) ");
             from.append(" from nhan_vien n  " +
@@ -100,8 +101,8 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
             }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
-            List<NhanVienDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("idNhanVien", " hoNhanVien", "tenNhanVien",
-                            "tenChucVu", "tenPhongBan", "sdt", "email", "gioiTinh", "diaChi", "ngaySinh", "trinhDo", "quocTich", "ngayBatDau")
+            List<NhanVienDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "ho", "ten",
+                            "tenChucVu", "tenPhongBan", "sdt", "email", "gioiTinh", "diaChi", "ngaySinh", "trinhDo", "quocTich", "ngayBatDau","heSoLuong")
                     , objects, NhanVienDTO.class);
 
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));
@@ -213,11 +214,11 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
                 cell.setCellStyle(cellStyle);
 
                 Cell cell1 = row.createCell(1);
-                cell1.setCellValue(sanPhamDTO1.getChucVuTenChucVu());
+                cell1.setCellValue(sanPhamDTO1.getTenChucVu());
                 cell1.setCellStyle(cellStyle);
 
                 Cell cell2 = row.createCell(2);
-                cell2.setCellValue(sanPhamDTO1.getPhongBanTen());
+                cell2.setCellValue(sanPhamDTO1.getTenPhongBan());
                 cell2.setCellStyle(cellStyle);
 
                 Cell cell23 = row.createCell(3);

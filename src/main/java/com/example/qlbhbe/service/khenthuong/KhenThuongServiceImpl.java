@@ -55,7 +55,7 @@ public class KhenThuongServiceImpl extends AbstractService<KhenThuong, Long> imp
             queryStr.append("select id, ma_khen_thuong, " +
                     "       ten, " +
                     "       muc_thuong, " +
-                    "       mieuta ");
+                    "       mieu_ta ");
             count.append(" select count(*) ");
             from.append(" from khen_thuong where 1 = 1 ");
             if (!DataUtil.isNullOrEmpty(command.getTen())) {

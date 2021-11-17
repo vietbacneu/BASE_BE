@@ -33,10 +33,10 @@ public class NhanVienBaoHiemController {
     public CreatedIdResponse create(@Valid @RequestBody NhanVienBaoHiemDTO command) {
         NhanVienBaoHiem nhanVienBaoHiem = NhanVienBaoHiemMapper.INSTANCE.create(command);
         NhanVien nhanVien = new NhanVien();
-        nhanVien.setId(command.getNhanVienId());
+        nhanVien.setId(command.getIdNhanVien());
         nhanVienBaoHiem.setNhanVien(nhanVien);
         BaoHiem baoHiem = new BaoHiem();
-        baoHiem.setId(command.getidBaoHiem());
+        baoHiem.setId(command.getIdBaoHiem());
         nhanVienBaoHiem.setBaoHiem(baoHiem);
         nhanVienBaoHiemService.save(nhanVienBaoHiem);
         return new CreatedIdResponse(nhanVienBaoHiem.getId());

@@ -105,23 +105,23 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
                     "        FROM " +
                     "            chuc_vu c " +
                     "        WHERE " +
-                    "            c.id = n.id_chuc_vu) tenChucvu, " +
+                    "            c.id = n.id_chuc_vu) as tenChucvu, " +
                     "  (SELECT  " +
                     "            he_so_luong " +
                     "        FROM " +
                     "            chuc_vu c " +
                     "        WHERE " +
-                    "            c.id = n.id_chuc_vu) hsl,           " +
+                    "            c.id = n.id_chuc_vu) as hsl,       " +
                     "    (SELECT  " +
                     "            ten " +
                     "        FROM " +
                     "            phong_ban c " +
                     "        WHERE " +
-                    "            c.id = n.id_phong_ban) tenPP, " +
+                    "            c.id = n.id_phong_ban) as tenPP, " +
                     "   sum(cc.so_gio_lam) , " +
-                    " (select sum(muc_dong) from nhan_vien_bao_hiem tmp where tmp.id_nhan_vien = n.id and month(tmp.ngay_dong) = month(cc.ngay_lam)  group by tmp.id_nhan_vien ) totalbh, " +
-                    "    (select sum(muc_thuong) from khen_thuong kt,  nhan_vien_khen_thuong tmp where kt.id = tmp.id_khen_thuong and tmp.id_nhan_vien = n.id and month(tmp.ngay) = month(cc.ngay_lam)  group by tmp.id_nhan_vien) totalkt, " +
-                    " (select sum(muc_phat) from ky_luat kt, nhan_vien_ky_luat tmp where kt.id = tmp.id_ky_luat and tmp.id_nhan_vien = n.id and month(tmp.ngay) = month(cc.ngay_lam) group by tmp.id_nhan_vien ) totalkl " +
+                    " (select sum(muc_dong) from nhan_vien_bao_hiem tmp where tmp.id_nhan_vien = n.id and month(tmp.ngay_dong) = month(cc.ngay_lam)  group by tmp.id_nhan_vien  ) as totalbh, " +
+                    "    (select sum(muc_thuong) from khen_thuong kt,  nhan_vien_khen_thuong tmp where kt.id = tmp.id_khen_thuong and tmp.id_nhan_vien = n.id and month(tmp.ngay) = month(cc.ngay_lam)  group by tmp.id_nhan_vien) as totalkt, " +
+                    " (select sum(muc_phat) from ky_luat kt, nhan_vien_ky_luat tmp where kt.id = tmp.id_ky_luat and tmp.id_nhan_vien = n.id and month(tmp.ngay) = month(cc.ngay_lam) group by tmp.id_nhan_vien ) as totalkl " +
                     "    from nhan_vien n left join cham_cong cc on (cc.id_nhan_vien = n.id ) where 1=1  ");
 
             count.append("select count(*) ");
@@ -137,7 +137,7 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
                 params.put("pb", command.getIdPhongBan());
             }
             queryStr.append(" group by n.id ");
-            count.append(" from ( ").append(queryStr).append(" )");
+            count.append(" from ( ").append(queryStr).append(" ) as tmp");
             Query query = entityManager.createNativeQuery(queryStr.toString());
             Query countQuery = entityManager.createNativeQuery(count.toString());
 
@@ -152,8 +152,15 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<ChamCongDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("idNhanVien", " hoNhanVien", "tenNhanVien",
-                            "tenChucVu", "tenPhongBan", "soSoLam", "ngayLam")
+                            "tenChucVu", "heSoLuong", "tenPhongBan", "soGioLam", "totalBaoHiem", "totalKhenThuong", "totalKyLuat")
                     , objects, ChamCongDTO.class);
+
+            if (!danhMucDTOS.isEmpty()) {
+                for (ChamCongDTO danhMucDTO : danhMucDTOS) {
+                    danhMucDTO.setTotalLuongAfter(danhMucDTO.getHeSoLuong() * danhMucDTO.getSoGioLam());
+                    danhMucDTO.setTotalLuongBefore(danhMucDTO.getTotalLuongAfter() + danhMucDTO.getTotalKhenThuong() - danhMucDTO.getTotalKyLuat() - danhMucDTO.getTotalBaoHiem());
+                }
+            }
 
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));
         } catch (Exception e) {

@@ -38,6 +38,8 @@ public class NhanVienController {
         PhongBan phongBan = new PhongBan();
         phongBan.setId(command.getPhongBanId());
         nhanVien.setPhongBan(phongBan);
+        nhanVien.setSdt(command.getSdt());
+        nhanVien.setNgayBatDau(command.getNgayBatDau());
         nhanVienService.save(nhanVien);
         return new CreatedIdResponse(nhanVien.getId());
     }

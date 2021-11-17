@@ -10,6 +10,8 @@ public class KhenThuongDTO {
 
     private Long id;
 
+    private String maKhenThuong;
+
     private String ten;
 
     private Double mucThuong;
@@ -26,6 +28,14 @@ public class KhenThuongDTO {
         this.ten = ten;
         this.mucThuong = mucThuong;
         this.mieuta = mieuta;
+    }
+
+    public String getMaKhenThuong() {
+        return maKhenThuong;
+    }
+
+    public void setMaKhenThuong(String maKhenThuong) {
+        this.maKhenThuong = maKhenThuong;
     }
 
     public Long getIsCount() {

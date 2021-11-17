@@ -51,7 +51,7 @@ public class BaoHiemServiceImpl extends AbstractService<BaoHiem, Long> implement
             StringBuilder count = new StringBuilder();
             StringBuilder from = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
-            queryStr.append("select id, " +
+            queryStr.append("select id, ma_bao_hiem, " +
                     "       ma_so, " +
                     "       ten, " +
                     "       thong_tin ");
@@ -80,7 +80,7 @@ public class BaoHiemServiceImpl extends AbstractService<BaoHiem, Long> implement
             }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
-            List<BaoHiemDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maSo", "ten", "thongTin")
+            List<BaoHiemDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maBaoHiem","maSo", "ten", "thongTin")
                     , objects, BaoHiemDTO.class);
 
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));

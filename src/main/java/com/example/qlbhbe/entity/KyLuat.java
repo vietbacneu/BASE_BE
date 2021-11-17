@@ -25,6 +25,8 @@ public class KyLuat implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    private String maKyLuat;
+
     @Column(name = "ten_loi")
     private String tenLoi;
 
@@ -33,6 +35,14 @@ public class KyLuat implements Serializable {
 
     @Column(name = "mieu_ta")
     private String mieuTa;
+
+    public String getMaKyLuat() {
+        return maKyLuat;
+    }
+
+    public void setMaKyLuat(String maKyLuat) {
+        this.maKyLuat = maKyLuat;
+    }
 
     public long getId() {
         return this.id;

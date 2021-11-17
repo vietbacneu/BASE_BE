@@ -12,20 +12,13 @@ public class PhongBanDTO {
 
     private String ten;
 
-    private String thongTin;
+    private String maPhongBan;
 
     private String mieuTa;
 
     private Long isCount;
 
     public PhongBanDTO() {
-    }
-
-    public PhongBanDTO(Long id, String ten, String thongTin, String mieuTa) {
-        this.id = id;
-        this.ten = ten;
-        this.thongTin = thongTin;
-        this.mieuTa = mieuTa;
     }
 
     public Long getIsCount() {
@@ -52,12 +45,12 @@ public class PhongBanDTO {
         this.ten = ten;
     }
 
-    public String getThongTin() {
-        return this.thongTin;
+    public String getMaPhongBan() {
+        return maPhongBan;
     }
 
-    public void setThongTin(String thongTin) {
-        this.thongTin = thongTin;
+    public void setMaPhongBan(String maPhongBan) {
+        this.maPhongBan = maPhongBan;
     }
 
     public String getMieuTa() {

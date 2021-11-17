@@ -25,6 +25,8 @@ public class BaoHiem implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    private String maBaoHiem;
+
     @Column(name = "ma_so")
     private String maSo;
 
@@ -64,5 +66,13 @@ public class BaoHiem implements Serializable {
 
     public void setThongTin(String thongTin) {
         this.thongTin = thongTin;
+    }
+
+    public String getMaBaoHiem() {
+        return maBaoHiem;
+    }
+
+    public void setMaBaoHiem(String maBaoHiem) {
+        this.maBaoHiem = maBaoHiem;
     }
 }

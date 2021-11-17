@@ -52,10 +52,10 @@ public class KhenThuongServiceImpl extends AbstractService<KhenThuong, Long> imp
             StringBuilder count = new StringBuilder();
             StringBuilder from = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
-            queryStr.append("select id, " +
+            queryStr.append("select id, ma_khen_thuong, " +
                     "       ten, " +
                     "       muc_thuong, " +
-                    "       mieu_ta ");
+                    "       mieuta ");
             count.append("select count(*) ");
             from.append(" from khen_thuong where 1 = 1 ");
             if (!DataUtil.isNullOrEmpty(command.getTen())) {
@@ -77,7 +77,7 @@ public class KhenThuongServiceImpl extends AbstractService<KhenThuong, Long> imp
             }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
-            List<KhenThuongDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "ten", "mucThuong", "mieuTa")
+            List<KhenThuongDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maKhenThuong" ,"ten", "mucThuong", "mieuTa")
                     , objects, KhenThuongDTO.class);
 
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));

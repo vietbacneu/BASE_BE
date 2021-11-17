@@ -10,6 +10,8 @@ public class BaoHiemDTO {
 
     private Long id;
 
+    private String maBaoHiem;
+
     private String maSo;
 
     private String ten;
@@ -29,6 +31,14 @@ public class BaoHiemDTO {
         this.ten = ten;
         this.mucDong = mucDong;
         this.thongTin = thongTin;
+    }
+
+    public String getMaBaoHiem() {
+        return maBaoHiem;
+    }
+
+    public void setMaBaoHiem(String maBaoHiem) {
+        this.maBaoHiem = maBaoHiem;
     }
 
     public Long getIsCount() {

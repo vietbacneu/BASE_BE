@@ -52,7 +52,7 @@ public class KyLuatServiceImpl extends AbstractService<KyLuat, Long> implements 
             StringBuilder count = new StringBuilder();
             StringBuilder from = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
-            queryStr.append("select id, " +
+            queryStr.append("select id, ma_ky_luat, " +
                     "       ten_loi, " +
                     "       muc_phat, " +
                     "       mieu_ta ");
@@ -77,7 +77,7 @@ public class KyLuatServiceImpl extends AbstractService<KyLuat, Long> implements 
             }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
-            List<KyLuatDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "tenLoi", "mucPhat", "mieuTa")
+            List<KyLuatDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maKyLuat", "tenLoi", "mucPhat", "mieuTa")
                     , objects, KyLuatDTO.class);
 
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));

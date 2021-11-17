@@ -52,7 +52,8 @@ public class ChucVuServiceImpl extends AbstractService<ChucVu, Long> implements 
             StringBuilder count = new StringBuilder();
             StringBuilder from = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
-            queryStr.append("select id, " +
+            queryStr.append("select id," +
+                    "       ma_chuc_vu, " +
                     "       ten_chuc_vu, " +
                     "       mieu_ta, " +
                     "       he_so_luong ");
@@ -77,7 +78,7 @@ public class ChucVuServiceImpl extends AbstractService<ChucVu, Long> implements 
             }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
-            List<ChucVuDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "tenChucVu", "mieuTa", "heSoLuong")
+            List<ChucVuDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maChucVu","tenChucVu", "mieuTa", "heSoLuong")
                     , objects, ChucVuDTO.class);
 
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));

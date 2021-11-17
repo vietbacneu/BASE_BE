@@ -10,6 +10,8 @@ public class KyLuatDTO {
 
     private Long id;
 
+    private String maKyLuat;
+
     private String tenLoi;
 
     private Double mucPhat;
@@ -26,6 +28,14 @@ public class KyLuatDTO {
         this.tenLoi = tenLoi;
         this.mucPhat = mucPhat;
         this.mieuTa = mieuTa;
+    }
+
+    public String getMaKyLuat() {
+        return maKyLuat;
+    }
+
+    public void setMaKyLuat(String maKyLuat) {
+        this.maKyLuat = maKyLuat;
     }
 
     public Long getIsCount() {

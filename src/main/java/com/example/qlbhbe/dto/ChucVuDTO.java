@@ -10,6 +10,8 @@ public class ChucVuDTO {
 
     private Long id;
 
+    private String maChucVu;
+
     private String tenChucVu;
 
     private String mieuTa;
@@ -26,6 +28,14 @@ public class ChucVuDTO {
         this.tenChucVu = tenChucVu;
         this.mieuTa = mieuTa;
         this.heSoLuong = heSoLuong;
+    }
+
+    public String getMaChucVu() {
+        return maChucVu;
+    }
+
+    public void setMaChucVu(String maChucVu) {
+        this.maChucVu = maChucVu;
     }
 
     public Long getIsCount() {

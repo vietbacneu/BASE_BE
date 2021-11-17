@@ -28,8 +28,8 @@ public class PhongBan implements Serializable {
     @Column(name = "ten")
     private String ten;
 
-    @Column(name = "thong_tin")
-    private String thongTin;
+    @Column(name = "ma_phong_ban")
+    private String maPhongBan;
 
     @Column(name = "mieu_ta")
     private String mieuTa;
@@ -50,12 +50,12 @@ public class PhongBan implements Serializable {
         this.ten = ten;
     }
 
-    public String getThongTin() {
-        return this.thongTin;
+    public String getMaPhongBan() {
+        return maPhongBan;
     }
 
-    public void setThongTin(String thongTin) {
-        this.thongTin = thongTin;
+    public void setMaPhongBan(String maPhongBan) {
+        this.maPhongBan = maPhongBan;
     }
 
     public String getMieuTa() {

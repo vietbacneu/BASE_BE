@@ -25,6 +25,8 @@ public class KhenThuong implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    private String maKhenThuong;
+
     @Column(name = "ten")
     private String ten;
 
@@ -64,5 +66,13 @@ public class KhenThuong implements Serializable {
 
     public void setMieuta(String mieuta) {
         this.mieuta = mieuta;
+    }
+
+    public String getMaKhenThuong() {
+        return maKhenThuong;
+    }
+
+    public void setMaKhenThuong(String maKhenThuong) {
+        this.maKhenThuong = maKhenThuong;
     }
 }

@@ -42,7 +42,7 @@ public class ChamCongController {
         return chamCongService.search(command, pageable);
     }
 
-    @PostMapping("/search")
+    @PostMapping("/searchPhieuLuong")
     public Page<ChamCongDTO> searchPhieuLuong(@RequestBody(required = false) ChamCongDTO command, @PageableDefault Pageable pageable) throws Exception {
         return chamCongService.searchPhieuLuong(command, pageable);
     }

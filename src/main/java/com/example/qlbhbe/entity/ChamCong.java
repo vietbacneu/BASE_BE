@@ -12,10 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -39,11 +36,7 @@ public class ChamCong implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_nhan_vien")
-    private NhanVien idNhanVien;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_phong_ban")
-    private PhongBan idPhongBan;
+    private NhanVien nhanVien;
 
     public long getId() {
         return this.id;
@@ -77,19 +70,12 @@ public class ChamCong implements Serializable {
         this.mieuTa = mieuTa;
     }
 
-    public NhanVien getIdNhanVien() {
-        return this.idNhanVien;
+    public NhanVien getNhanVien() {
+        return this.nhanVien;
     }
 
-    public void setIdNhanVien(NhanVien idNhanVien) {
-        this.idNhanVien = idNhanVien;
+    public void setNhanVien(NhanVien idNhanVien) {
+        this.nhanVien = idNhanVien;
     }
 
-    public PhongBan getIdPhongBan() {
-        return this.idPhongBan;
-    }
-
-    public void setIdPhongBan(PhongBan idPhongBan) {
-        this.idPhongBan = idPhongBan;
-    }
 }

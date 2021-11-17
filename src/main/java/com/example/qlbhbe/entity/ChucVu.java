@@ -25,6 +25,8 @@ public class ChucVu implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    private String maChucVu;
+
     @Column(name = "ten_chuc_vu")
     private String tenChucVu;
 
@@ -64,5 +66,13 @@ public class ChucVu implements Serializable {
 
     public void setHeSoLuong(Double heSoLuong) {
         this.heSoLuong = heSoLuong;
+    }
+
+    public String getMaChucVu() {
+        return maChucVu;
+    }
+
+    public void setMaChucVu(String maChucVu) {
+        this.maChucVu = maChucVu;
     }
 }

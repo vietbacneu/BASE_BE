@@ -1,7 +1,7 @@
 package com.example.qlbhbe.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * Generated at 2021/11/12 14:15:03
@@ -13,7 +13,7 @@ public class ChamCongDetailsDTO {
 
     private Double soGioLam;
 
-    private LocalDateTime ngayLam;
+    private LocalDate ngayLam;
 
     private String mieuTa;
 
@@ -31,11 +31,11 @@ public class ChamCongDetailsDTO {
 
     private String idDiaChiNhanVien;
 
-    private LocalDateTime idNgaySinhNhanVien;
+    private LocalDate idNgaySinhNhanVien;
 
-    private LocalDateTime idNgayBatDauNhanVien;
+    private LocalDate idNgayBatDauNhanVien;
 
-    private LocalDateTime idNgayKetThucNhanVien;
+    private LocalDate idNgayKetThucNhanVien;
 
     private Long idPhongBanId;
 
@@ -48,7 +48,7 @@ public class ChamCongDetailsDTO {
     public ChamCongDetailsDTO() {
     }
 
-    public ChamCongDetailsDTO(Long id, Double soGioLam, LocalDateTime ngayLam, String mieuTa, Long idNhanVienId, String hoNhanVien, String idTenNhanVien, String idSdtNhanVien, String idEmailNhanVien, String idGioiTinhNhanVien, String idDiaChiNhanVien, LocalDateTime idNgaySinhNhanVien, LocalDateTime idNgayBatDauNhanVien, LocalDateTime idNgayKetThucNhanVien, Long idPhongBanId, String idPhongBanTen, String idPhongBanThongTin, String idPhongBanMieuTa) {
+    public ChamCongDetailsDTO(Long id, Double soGioLam, LocalDate ngayLam, String mieuTa, Long idNhanVienId, String hoNhanVien, String idTenNhanVien, String idSdtNhanVien, String idEmailNhanVien, String idGioiTinhNhanVien, String idDiaChiNhanVien, LocalDate idNgaySinhNhanVien, LocalDate idNgayBatDauNhanVien, LocalDate idNgayKetThucNhanVien, Long idPhongBanId, String idPhongBanTen, String idPhongBanThongTin, String idPhongBanMieuTa) {
         this.id = id;
         this.soGioLam = soGioLam;
         this.ngayLam = ngayLam;
@@ -85,11 +85,11 @@ public class ChamCongDetailsDTO {
         this.soGioLam = soGioLam;
     }
 
-    public LocalDateTime getNgayLam() {
+    public LocalDate getNgayLam() {
         return this.ngayLam;
     }
 
-    public void setNgayLam(LocalDateTime ngayLam) {
+    public void setNgayLam(LocalDate ngayLam) {
         this.ngayLam = ngayLam;
     }
 
@@ -157,27 +157,27 @@ public class ChamCongDetailsDTO {
         this.idDiaChiNhanVien = idDiaChiNhanVien;
     }
 
-    public LocalDateTime getIdNgaySinhNhanVien() {
+    public LocalDate getIdNgaySinhNhanVien() {
         return this.idNgaySinhNhanVien;
     }
 
-    public void setIdNgaySinhNhanVien(LocalDateTime idNgaySinhNhanVien) {
+    public void setIdNgaySinhNhanVien(LocalDate idNgaySinhNhanVien) {
         this.idNgaySinhNhanVien = idNgaySinhNhanVien;
     }
 
-    public LocalDateTime getIdNgayBatDauNhanVien() {
+    public LocalDate getIdNgayBatDauNhanVien() {
         return this.idNgayBatDauNhanVien;
     }
 
-    public void setIdNgayBatDauNhanVien(LocalDateTime idNgayBatDauNhanVien) {
+    public void setIdNgayBatDauNhanVien(LocalDate idNgayBatDauNhanVien) {
         this.idNgayBatDauNhanVien = idNgayBatDauNhanVien;
     }
 
-    public LocalDateTime getIdNgayKetThucNhanVien() {
+    public LocalDate getIdNgayKetThucNhanVien() {
         return this.idNgayKetThucNhanVien;
     }
 
-    public void setIdNgayKetThucNhanVien(LocalDateTime idNgayKetThucNhanVien) {
+    public void setIdNgayKetThucNhanVien(LocalDate idNgayKetThucNhanVien) {
         this.idNgayKetThucNhanVien = idNgayKetThucNhanVien;
     }
 

@@ -1,7 +1,7 @@
 package com.example.qlbhbe.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -29,7 +29,7 @@ public class NhanVienKyLuat implements Serializable {
     private String mieuTa;
 
     @Column(name = "ngay")
-    private LocalDateTime ngay;
+    private LocalDate ngay;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_nhan_vien")
@@ -55,11 +55,11 @@ public class NhanVienKyLuat implements Serializable {
         this.mieuTa = mieuta;
     }
 
-    public java.time.LocalDateTime getNgay() {
+    public java.time.LocalDate getNgay() {
         return this.ngay;
     }
 
-    public void setNgay(java.time.LocalDateTime ngay) {
+    public void setNgay(java.time.LocalDate ngay) {
         this.ngay = ngay;
     }
 

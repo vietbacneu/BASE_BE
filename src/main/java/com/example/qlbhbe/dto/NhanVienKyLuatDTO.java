@@ -1,7 +1,7 @@
 package com.example.qlbhbe.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * Generated at 2021/11/12 14:16:57
@@ -13,7 +13,7 @@ public class NhanVienKyLuatDTO {
 
     private String mieuTa;
 
-    private LocalDateTime ngay;
+    private LocalDate ngay;
 
     private Long idNhanVien;
 
@@ -29,11 +29,11 @@ public class NhanVienKyLuatDTO {
 
     private String diaChiNhanVien;
 
-    private LocalDateTime ngaySinhNhanVien;
+    private LocalDate ngaySinhNhanVien;
 
-    private LocalDateTime ngayBatDauNhanVien;
+    private LocalDate ngayBatDauNhanVien;
 
-    private LocalDateTime ngayKetThucNhanVien;
+    private LocalDate ngayKetThucNhanVien;
 
     private String tenChucVu;
 
@@ -69,11 +69,11 @@ public class NhanVienKyLuatDTO {
         this.mieuTa = mieuTa;
     }
 
-    public LocalDateTime getNgay() {
+    public LocalDate getNgay() {
         return ngay;
     }
 
-    public void setNgay(LocalDateTime ngay) {
+    public void setNgay(LocalDate ngay) {
         this.ngay = ngay;
     }
 
@@ -133,27 +133,27 @@ public class NhanVienKyLuatDTO {
         this.diaChiNhanVien = diaChiNhanVien;
     }
 
-    public LocalDateTime getNgaySinhNhanVien() {
+    public LocalDate getNgaySinhNhanVien() {
         return ngaySinhNhanVien;
     }
 
-    public void setNgaySinhNhanVien(LocalDateTime ngaySinhNhanVien) {
+    public void setNgaySinhNhanVien(LocalDate ngaySinhNhanVien) {
         this.ngaySinhNhanVien = ngaySinhNhanVien;
     }
 
-    public LocalDateTime getNgayBatDauNhanVien() {
+    public LocalDate getNgayBatDauNhanVien() {
         return ngayBatDauNhanVien;
     }
 
-    public void setNgayBatDauNhanVien(LocalDateTime ngayBatDauNhanVien) {
+    public void setNgayBatDauNhanVien(LocalDate ngayBatDauNhanVien) {
         this.ngayBatDauNhanVien = ngayBatDauNhanVien;
     }
 
-    public LocalDateTime getNgayKetThucNhanVien() {
+    public LocalDate getNgayKetThucNhanVien() {
         return ngayKetThucNhanVien;
     }
 
-    public void setNgayKetThucNhanVien(LocalDateTime ngayKetThucNhanVien) {
+    public void setNgayKetThucNhanVien(LocalDate ngayKetThucNhanVien) {
         this.ngayKetThucNhanVien = ngayKetThucNhanVien;
     }
 

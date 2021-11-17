@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @RestController
 @RequestMapping(Constants.API + "/chamCongs")
@@ -45,6 +46,11 @@ public class ChamCongController {
     @PostMapping("/searchPhieuLuong")
     public Page<ChamCongDTO> searchPhieuLuong(@RequestBody(required = false) ChamCongDTO command, @PageableDefault Pageable pageable) throws Exception {
         return chamCongService.searchPhieuLuong(command, pageable);
+    }
+
+    @PostMapping("/exportPhieuLuong")
+    public Map<String,String> exportPhieuLuong(@RequestBody(required = false) ChamCongDTO command) throws Exception {
+        return chamCongService.exportPhieuLuong(command);
     }
 
 

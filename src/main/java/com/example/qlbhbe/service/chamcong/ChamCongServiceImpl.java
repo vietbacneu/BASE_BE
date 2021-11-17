@@ -6,9 +6,13 @@ import com.example.qlbhbe.mapper.ChamCongMapper;
 import com.example.qlbhbe.repo.chamcong.ChamCongRepo;
 import com.example.qlbhbe.service.AbstractService;
 import com.example.qlbhbe.util.DataUtil;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.io.FileOutputStream;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -151,7 +156,7 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
             }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
-            List<ChamCongDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("idNhanVien", " hoNhanVien", "tenNhanVien",
+            List<ChamCongDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("idNhanVien", "hoNhanVien", "tenNhanVien",
                             "tenChucVu", "heSoLuong", "tenPhongBan", "soGioLam", "totalBaoHiem", "totalKhenThuong", "totalKyLuat")
                     , objects, ChamCongDTO.class);
 
@@ -163,6 +168,154 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
             }
 
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    @Override
+    public Map<String, String> exportPhieuLuong(ChamCongDTO command) throws Exception {
+        try {
+            Workbook workbook = new XSSFWorkbook();
+            Sheet sheet = workbook.createSheet("BaoCaoLuongNhanVien");
+
+            Font headerFontTitle = workbook.createFont();
+            headerFontTitle.setBold(true);
+            headerFontTitle.setFontHeightInPoints((short) 20);
+            headerFontTitle.setColor(IndexedColors.RED.getIndex());
+            CellStyle headerCellStyle1 = workbook.createCellStyle();
+            headerCellStyle1.setFont(headerFontTitle);
+            headerCellStyle1.setBorderBottom(BorderStyle.THIN);
+            headerCellStyle1.setBorderTop(BorderStyle.THIN);
+            headerCellStyle1.setAlignment(HorizontalAlignment.CENTER);
+            headerCellStyle1.setWrapText(true);
+            Row title = sheet.createRow(0);
+            Cell cellTitle = title.createCell(1);
+            cellTitle.setCellValue("BÁO CÁO PHIẾU LƯƠNG NHÂN VIÊN");
+            cellTitle.setCellStyle(headerCellStyle1);
+            CellRangeAddress cellMerge = new CellRangeAddress(0, 1, 1, 6);
+            sheet.addMergedRegion(cellMerge);
+
+            Font headerFont = workbook.createFont();
+            headerFont.setBold(true);
+            headerFont.setFontHeightInPoints((short) 14);
+            headerFont.setColor(IndexedColors.BLACK.getIndex());
+// Create a CellStyle with the font
+            CellStyle headerCellStyle = workbook.createCellStyle();
+            headerCellStyle.setFont(headerFont);
+            headerCellStyle.setBorderBottom(BorderStyle.THIN);
+            headerCellStyle.setBorderLeft(BorderStyle.THIN);
+            headerCellStyle.setBorderRight(BorderStyle.THIN);
+            headerCellStyle.setBorderTop(BorderStyle.THIN);
+            headerCellStyle.setAlignment(HorizontalAlignment.CENTER);
+            headerCellStyle.setWrapText(true);
+            Row headerRow = sheet.createRow(3);
+            for (int i = 0; i < 10; i++) {
+                sheet.setColumnWidth(i, 8500);
+                Cell cell = headerRow.createCell(i);
+                if (i == 0) {
+                    cell.setCellValue("Họ và Tên");
+                    cell.setCellStyle(headerCellStyle);
+                }
+                if (i == 1) {
+                    cell.setCellValue("Chức vụ");
+                    cell.setCellStyle(headerCellStyle);
+                }
+                if (i == 2) {
+                    cell.setCellValue("Phòng ban");
+                    cell.setCellStyle(headerCellStyle);
+                }
+                if (i == 3) {
+                    cell.setCellValue("Hệ số lương");
+                    cell.setCellStyle(headerCellStyle);
+                }
+                if (i == 4) {
+                    cell.setCellValue("Số giờ làm");
+                    cell.setCellStyle(headerCellStyle);
+                }
+                if (i == 5) {
+                    cell.setCellValue("Bảo hiểm");
+                    cell.setCellStyle(headerCellStyle);
+                }
+                if (i == 6) {
+                    cell.setCellValue("Khen Thưởng");
+                    cell.setCellStyle(headerCellStyle);
+                }
+                if (i == 7) {
+                    cell.setCellValue("Kỷ luật");
+                    cell.setCellStyle(headerCellStyle);
+                }
+                if (i == 8) {
+                    cell.setCellValue("Lương cơ bản");
+                    cell.setCellStyle(headerCellStyle);
+                }
+                if (i == 9) {
+                    cell.setCellValue("Lương thực nhận");
+                    cell.setCellStyle(headerCellStyle);
+                }
+            }
+            int rowNum = 4;
+            List<ChamCongDTO> nhapHangDTOS = search(command, PageRequest.of(0, 1000)).getContent();
+            CellStyle cellStyle = workbook.createCellStyle();
+
+            cellStyle.setBorderBottom(BorderStyle.THIN);
+            cellStyle.setBorderLeft(BorderStyle.THIN);
+            cellStyle.setBorderRight(BorderStyle.THIN);
+            cellStyle.setBorderTop(BorderStyle.THIN);
+            cellStyle.setAlignment(HorizontalAlignment.CENTER);
+            cellStyle.setWrapText(true);
+            for (ChamCongDTO sanPhamDTO1 : nhapHangDTOS) {
+                Row row = sheet.createRow(rowNum++);
+
+                Cell cell = row.createCell(0);
+                cell.setCellValue(sanPhamDTO1.getHoNhanVien() + " " + sanPhamDTO1.getTenNhanVien());
+                cell.setCellStyle(cellStyle);
+
+                Cell cell1 = row.createCell(1);
+                cell1.setCellValue(sanPhamDTO1.getTenChucVu());
+                cell1.setCellStyle(cellStyle);
+
+                Cell cell2 = row.createCell(2);
+                cell2.setCellValue(sanPhamDTO1.getHeSoLuong());
+                cell2.setCellStyle(cellStyle);
+
+                Cell cell23 = row.createCell(3);
+                cell23.setCellValue(sanPhamDTO1.getTenPhongBan());
+                cell23.setCellStyle(cellStyle);
+
+                Cell cell3 = row.createCell(4);
+                cell3.setCellValue(sanPhamDTO1.getSoGioLam());
+                cell3.setCellStyle(cellStyle);
+
+                Cell cell4 = row.createCell(5);
+                cell4.setCellValue(sanPhamDTO1.getTotalBaoHiem());
+                cell4.setCellStyle(cellStyle);
+
+                Cell cell41 = row.createCell(6);
+                cell41.setCellValue(sanPhamDTO1.getTotalKhenThuong());
+                cell41.setCellStyle(cellStyle);
+
+                Cell cell7 = row.createCell(7);
+                cell7.setCellValue(sanPhamDTO1.getTotalKyLuat());
+                cell7.setCellStyle(cellStyle);
+
+                Cell cell8 = row.createCell(8);
+                cell8.setCellValue(sanPhamDTO1.getTotalLuongBefore());
+                cell8.setCellStyle(cellStyle);
+
+                Cell cell9 = row.createCell(9);
+                cell9.setCellValue(sanPhamDTO1.getTotalLuongAfter());
+                cell9.setCellStyle(cellStyle);
+            }
+
+            String path = "D:/BaoCaoLuongNhanVien" + System.currentTimeMillis() + ".xlsx";
+            FileOutputStream fileOut = new FileOutputStream(path);
+            workbook.write(fileOut);
+            fileOut.close();
+            workbook.close();
+            Map<String, String> result = new HashMap<>();
+            result.put("path", path);
+            return result;
         } catch (Exception e) {
             throw e;
         }

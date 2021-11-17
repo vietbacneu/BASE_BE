@@ -2,7 +2,7 @@ package com.example.qlbhbe.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * Generated at 2021/11/12 14:13:53
@@ -14,7 +14,7 @@ public class ChamCongDTO {
 
     private Double soGioLam;
 
-    private LocalDateTime ngayLam;
+    private LocalDate ngayLam;
 
     private String mieuTa;
 
@@ -35,7 +35,7 @@ public class ChamCongDTO {
     public ChamCongDTO() {
     }
 
-    public ChamCongDTO(Long id, Double soGioLam, LocalDateTime ngayLam, String mieuTa) {
+    public ChamCongDTO(Long id, Double soGioLam, LocalDate ngayLam, String mieuTa) {
         this.id = id;
         this.soGioLam = soGioLam;
         this.ngayLam = ngayLam;
@@ -164,11 +164,11 @@ public class ChamCongDTO {
         this.soGioLam = soGioLam;
     }
 
-    public LocalDateTime getNgayLam() {
+    public LocalDate getNgayLam() {
         return this.ngayLam;
     }
 
-    public void setNgayLam(LocalDateTime ngayLam) {
+    public void setNgayLam(LocalDate ngayLam) {
         this.ngayLam = ngayLam;
     }
 

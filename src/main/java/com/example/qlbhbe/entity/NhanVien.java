@@ -1,7 +1,7 @@
 package com.example.qlbhbe.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -44,10 +44,10 @@ public class NhanVien implements Serializable {
     private String diaChi;
 
     @Column(name = "ngay_sinh")
-    private LocalDateTime ngaySinh;
+    private LocalDate ngaySinh;
 
     @Column(name = "ngay_bat_dau")
-    private LocalDateTime ngayBatDau;
+    private LocalDate ngayBatDau;
 
     @Column(name = "trinh_do")
     private String trinhDo;
@@ -119,19 +119,19 @@ public class NhanVien implements Serializable {
         this.diaChi = diaChi;
     }
 
-    public java.time.LocalDateTime getNgaySinh() {
+    public java.time.LocalDate getNgaySinh() {
         return this.ngaySinh;
     }
 
-    public void setNgaySinh(java.time.LocalDateTime ngaySinh) {
+    public void setNgaySinh(java.time.LocalDate ngaySinh) {
         this.ngaySinh = ngaySinh;
     }
 
-    public java.time.LocalDateTime getNgayBatDau() {
+    public java.time.LocalDate getNgayBatDau() {
         return this.ngayBatDau;
     }
 
-    public void setNgayBatDau(java.time.LocalDateTime ngayBatDau) {
+    public void setNgayBatDau(java.time.LocalDate ngayBatDau) {
         this.ngayBatDau = ngayBatDau;
     }
 

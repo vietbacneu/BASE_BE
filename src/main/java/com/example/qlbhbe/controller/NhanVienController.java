@@ -9,13 +9,20 @@ import com.example.qlbhbe.entity.PhongBan;
 import com.example.qlbhbe.mapper.NhanVienMapper;
 import com.example.qlbhbe.service.nhanvien.NhanVienService;
 import com.example.qlbhbe.util.Constants;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Map;
 
 @RestController
@@ -47,6 +54,22 @@ public class NhanVienController {
     @PostMapping("/search")
     public Page<NhanVienDTO> search(@RequestBody(required = false) NhanVienDTO command, @PageableDefault Pageable pageable) throws Exception {
         return nhanVienService.search(command, pageable);
+    }
+
+    @GetMapping("/download")
+    public ResponseEntity<Object> download(@RequestParam String path) throws IOException {
+        HttpHeaders headers = new HttpHeaders();
+        File file = new File(path);
+        headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getName()));
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(file.length())
+                .contentType(MediaType.parseMediaType("application/txt"))
+                .body(resource);
     }
 
     @PostMapping("/exportNhanVien")

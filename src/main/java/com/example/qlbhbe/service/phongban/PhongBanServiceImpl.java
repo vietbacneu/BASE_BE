@@ -52,15 +52,18 @@ public class PhongBanServiceImpl extends AbstractService<PhongBan, Long> impleme
             StringBuilder count = new StringBuilder();
             StringBuilder from = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
-            queryStr.append("select id, " +
+            queryStr.append("select id, ma_phong_ban, " +
                     "       ten, " +
-                    "       thong_tin, " +
                     "       mieu_ta ");
             count.append("select count(*) ");
             from.append(" from phong_ban where 1 = 1 ");
             if (!DataUtil.isNullOrEmpty(command.getTen())) {
-                from.append(" and lower(ten_loi) like :ten ");
+                from.append(" and lower(ten) like :ten ");
                 params.put("ten", command.getTen().toLowerCase(Locale.ROOT));
+            }
+            if (!DataUtil.isNullOrEmpty(command.getMaPhongBan())) {
+                from.append(" and lower(ma_phong_ban) like :ma ");
+                params.put("ma", command.getMaPhongBan().toLowerCase(Locale.ROOT));
             }
             queryStr.append(from);
             count.append(from);
@@ -77,7 +80,7 @@ public class PhongBanServiceImpl extends AbstractService<PhongBan, Long> impleme
             }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
-            List<PhongBanDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "ten", "thongTin", "mieuTa")
+            List<PhongBanDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maPhongBan", "ten",  "mieuTa")
                     , objects, PhongBanDTO.class);
 
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));

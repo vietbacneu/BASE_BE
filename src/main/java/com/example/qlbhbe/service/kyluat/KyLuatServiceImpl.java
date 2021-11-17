@@ -62,6 +62,10 @@ public class KyLuatServiceImpl extends AbstractService<KyLuat, Long> implements 
                 from.append(" and lower(ten_loi) like :ten ");
                 params.put("ten", command.getTenLoi().toLowerCase(Locale.ROOT));
             }
+            if (!DataUtil.isNullOrEmpty(command.getMaKyLuat())) {
+                from.append(" and lower(ma_ky_luat) like :ma ");
+                params.put("ma", command.getMaKyLuat().toLowerCase(Locale.ROOT));
+            }
             queryStr.append(from);
             count.append(from);
             Query query = entityManager.createNativeQuery(queryStr.toString());

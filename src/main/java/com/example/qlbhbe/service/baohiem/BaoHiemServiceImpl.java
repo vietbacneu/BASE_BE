@@ -65,6 +65,10 @@ public class BaoHiemServiceImpl extends AbstractService<BaoHiem, Long> implement
                 from.append(" and lower(ma_so) like :ma ");
                 params.put("ma", command.getMaSo().toLowerCase(Locale.ROOT));
             }
+            if (!DataUtil.isNullOrEmpty(command.getMaBaoHiem())) {
+                from.append(" and lower(ma_bao_hiem) like :ma ");
+                params.put("ma", command.getMaBaoHiem().toLowerCase(Locale.ROOT));
+            }
             queryStr.append(from);
             count.append(from);
             Query query = entityManager.createNativeQuery(queryStr.toString());

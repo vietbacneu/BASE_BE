@@ -30,6 +30,7 @@ public class KhenThuongDTO {
         this.mieuta = mieuta;
     }
 
+
     public String getMaKhenThuong() {
         return maKhenThuong;
     }

@@ -56,11 +56,15 @@ public class KhenThuongServiceImpl extends AbstractService<KhenThuong, Long> imp
                     "       ten, " +
                     "       muc_thuong, " +
                     "       mieuta ");
-            count.append("select count(*) ");
+            count.append(" select count(*) ");
             from.append(" from khen_thuong where 1 = 1 ");
             if (!DataUtil.isNullOrEmpty(command.getTen())) {
                 from.append(" and lower(ten) like :ten ");
                 params.put("ten", command.getTen().toLowerCase(Locale.ROOT));
+            }
+            if (!DataUtil.isNullOrEmpty(command.getMaKhenThuong())) {
+                from.append(" and lower(ma_khen_thuong) like :ma ");
+                params.put("ma", command.getMaKhenThuong().toLowerCase(Locale.ROOT));
             }
             queryStr.append(from);
             count.append(from);

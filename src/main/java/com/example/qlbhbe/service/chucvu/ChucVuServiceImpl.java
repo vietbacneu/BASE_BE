@@ -63,6 +63,10 @@ public class ChucVuServiceImpl extends AbstractService<ChucVu, Long> implements 
                 from.append(" and lower(ten_chuc_vu) like :ten ");
                 params.put("ten", command.getTenChucVu().toLowerCase(Locale.ROOT));
             }
+            if (!DataUtil.isNullOrEmpty(command.getMaChucVu())) {
+                from.append(" and lower(ma_chuc_vu) like :ma ");
+                params.put("ma", command.getMaChucVu().toLowerCase(Locale.ROOT));
+            }
             queryStr.append(from);
             count.append(from);
             Query query = entityManager.createNativeQuery(queryStr.toString());

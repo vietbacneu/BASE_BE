@@ -60,22 +60,23 @@ public class NhanVienKyLuatServiceImpl extends AbstractService<NhanVienKyLuat, L
             StringBuilder count = new StringBuilder();
             StringBuilder from = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
-            queryStr.append(" select n.id, n.ho , n.ten, " +
+            queryStr.append(" select n.id as nvId, n.ho , n.ten, " +
                     "(select ten_chuc_vu from chuc_vu c where c.id = n.id_chuc_vu) tenChucvu, " +
                     "(select ten from phong_ban c where c.id = n.id_phong_ban) tenPP, " +
                     " bh.ten_loi as tenBh, bh.muc_phat, nbh.ngay, nbh.mieu_ta, bh.id ");
             count.append("select count(*) ");
             from.append(" from nhan_vien n, nhan_vien_ky_luat nbh, ky_luat bh  " +
-                    "   where n.id = nbh.id_nhan_vien and nbh.id_khen_thuong = bh.id ");
+                    "   where n.id = nbh.id_nhan_vien and nbh.id_ky_luat = bh.id ");
 
             if (!DataUtil.isNullOrEmpty(command.getTenNhanVien())) {
-                from.append(" and ( lower(n.ten) like :ten or lower(n.ho) like :ten ) ");
+                from.append("  concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten ");
                 params.put("ten", '%' + command.getTenNhanVien().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getIdKyLuat())) {
                 from.append(" and bh.id = :ma ");
                 params.put("ma", command.getIdKyLuat());
             }
+            from.append("  order by nbh.id desc");
             queryStr.append(from);
             count.append(from);
             Query query = entityManager.createNativeQuery(queryStr.toString());

@@ -1,6 +1,5 @@
 package com.example.qlbhbe.service.phongban;
 
-import com.example.qlbhbe.dto.KyLuatDTO;
 import com.example.qlbhbe.dto.PhongBanDTO;
 import com.example.qlbhbe.entity.PhongBan;
 import com.example.qlbhbe.mapper.PhongBanMapper;
@@ -59,11 +58,11 @@ public class PhongBanServiceImpl extends AbstractService<PhongBan, Long> impleme
             from.append(" from phong_ban where 1 = 1 ");
             if (!DataUtil.isNullOrEmpty(command.getTen())) {
                 from.append(" and lower(ten) like :ten ");
-                params.put("ten", command.getTen().toLowerCase(Locale.ROOT));
+                params.put("ten", '%' + command.getTen().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getMaPhongBan())) {
                 from.append(" and lower(ma_phong_ban) like :ma ");
-                params.put("ma", command.getMaPhongBan().toLowerCase(Locale.ROOT));
+                params.put("ma", '%' + command.getMaPhongBan().toLowerCase(Locale.ROOT) + '%');
             }
             queryStr.append(from);
             count.append(from);
@@ -80,7 +79,7 @@ public class PhongBanServiceImpl extends AbstractService<PhongBan, Long> impleme
             }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
-            List<PhongBanDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maPhongBan", "ten",  "mieuTa")
+            List<PhongBanDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maPhongBan", "ten", "mieuTa")
                     , objects, PhongBanDTO.class);
 
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));

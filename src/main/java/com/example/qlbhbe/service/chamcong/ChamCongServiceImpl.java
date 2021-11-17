@@ -57,14 +57,14 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
             StringBuilder count = new StringBuilder();
             StringBuilder from = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
-            queryStr.append(" select n.id, n.ho , n.ten, " +
+            queryStr.append(" select n.id as nvId, n.ho , n.ten, " +
                     "(select ten_chuc_vu from chuc_vu c where c.id = n.id_chuc_vu) tenChucvu, " +
                     "(select ten from phong_ban c where c.id = n.id_phong_ban) tenPP, cc.so_gio_lam, cc.ngay_lam ");
 
             count.append("select count(*) ");
             from.append(" from nhan_vien n, cham_cong cc where cc.id_nhan_vien = n.id ");
             if (!DataUtil.isNullOrEmpty(command.getTenNhanVien())) {
-                from.append(" and ( lower(n.ten) like :ten or lower(n.ho) like :ten ) ");
+                from.append("  concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten ");
                 params.put("ten", '%' + command.getTenNhanVien().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getNgayLam())) {
@@ -131,7 +131,7 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
 
             count.append("select count(*) ");
             if (!DataUtil.isNullOrEmpty(command.getTenNhanVien())) {
-                queryStr.append(" and ( lower(n.ten) like :ten or lower(n.ho) like :ten ) ");
+                queryStr.append("  concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten ");
                 params.put("ten", '%' + command.getTenNhanVien().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getNgayLam())) {

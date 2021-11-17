@@ -59,15 +59,15 @@ public class BaoHiemServiceImpl extends AbstractService<BaoHiem, Long> implement
             from.append(" from bao_hiem where 1 = 1 ");
             if (!DataUtil.isNullOrEmpty(command.getTen())) {
                 from.append(" and lower(ten) like :ten ");
-                params.put("ten", command.getTen().toLowerCase(Locale.ROOT));
+                params.put("ten", '%' + command.getTen().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getMaSo())) {
                 from.append(" and lower(ma_so) like :ma ");
-                params.put("ma", command.getMaSo().toLowerCase(Locale.ROOT));
+                params.put("ma" , command.getMaSo().toLowerCase(Locale.ROOT));
             }
             if (!DataUtil.isNullOrEmpty(command.getMaBaoHiem())) {
                 from.append(" and lower(ma_bao_hiem) like :ma ");
-                params.put("ma", command.getMaBaoHiem().toLowerCase(Locale.ROOT));
+                params.put("ma", '%' + command.getMaBaoHiem().toLowerCase(Locale.ROOT)+ "%");
             }
             queryStr.append(from);
             count.append(from);

@@ -72,9 +72,19 @@ public class NhanVienController {
                 .body(resource);
     }
 
+    @PostMapping("/danhGia")
+    public Page<NhanVienDTO> danhGia(@RequestBody(required = false) NhanVienDTO command, @PageableDefault Pageable pageable) throws Exception {
+        return nhanVienService.danhGia(command, pageable);
+    }
+
     @PostMapping("/exportNhanVien")
     public Map<String,String> exportNhanVien(@RequestBody(required = false) NhanVienDTO command) throws Exception {
         return nhanVienService.exportNhanVien(command);
+    }
+
+    @PostMapping("/exportDanhGia")
+    public Map<String,String> exportDanhGia(@RequestBody(required = false) NhanVienDTO command) throws Exception {
+        return nhanVienService.exportDanhGia(command);
     }
 
     @PutMapping("{id}")

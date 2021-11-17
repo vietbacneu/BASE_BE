@@ -19,4 +19,8 @@ public interface NhanVienService extends BaseService<NhanVien, Long> {
     Page<NhanVienDTO> search(@RequestBody(required = false) NhanVienDTO command, @PageableDefault Pageable pageable) throws Exception;
 
     public Map<String,String> exportNhanVien(@RequestBody(required = false) NhanVienDTO command) throws Exception;
+
+    public Page<NhanVienDTO> danhGia(@RequestBody(required = false) NhanVienDTO command, @PageableDefault Pageable pageable) throws Exception;
+
+    public Map<String,String> exportDanhGia(@RequestBody(required = false) NhanVienDTO command) throws Exception;
 }

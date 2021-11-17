@@ -1,6 +1,7 @@
 package com.example.qlbhbe.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.time.LocalDate;
 
 /**
@@ -53,6 +54,12 @@ public class NhanVienDTO {
 
     private Long isCount;
 
+    private String tenLoi;
+
+    private String tenThuong;
+    private Double mucPhat;
+    private Double mucThuong;
+
     public NhanVienDTO() {
     }
 
@@ -77,6 +84,38 @@ public class NhanVienDTO {
         this.tenPhongBan = phongBanTen;
         this.phongBanThongTin = phongBanThongTin;
         this.phongBanMieuTa = phongBanMieuTa;
+    }
+
+    public String getTenLoi() {
+        return tenLoi;
+    }
+
+    public void setTenLoi(String tenLoi) {
+        this.tenLoi = tenLoi;
+    }
+
+    public String getTenThuong() {
+        return tenThuong;
+    }
+
+    public void setTenThuong(String tenThuong) {
+        this.tenThuong = tenThuong;
+    }
+
+    public Double getMucPhat() {
+        return mucPhat;
+    }
+
+    public void setMucPhat(Double mucPhat) {
+        this.mucPhat = mucPhat;
+    }
+
+    public Double getMucThuong() {
+        return mucThuong;
+    }
+
+    public void setMucThuong(Double mucThuong) {
+        this.mucThuong = mucThuong;
     }
 
     public Long getIsCount() {

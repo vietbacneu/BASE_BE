@@ -1,6 +1,5 @@
 package com.example.qlbhbe.service.chucvu;
 
-import com.example.qlbhbe.dto.BaoHiemDTO;
 import com.example.qlbhbe.dto.ChucVuDTO;
 import com.example.qlbhbe.entity.ChucVu;
 import com.example.qlbhbe.mapper.ChucVuMapper;
@@ -61,11 +60,11 @@ public class ChucVuServiceImpl extends AbstractService<ChucVu, Long> implements 
             from.append(" from chuc_vu where 1 = 1 ");
             if (!DataUtil.isNullOrEmpty(command.getTenChucVu())) {
                 from.append(" and lower(ten_chuc_vu) like :ten ");
-                params.put("ten", command.getTenChucVu().toLowerCase(Locale.ROOT));
+                params.put("ten", '%' + command.getTenChucVu().toLowerCase(Locale.ROOT) + "%");
             }
             if (!DataUtil.isNullOrEmpty(command.getMaChucVu())) {
                 from.append(" and lower(ma_chuc_vu) like :ma ");
-                params.put("ma", command.getMaChucVu().toLowerCase(Locale.ROOT));
+                params.put("ma", '%' + command.getMaChucVu().toLowerCase(Locale.ROOT) + "%");
             }
             queryStr.append(from);
             count.append(from);
@@ -82,7 +81,7 @@ public class ChucVuServiceImpl extends AbstractService<ChucVu, Long> implements 
             }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
-            List<ChucVuDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maChucVu","tenChucVu", "mieuTa", "heSoLuong")
+            List<ChucVuDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maChucVu", "tenChucVu", "mieuTa", "heSoLuong")
                     , objects, ChucVuDTO.class);
 
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));

@@ -1,6 +1,5 @@
 package com.example.qlbhbe.service.kyluat;
 
-import com.example.qlbhbe.dto.KhenThuongDTO;
 import com.example.qlbhbe.dto.KyLuatDTO;
 import com.example.qlbhbe.entity.KyLuat;
 import com.example.qlbhbe.mapper.KyLuatMapper;
@@ -60,11 +59,11 @@ public class KyLuatServiceImpl extends AbstractService<KyLuat, Long> implements 
             from.append(" from ky_luat where 1 = 1 ");
             if (!DataUtil.isNullOrEmpty(command.getTenLoi())) {
                 from.append(" and lower(ten_loi) like :ten ");
-                params.put("ten", command.getTenLoi().toLowerCase(Locale.ROOT));
+                params.put("ten", '%' + command.getTenLoi().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getMaKyLuat())) {
                 from.append(" and lower(ma_ky_luat) like :ma ");
-                params.put("ma", command.getMaKyLuat().toLowerCase(Locale.ROOT));
+                params.put("ma", '%' + command.getMaKyLuat().toLowerCase(Locale.ROOT) + '%');
             }
             queryStr.append(from);
             count.append(from);

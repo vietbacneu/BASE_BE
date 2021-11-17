@@ -4,6 +4,8 @@ import com.example.qlbhbe.controller.request.UpdateNhanVienBaoHiemRequest;
 import com.example.qlbhbe.controller.response.CreatedIdResponse;
 import com.example.qlbhbe.dto.NhanVienBaoHiemDTO;
 import com.example.qlbhbe.dto.PhongBanDTO;
+import com.example.qlbhbe.entity.BaoHiem;
+import com.example.qlbhbe.entity.NhanVien;
 import com.example.qlbhbe.entity.NhanVienBaoHiem;
 import com.example.qlbhbe.mapper.NhanVienBaoHiemMapper;
 import com.example.qlbhbe.service.nhanvienbaohiem.NhanVienBaoHiemService;
@@ -30,6 +32,12 @@ public class NhanVienBaoHiemController {
     @PostMapping
     public CreatedIdResponse create(@Valid @RequestBody NhanVienBaoHiemDTO command) {
         NhanVienBaoHiem nhanVienBaoHiem = NhanVienBaoHiemMapper.INSTANCE.create(command);
+        NhanVien nhanVien = new NhanVien();
+        nhanVien.setId(command.getNhanVienId());
+        nhanVienBaoHiem.setNhanVien(nhanVien);
+        BaoHiem baoHiem = new BaoHiem();
+        baoHiem.setId(command.getidBaoHiem());
+        nhanVienBaoHiem.setBaoHiem(baoHiem);
         nhanVienBaoHiemService.save(nhanVienBaoHiem);
         return new CreatedIdResponse(nhanVienBaoHiem.getId());
     }

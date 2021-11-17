@@ -35,18 +35,25 @@ public class NhanVienKyLuatDTO {
 
     private LocalDateTime ngayKetThucNhanVien;
 
-    private Long kyLuatId;
+    private String tenChucVu;
 
-    private String kyLuatTenLoi;
+    private String tenPhongBan;
 
-    private Double kyLuatMucPhat;
+    private Long idKyLuat;
 
-    private String kyLuatMieuTa;
+    private String tenLoi;
+
+    private Double mucPhat;
+
+    private String nhanVienMieuTa;
+
+    private Long isCount;
+
 
     public NhanVienKyLuatDTO() {
     }
 
-    public NhanVienKyLuatDTO(Long id, String mieuta, LocalDateTime ngay, Long idNhanVien, String  hoNhanVien, String tenNhanVien, String sdtNhanVien, String emailNhanVien, String gioiTinhNhanVien, String diaChiNhanVien, LocalDateTime ngaySinhNhanVien, LocalDateTime ngayBatDauNhanVien, LocalDateTime ngayKetThucNhanVien, Long kyLuatId, String kyLuatTenLoi, Double kyLuatMucPhat, String kyLuatMieuTa) {
+    public NhanVienKyLuatDTO(Long id, String mieuta, LocalDateTime ngay, Long idNhanVien, String  hoNhanVien, String tenNhanVien, String sdtNhanVien, String emailNhanVien, String gioiTinhNhanVien, String diaChiNhanVien, LocalDateTime ngaySinhNhanVien, LocalDateTime ngayBatDauNhanVien, LocalDateTime ngayKetThucNhanVien, Long idKyLuat, String tenLoi, Double mucPhat, String mieuTa) {
         this.id = id;
         this.mieuta = mieuta;
         this.ngay = ngay;
@@ -60,10 +67,50 @@ public class NhanVienKyLuatDTO {
         this.ngaySinhNhanVien = ngaySinhNhanVien;
         this.ngayBatDauNhanVien = ngayBatDauNhanVien;
         this.ngayKetThucNhanVien = ngayKetThucNhanVien;
-        this.kyLuatId = kyLuatId;
-        this.kyLuatTenLoi = kyLuatTenLoi;
-        this.kyLuatMucPhat = kyLuatMucPhat;
-        this.kyLuatMieuTa = kyLuatMieuTa;
+        this.idKyLuat = idKyLuat;
+        this.tenLoi = tenLoi;
+        this.mucPhat = mucPhat;
+        this.nhanVienMieuTa = mieuTa;
+    }
+
+    public String getTenChucVu() {
+        return tenChucVu;
+    }
+
+    public void setTenChucVu(String tenChucVu) {
+        this.tenChucVu = tenChucVu;
+    }
+
+    public String getTenPhongBan() {
+        return tenPhongBan;
+    }
+
+    public void setTenPhongBan(String tenPhongBan) {
+        this.tenPhongBan = tenPhongBan;
+    }
+
+    public Long getIdNhanVien() {
+        return idNhanVien;
+    }
+
+    public void setIdNhanVien(Long idNhanVien) {
+        this.idNhanVien = idNhanVien;
+    }
+
+    public Long getIdKyLuat() {
+        return idKyLuat;
+    }
+
+    public void setMucPhat(Double mucPhat) {
+        this.mucPhat = mucPhat;
+    }
+
+    public Long getIsCount() {
+        return isCount;
+    }
+
+    public void setIsCount(Long isCount) {
+        this.isCount = isCount;
     }
 
     public Long getId() {
@@ -170,35 +217,35 @@ public class NhanVienKyLuatDTO {
         this.ngayKetThucNhanVien = ngayKetThucNhanVien;
     }
 
-    public Long getKyLuatId() {
-        return this.kyLuatId;
+    public Long getidKyLuat() {
+        return this.idKyLuat;
     }
 
-    public void setKyLuatId(Long kyLuatId) {
-        this.kyLuatId = kyLuatId;
+    public void setIdKyLuat(Long idKyLuat) {
+        this.idKyLuat = idKyLuat;
     }
 
-    public String getKyLuatTenLoi() {
-        return this.kyLuatTenLoi;
+    public String getTenLoi() {
+        return this.tenLoi;
     }
 
-    public void setKyLuatTenLoi(String kyLuatTenLoi) {
-        this.kyLuatTenLoi = kyLuatTenLoi;
+    public void setTenLoi(String tenLoi) {
+        this.tenLoi = tenLoi;
     }
 
-    public Double getKyLuatMucPhat() {
-        return this.kyLuatMucPhat;
+    public Double getMucPhat() {
+        return this.mucPhat;
     }
 
-    public void setKyLuatMucPhat(Double kyLuatMucPhat) {
-        this.kyLuatMucPhat = kyLuatMucPhat;
+    public void setmucphat(Double mucPhat) {
+        this.mucPhat = mucPhat;
     }
 
-    public String getKyLuatMieuTa() {
-        return this.kyLuatMieuTa;
+    public String getNhanVienMieuTa() {
+        return this.nhanVienMieuTa;
     }
 
-    public void setKyLuatMieuTa(String kyLuatMieuTa) {
-        this.kyLuatMieuTa = kyLuatMieuTa;
+    public void setNhanVienMieuTa(String nhanVienMieuTa) {
+        this.nhanVienMieuTa = nhanVienMieuTa;
     }
 }

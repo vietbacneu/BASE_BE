@@ -1,6 +1,8 @@
 package com.example.qlbhbe.service.nhanvienbaohiem;
 
 import com.example.qlbhbe.dto.NhanVienBaoHiemDTO;
+import com.example.qlbhbe.entity.BaoHiem;
+import com.example.qlbhbe.entity.NhanVien;
 import com.example.qlbhbe.entity.NhanVienBaoHiem;
 import com.example.qlbhbe.mapper.NhanVienBaoHiemMapper;
 import com.example.qlbhbe.repo.nhanvienbaohiem.NhanVienBaoHiemRepo;
@@ -39,6 +41,12 @@ public class NhanVienBaoHiemServiceImpl extends AbstractService<NhanVienBaoHiem,
         Optional<NhanVienBaoHiem> opt = nhanVienBaoHiemRepo.findById(id);
         if (opt.isPresent()) {
             NhanVienBaoHiem nhanVienBaoHiem = opt.get();
+            NhanVien nhanVien = new NhanVien();
+            nhanVien.setId(command.getNhanVienId());
+            nhanVienBaoHiem.setNhanVien(nhanVien);
+            BaoHiem baoHiem = new BaoHiem();
+            baoHiem.setId(command.getidBaoHiem());
+            nhanVienBaoHiem.setBaoHiem(baoHiem);
             return NhanVienBaoHiemMapper.INSTANCE.update(command, nhanVienBaoHiem);
         }
         return null;
@@ -54,12 +62,11 @@ public class NhanVienBaoHiemServiceImpl extends AbstractService<NhanVienBaoHiem,
             queryStr.append(" select n.id, n.ho , n.ten, " +
                     "(select ten_chuc_vu from chuc_vu c where c.id = n.id_chuc_vu) tenChucvu, " +
                     "(select ten from phong_ban c where c.id = n.id_phong_ban) tenPP, " +
-                    " bh.ten as tenBh, bh.muc_dong, nbh.ngay_dong " +
-                    " from nhan_vien n, nhan_vien_bao_hiem nbh, bao_hiem bh " +
-                    "where n.id = nbh.id_nhan_vien and nbh.id_bao_hiem = bh.id");
+                    " bh.ten as tenBh, bh.muc_dong, nbh.ngay_dong, nbh.mieu_ta ");
 
             count.append("select count(*) ");
-            from.append(" from bao_hiem where 1 = 1 ");
+            from.append(" from nhan_vien n, nhan_vien_bao_hiem nbh, bao_hiem bh  " +
+                    "   where n.id = nbh.id_nhan_vien and nbh.id_bao_hiem = bh.id ");
             if (!DataUtil.isNullOrEmpty(command.getTenNhanVien())) {
                 from.append(" and ( lower(n.ten) like :ten or lower(n.ho) like :ten ) ");
                 params.put("ten", '%' + command.getTenNhanVien().toLowerCase(Locale.ROOT) + '%');
@@ -84,7 +91,7 @@ public class NhanVienBaoHiemServiceImpl extends AbstractService<NhanVienBaoHiem,
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<NhanVienBaoHiemDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("idNhanVien", " hoNhanVien", "tenNhanVien",
-                            "tenChucVu", "tenPhongBan", "tenBaoHiem", "mucDong", "ngayDong")
+                            "tenChucVu", "tenPhongBan", "tenBaoHiem", "mucDong", "ngayDong","mieuTa")
                     , objects, NhanVienBaoHiemDTO.class);
 
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));

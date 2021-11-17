@@ -14,6 +14,6 @@ public interface NhanVienBaoHiemService extends BaseService<NhanVienBaoHiem, Lon
 
     NhanVienBaoHiem update(long id, NhanVienBaoHiemDTO command);
 
-    public Page<NhanVienBaoHiemDTO> search(@RequestBody(required = false) NhanVienBaoHiemDTO command, @PageableDefault Pageable pageable) throws Exception;
+    public Page<NhanVienBaoHiemDTO> search( NhanVienBaoHiemDTO command, Pageable pageable) throws Exception;
 
 }

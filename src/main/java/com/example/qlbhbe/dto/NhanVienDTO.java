@@ -49,6 +49,8 @@ public class NhanVienDTO {
 
     private String phongBanMieuTa;
 
+    private Long isCount;
+
     public NhanVienDTO() {
     }
 
@@ -73,6 +75,14 @@ public class NhanVienDTO {
         this.phongBanTen = phongBanTen;
         this.phongBanThongTin = phongBanThongTin;
         this.phongBanMieuTa = phongBanMieuTa;
+    }
+
+    public Long getIsCount() {
+        return isCount;
+    }
+
+    public void setIsCount(Long isCount) {
+        this.isCount = isCount;
     }
 
     public Long getId() {

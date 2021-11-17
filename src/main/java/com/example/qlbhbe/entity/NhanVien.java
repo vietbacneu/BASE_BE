@@ -49,9 +49,6 @@ public class NhanVien implements Serializable {
     @Column(name = "ngay_bat_dau")
     private LocalDateTime ngayBatDau;
 
-    @Column(name = "ngay_ket_thuc")
-    private LocalDateTime ngayKetThuc;
-
     @Column(name = "trinh_do")
     private String trinhDo;
 
@@ -138,13 +135,6 @@ public class NhanVien implements Serializable {
         this.ngayBatDau = ngayBatDau;
     }
 
-    public java.time.LocalDateTime getNgayKetThuc() {
-        return this.ngayKetThuc;
-    }
-
-    public void setNgayKetThuc(java.time.LocalDateTime ngayKetThuc) {
-        this.ngayKetThuc = ngayKetThuc;
-    }
 
     public String getTrinhDo() {
         return this.trinhDo;

@@ -64,7 +64,7 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
             count.append("select count(*) ");
             from.append(" from nhan_vien n, cham_cong cc where cc.id_nhan_vien = n.id ");
             if (!DataUtil.isNullOrEmpty(command.getTenNhanVien())) {
-                from.append("  concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten ");
+                from.append("   and concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten ");
                 params.put("ten", '%' + command.getTenNhanVien().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getNgayLam())) {
@@ -131,7 +131,7 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
 
             count.append("select count(*) ");
             if (!DataUtil.isNullOrEmpty(command.getTenNhanVien())) {
-                queryStr.append("  concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten ");
+                queryStr.append("   and concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten ");
                 params.put("ten", '%' + command.getTenNhanVien().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getNgayLam())) {

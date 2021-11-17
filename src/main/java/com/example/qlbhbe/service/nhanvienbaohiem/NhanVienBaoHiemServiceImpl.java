@@ -68,7 +68,7 @@ public class NhanVienBaoHiemServiceImpl extends AbstractService<NhanVienBaoHiem,
             from.append(" from nhan_vien n, nhan_vien_bao_hiem nbh, bao_hiem bh  " +
                     "   where n.id = nbh.id_nhan_vien and nbh.id_bao_hiem = bh.id ");
             if (!DataUtil.isNullOrEmpty(command.getTenNhanVien())) {
-                from.append("  concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten ");
+                from.append("   and concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten ");
                 params.put("ten", '%' + command.getTenNhanVien().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getIdBaoHiem())) {

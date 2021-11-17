@@ -77,7 +77,7 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
             from.append(" from nhan_vien n  " +
                     "   where 1=1 ");
             if (!DataUtil.isNullOrEmpty(command.getTen())) {
-                from.append("  concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten ");
+                from.append("   and concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten ");
                 params.put("ten", '%' + command.getTen().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getChucVuId())) {
@@ -306,7 +306,7 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
                     "    left join khen_thuong kt on (nvkt.id_khen_thuong = kt.id)  " +
                     "    where 1=1  ");
             if (!DataUtil.isNullOrEmpty(command.getTen())) {
-                from.append("  concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten ");
+                from.append("   and concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten ");
                 params.put("ten", '%' + command.getTen().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getChucVuId())) {

@@ -76,6 +76,10 @@ public class NhanVienKyLuatServiceImpl extends AbstractService<NhanVienKyLuat, L
                 from.append(" and bh.id = :ma ");
                 params.put("ma", command.getIdKyLuat());
             }
+            if (!DataUtil.isNullOrEmpty(command.getMonth())) {
+                from.append(" and month(nbh.ngay) = :month ");
+                params.put("month", command.getMonth());
+            }
             from.append("  order by nbh.id desc");
             queryStr.append(from);
             count.append(from);

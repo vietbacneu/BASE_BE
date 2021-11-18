@@ -12,7 +12,7 @@ public class ChamCongDTO {
 
     private Long id;
 
-    private Double soGioLam;
+    private Double soGioLam = 0d;
 
     private LocalDate ngayLam;
 
@@ -41,7 +41,6 @@ public class ChamCongDTO {
         this.ngayLam = ngayLam;
         this.mieuTa = mieuTa;
     }
-
 
 
     public Long getIdNhanVien() {

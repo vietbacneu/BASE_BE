@@ -150,7 +150,7 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
             headerCellStyle.setAlignment(HorizontalAlignment.CENTER);
             headerCellStyle.setWrapText(true);
             Row headerRow = sheet.createRow(3);
-            for (int i = 0; i < 11; i++) {
+            for (int i = 0; i < 12; i++) {
                 sheet.setColumnWidth(i, 8500);
                 Cell cell = headerRow.createCell(i);
                 if (i == 0) {
@@ -195,6 +195,10 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
                 }
                 if (i == 10) {
                     cell.setCellValue("Ngày bắt đầu làm");
+                    cell.setCellStyle(headerCellStyle);
+                }
+                if (i == 11) {
+                    cell.setCellValue("Hệ số lương");
                     cell.setCellStyle(headerCellStyle);
                 }
             }
@@ -259,6 +263,9 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
                 }
                 cell10.setCellStyle(cellStyle);
 
+                Cell cell11 = row.createCell(11);
+                cell11.setCellValue(sanPhamDTO1.getHeSoLuong());
+                cell11.setCellStyle(cellStyle);
             }
 
             String path = "D:/BaoCaoNhanVien" + System.currentTimeMillis() + ".xlsx";
@@ -281,32 +288,27 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
             StringBuilder count = new StringBuilder();
             StringBuilder from = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
-            queryStr.append(" SELECT  " +
-                    "    n.id, " +
-                    "    n.ho, " +
-                    "    n.ten, " +
-                    "    (SELECT  " +
-                    "            ten_chuc_vu " +
-                    "        FROM " +
-                    "            chuc_vu c " +
-                    "        WHERE " +
-                    "            c.id = n.id_chuc_vu) tenChucvu,  " +
-                    "    (SELECT  " +
-                    "            ten " +
-                    "        FROM " +
-                    "            phong_ban c " +
-                    "        WHERE " +
-                    "            c.id = n.id_phong_ban) tenPP, " +
-                    "            kl.ten_loi, sum(kl.muc_phat) , kt.ten , sum(kt.muc_thuong) ");
-
             count.append("select count(*) ");
-            from.append("     from nhan_vien n left join nhan_vien_ky_luat nvkl on (nvkl.id_nhan_vien = n.id)  " +
-                    "    left join ky_luat kl on (nvkl.id_ky_luat = kl.id)  " +
-                    "    left join nhan_vien_khen_thuong nvkt on (nvkt.id_nhan_vien = n.id) " +
-                    "    left join khen_thuong kt on (nvkt.id_khen_thuong = kt.id)  " +
-                    "    where 1=1  ");
+            queryStr.append(" SELECT  n.id," +
+                    "       n.ho," +
+                    "       n.ten," +
+                    "       (SELECT ten_chuc_vu" +
+                    "        FROM chuc_vu c" +
+                    "        WHERE c.id = n.id_chuc_vu)   tenChucvu," +
+                    "       (SELECT ten" +
+                    "        FROM phong_ban c" +
+                    "        WHERE c.id = n.id_phong_ban) tenPP," +
+                    "      0 as                 tenLoi," +
+                    "      0 as mucPhat," +
+                    "       kt.ten     as                 tenThuong," +
+                    "       sum(kt.muc_thuong)," +
+                    "       'KT' as type" +
+                    " from nhan_vien n ," +
+                    "     nhan_vien_khen_thuong nvkt," +
+                    "     khen_thuong kt" +
+                    " where nvkt.id_nhan_vien = n.id and nvkt.id_khen_thuong = kt.id");
             if (!DataUtil.isNullOrEmpty(command.getTen())) {
-                from.append("   and concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten ");
+                queryStr.append("   and concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten ");
                 params.put("ten", '%' + command.getTen().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getChucVuId())) {
@@ -317,9 +319,58 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
                 from.append(" and n.id_phong_ban = :pb ");
                 params.put("pb", command.getPhongBanId());
             }
-            from.append(" group by n.id , kl.id, kt.id order by n.id desc");
+            if (!DataUtil.isNullOrEmpty(command.getMonth())) {
+                from.append(" and month(nvkt.ngay) = :month ");
+                params.put("month", command.getPhongBanId());
+            }
+            queryStr.append("group by n.id" +
+                    " union all" +
+                    " SELECT  n.id," +
+                    "       n.ho," +
+                    "       n.ten," +
+                    "       (SELECT ten_chuc_vu" +
+                    "        FROM chuc_vu c" +
+                    "        WHERE c.id = n.id_chuc_vu)   tenChucvu," +
+                    "       (SELECT ten" +
+                    "        FROM phong_ban c" +
+                    "        WHERE c.id = n.id_phong_ban) tenPP," +
+                    "       kl.ten_loi as                 tenLoi," +
+                    "       sum(kl.muc_phat)," +
+                    "      0     as                 tenThuong," +
+                    "      0 as mucThuong," +
+                    "       'KL' as type" +
+                    " from nhan_vien n" +
+                    "         left join" +
+                    "     nhan_vien_ky_luat nvkl" +
+                    "     on (" +
+                    "             nvkl.id_nhan_vien = n.id" +
+                    "         )" +
+                    "         left join" +
+                    "     ky_luat kl" +
+                    "     on (" +
+                    "             nvkl.id_ky_luat = kl.id" +
+                    "         )" +
+                    " where 1 = 1");
+            if (!DataUtil.isNullOrEmpty(command.getTen())) {
+                queryStr.append("  and concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten1 ");
+                params.put("ten1", '%' + command.getTen().toLowerCase(Locale.ROOT) + '%');
+            }
+            if (!DataUtil.isNullOrEmpty(command.getChucVuId())) {
+                from.append(" and n.id_chuc_vu = :cv1 ");
+                params.put("cv1", command.getChucVuId());
+            }
+            if (!DataUtil.isNullOrEmpty(command.getPhongBanId())) {
+                from.append(" and n.id_phong_ban = :pb1 ");
+                params.put("pb1", command.getPhongBanId());
+            }
+            if (!DataUtil.isNullOrEmpty(command.getMonth())) {
+                from.append(" and month(nvkt.ngay) = :month1 ");
+                params.put("month1", command.getPhongBanId());
+            }
+            queryStr.append(" group by n.id ");
+
             queryStr.append(from);
-            count.append(from);
+            count.append(" from (").append(queryStr).append(" ) tmp");
             Query query = entityManager.createNativeQuery(queryStr.toString());
             Query countQuery = entityManager.createNativeQuery(count.toString());
 
@@ -327,17 +378,26 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
                 query.setParameter(p.getKey(), p.getValue());
                 countQuery.setParameter(p.getKey(), p.getValue());
             }
-            if (!DataUtil.isNullOrEmpty(command.getIsCount()) && command.getIsCount() == 1) {
-                query.setFirstResult((int) pageable.getOffset());
-                query.setMaxResults(pageable.getPageSize());
-            }
+//            if (!DataUtil.isNullOrEmpty(command.getIsCount()) && command.getIsCount() == 1) {
+//                query.setFirstResult((int) pageable.getOffset());
+//                query.setMaxResults(pageable.getPageSize());
+//            }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<NhanVienDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "ho", "ten",
-                            "tenChucVu", "tenPhongBan", "tenLoi", "mucPhat", "tenThuong", "mucThuong")
+                            "tenChucVu", "tenPhongBan", "tenLoi", "mucPhat", "tenThuong", "mucThuong", "type")
                     , objects, NhanVienDTO.class);
-
-            return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));
+            List<NhanVienDTO> result = new ArrayList<>();
+            for (int i = 0; i < danhMucDTOS.size(); i++) {
+                for (int i1 = i + 1; i1 < danhMucDTOS.size(); i1++) {
+                    if (danhMucDTOS.get(i).getId().equals(danhMucDTOS.get(i1).getId()) && !danhMucDTOS.get(i).getType().equals(danhMucDTOS.get(i1).getType())) {
+                        NhanVienDTO nhanVienDTO = danhMucDTOS.get(i);
+                        nhanVienDTO.setTenLoi(danhMucDTOS.get(i1).getTenLoi());
+                        nhanVienDTO.setMucPhat(danhMucDTOS.get(i1).getMucPhat());
+                    }
+                }
+            }
+            return new PageImpl<>(result, pageable, Long.parseLong(o.toString()));
         } catch (Exception e) {
             throw e;
         }
@@ -414,7 +474,7 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
                 }
             }
             int rowNum = 4;
-            List<NhanVienDTO> nhapHangDTOS = search(command, PageRequest.of(0, 1000)).getContent();
+            List<NhanVienDTO> nhapHangDTOS = danhGia(command, PageRequest.of(0, 1000)).getContent();
             CellStyle cellStyle = workbook.createCellStyle();
 
             cellStyle.setBorderBottom(BorderStyle.THIN);
@@ -443,7 +503,8 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
                 cell23.setCellStyle(cellStyle);
 
                 Cell cell3 = row.createCell(4);
-                cell3.setCellValue(sanPhamDTO1.getMucPhat());
+                if (!DataUtil.isNullOrEmpty(sanPhamDTO1.getMucPhat()))
+                    cell3.setCellValue(sanPhamDTO1.getMucPhat());
                 cell3.setCellStyle(cellStyle);
 
                 Cell cell4 = row.createCell(5);
@@ -451,12 +512,13 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
                 cell4.setCellStyle(cellStyle);
 
                 Cell cell41 = row.createCell(6);
-                cell41.setCellValue(sanPhamDTO1.getMucThuong());
+                if (!DataUtil.isNullOrEmpty(sanPhamDTO1.getMucThuong()))
+                    cell41.setCellValue(sanPhamDTO1.getMucThuong());
                 cell41.setCellStyle(cellStyle);
 
             }
 
-            String path = "D:/BaoCaoNhanVien" + System.currentTimeMillis() + ".xlsx";
+            String path = "D:/BaoCaoDanhGiaNhanVien" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
             workbook.write(fileOut);
             fileOut.close();

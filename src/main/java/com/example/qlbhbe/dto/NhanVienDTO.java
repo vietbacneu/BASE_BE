@@ -59,7 +59,8 @@ public class NhanVienDTO {
     private String tenThuong;
     private Double mucPhat;
     private Double mucThuong;
-
+    private LocalDate month;
+    private String type;
     public NhanVienDTO() {
     }
 
@@ -86,6 +87,14 @@ public class NhanVienDTO {
         this.phongBanMieuTa = phongBanMieuTa;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String getTenLoi() {
         return tenLoi;
     }
@@ -104,6 +113,14 @@ public class NhanVienDTO {
 
     public Double getMucPhat() {
         return mucPhat;
+    }
+
+    public LocalDate getMonth() {
+        return month;
+    }
+
+    public void setMonth(LocalDate month) {
+        this.month = month;
     }
 
     public void setMucPhat(Double mucPhat) {

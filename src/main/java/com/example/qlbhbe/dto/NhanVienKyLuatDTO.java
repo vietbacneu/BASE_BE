@@ -47,10 +47,20 @@ public class NhanVienKyLuatDTO {
 
     private String nhanVienMieuTa;
 
+    private LocalDate month;
+
     private Long isCount;
 
 
     public NhanVienKyLuatDTO() {
+    }
+
+    public LocalDate getMonth() {
+        return month;
+    }
+
+    public void setMonth(LocalDate month) {
+        this.month = month;
     }
 
     public Long getId() {

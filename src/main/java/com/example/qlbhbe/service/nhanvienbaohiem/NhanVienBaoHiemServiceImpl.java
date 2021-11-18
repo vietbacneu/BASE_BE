@@ -59,7 +59,7 @@ public class NhanVienBaoHiemServiceImpl extends AbstractService<NhanVienBaoHiem,
             StringBuilder count = new StringBuilder();
             StringBuilder from = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
-            queryStr.append(" select n.id as nvId, n.ho , n.ten, " +
+            queryStr.append(" select nbh.id asNvbh, n.id as nvId, n.ho , n.ten, " +
                     "(select ten_chuc_vu from chuc_vu c where c.id = n.id_chuc_vu) tenChucvu, " +
                     "(select ten from phong_ban c where c.id = n.id_phong_ban) tenPP, " +
                     " bh.ten as tenBh, nbh.muc_dong, nbh.ngay_dong, nbh.mieu_ta, bh.id ");
@@ -74,6 +74,12 @@ public class NhanVienBaoHiemServiceImpl extends AbstractService<NhanVienBaoHiem,
             if (!DataUtil.isNullOrEmpty(command.getIdBaoHiem())) {
                 from.append(" and bh.id = :ma ");
                 params.put("ma", command.getIdBaoHiem());
+            }
+            if (!DataUtil.isNullOrEmpty(command.getMonth())) {
+                from.append(" and month(nbh.ngay_dong) = :month ");
+                params.put("month", command.getMonth().substring(5));
+                from.append(" and year(nbh.ngay_dong) = :year ");
+                params.put("year", command.getMonth().substring(0,4));
             }
             from.append("  order by nbh.id desc");
 
@@ -92,7 +98,7 @@ public class NhanVienBaoHiemServiceImpl extends AbstractService<NhanVienBaoHiem,
             }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
-            List<NhanVienBaoHiemDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("idNhanVien", "hoNhanVien", "tenNhanVien",
+            List<NhanVienBaoHiemDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id","idNhanVien", "hoNhanVien", "tenNhanVien",
                             "tenChucVu", "tenPhongBan", "tenBaoHiem", "mucDong", "ngayDong","mieuTa","idBaoHiem")
                     , objects, NhanVienBaoHiemDTO.class);
 

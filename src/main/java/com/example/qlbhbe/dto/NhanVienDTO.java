@@ -59,7 +59,7 @@ public class NhanVienDTO {
     private String tenThuong;
     private Double mucPhat;
     private Double mucThuong;
-    private LocalDate month;
+    private String month;
     private String type;
     private String tenThuongPhat;
     private Double valueThuongPhat;
@@ -133,11 +133,11 @@ public class NhanVienDTO {
         return mucPhat;
     }
 
-    public LocalDate getMonth() {
+    public String getMonth() {
         return month;
     }
 
-    public void setMonth(LocalDate month) {
+    public void setMonth(String month) {
         this.month = month;
     }
 

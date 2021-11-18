@@ -312,16 +312,18 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
                 params.put("ten", '%' + command.getTen().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getChucVuId())) {
-                from.append(" and n.id_chuc_vu = :cv ");
+                queryStr.append(" and n.id_chuc_vu = :cv ");
                 params.put("cv", command.getChucVuId());
             }
             if (!DataUtil.isNullOrEmpty(command.getPhongBanId())) {
-                from.append(" and n.id_phong_ban = :pb ");
+                queryStr.append(" and n.id_phong_ban = :pb ");
                 params.put("pb", command.getPhongBanId());
             }
             if (!DataUtil.isNullOrEmpty(command.getMonth())) {
-                from.append(" and month(nvkt.ngay) = :month ");
-                params.put("month", command.getPhongBanId());
+                queryStr.append(" and month(nvkt.ngay) = :month ");
+                params.put("month", command.getMonth().substring(5));
+                queryStr.append(" and year(nvkt.ngay) = :year ");
+                params.put("year", command.getMonth().substring(0,4));
             }
             queryStr.append(" group by n.id, kt.id " +
                     " union all " +
@@ -356,16 +358,18 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
                 params.put("ten1", '%' + command.getTen().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getChucVuId())) {
-                from.append(" and n.id_chuc_vu = :cv1 ");
+                queryStr.append(" and n.id_chuc_vu = :cv1 ");
                 params.put("cv1", command.getChucVuId());
             }
             if (!DataUtil.isNullOrEmpty(command.getPhongBanId())) {
-                from.append(" and n.id_phong_ban = :pb1 ");
+                queryStr.append(" and n.id_phong_ban = :pb1 ");
                 params.put("pb1", command.getPhongBanId());
             }
             if (!DataUtil.isNullOrEmpty(command.getMonth())) {
-                from.append(" and month(nvkt.ngay) = :month1 ");
-                params.put("month1", command.getPhongBanId());
+                queryStr.append(" and month(nvkl.ngay) = :month1 ");
+                params.put("month1", command.getMonth().substring(5));
+                queryStr.append(" and year(nvkl.ngay) = :year1 ");
+                params.put("year1", command.getMonth().substring(0,4));
             }
             queryStr.append(" group by n.id , kl.id");
 
@@ -449,7 +453,7 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
             headerCellStyle.setAlignment(HorizontalAlignment.CENTER);
             headerCellStyle.setWrapText(true);
             Row headerRow = sheet.createRow(3);
-            for (int i = 0; i < 7; i++) {
+            for (int i = 0; i < 5; i++) {
                 sheet.setColumnWidth(i, 8500);
                 Cell cell = headerRow.createCell(i);
 
@@ -466,19 +470,11 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
                     cell.setCellStyle(headerCellStyle);
                 }
                 if (i == 3) {
-                    cell.setCellValue("Tên Lỗi");
+                    cell.setCellValue("Tên Lỗi/Thưởng");
                     cell.setCellStyle(headerCellStyle);
                 }
                 if (i == 4) {
-                    cell.setCellValue("Mức Phạt");
-                    cell.setCellStyle(headerCellStyle);
-                }
-                if (i == 5) {
-                    cell.setCellValue("Tên Thưởng");
-                    cell.setCellStyle(headerCellStyle);
-                }
-                if (i == 6) {
-                    cell.setCellValue("Mức Thưởng");
+                    cell.setCellValue("Mức Phạt/Thưởng");
                     cell.setCellStyle(headerCellStyle);
                 }
             }
@@ -508,22 +504,13 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
                 cell2.setCellStyle(cellStyle);
 
                 Cell cell23 = row.createCell(3);
-                cell23.setCellValue(sanPhamDTO1.getTenLoi());
+                cell23.setCellValue(sanPhamDTO1.getTenThuongPhat());
                 cell23.setCellStyle(cellStyle);
 
                 Cell cell3 = row.createCell(4);
-                if (!DataUtil.isNullOrEmpty(sanPhamDTO1.getMucPhat()))
-                    cell3.setCellValue(sanPhamDTO1.getMucPhat());
+                if (!DataUtil.isNullOrEmpty(sanPhamDTO1.getValueThuongPhat()))
+                    cell3.setCellValue(sanPhamDTO1.getValueThuongPhat());
                 cell3.setCellStyle(cellStyle);
-
-                Cell cell4 = row.createCell(5);
-                cell4.setCellValue(sanPhamDTO1.getTenThuong());
-                cell4.setCellStyle(cellStyle);
-
-                Cell cell41 = row.createCell(6);
-                if (!DataUtil.isNullOrEmpty(sanPhamDTO1.getMucThuong()))
-                    cell41.setCellValue(sanPhamDTO1.getMucThuong());
-                cell41.setCellStyle(cellStyle);
 
             }
 

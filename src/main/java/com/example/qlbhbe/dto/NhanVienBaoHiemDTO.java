@@ -55,7 +55,17 @@ public class NhanVienBaoHiemDTO {
 
     private Long isCount;
 
+    private String month;
+
     public NhanVienBaoHiemDTO() {
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
     }
 
     public Long getId() {

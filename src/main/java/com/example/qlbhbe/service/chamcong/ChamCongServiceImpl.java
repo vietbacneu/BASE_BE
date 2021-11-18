@@ -85,8 +85,8 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
             }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
-            List<ChamCongDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("idNhanVien", " hoNhanVien", "tenNhanVien",
-                            "tenChucVu", "tenPhongBan", "soGioLam", "ngayLam","mieuta")
+            List<ChamCongDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("idNhanVien", "hoNhanVien", "tenNhanVien",
+                            "tenChucVu", "tenPhongBan", "soGioLam", "ngayLam","mieuTa")
                     , objects, ChamCongDTO.class);
 
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));
@@ -136,10 +136,15 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
             }
             if (!DataUtil.isNullOrEmpty(command.getMonth())) {
                 queryStr.append(" and month(cc.ngay_lam) = ").append(command.getMonth().substring(5));
+                queryStr.append(" and year(cc.ngay_lam) = ").append(command.getMonth().substring(0,4));
             }
             if (!DataUtil.isNullOrEmpty(command.getIdPhongBan())) {
-                queryStr.append(" and n.id_phong_ban :pb ");
+                queryStr.append(" and n.id_phong_ban = :pb ");
                 params.put("pb", command.getIdPhongBan());
+            }
+            if (!DataUtil.isNullOrEmpty(command.getIdChucVu())) {
+                queryStr.append(" and n.id_chuc_vu = :cv ");
+                params.put("cv", command.getIdChucVu());
             }
             queryStr.append(" group by n.id ");
             count.append(" from ( ").append(queryStr).append(" ) as tmp");
@@ -258,7 +263,7 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
                 }
             }
             int rowNum = 4;
-            List<ChamCongDTO> nhapHangDTOS = search(command, PageRequest.of(0, 1000)).getContent();
+            List<ChamCongDTO> nhapHangDTOS = searchPhieuLuong(command, PageRequest.of(0, 1000)).getContent();
             CellStyle cellStyle = workbook.createCellStyle();
 
             cellStyle.setBorderBottom(BorderStyle.THIN);

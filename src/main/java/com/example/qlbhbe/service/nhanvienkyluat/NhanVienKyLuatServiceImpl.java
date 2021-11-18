@@ -60,7 +60,7 @@ public class NhanVienKyLuatServiceImpl extends AbstractService<NhanVienKyLuat, L
             StringBuilder count = new StringBuilder();
             StringBuilder from = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
-            queryStr.append(" select n.id as nvId, n.ho , n.ten, " +
+            queryStr.append(" select nbh.id asNvbh, n.id as nvId, n.ho , n.ten, " +
                     "(select ten_chuc_vu from chuc_vu c where c.id = n.id_chuc_vu) tenChucvu, " +
                     "(select ten from phong_ban c where c.id = n.id_phong_ban) tenPP, " +
                     " bh.ten_loi as tenBh, bh.muc_phat, nbh.ngay, nbh.mieu_ta, bh.id ");
@@ -79,6 +79,8 @@ public class NhanVienKyLuatServiceImpl extends AbstractService<NhanVienKyLuat, L
             if (!DataUtil.isNullOrEmpty(command.getMonth())) {
                 from.append(" and month(nbh.ngay) = :month ");
                 params.put("month", command.getMonth().substring(5));
+                from.append(" and year(nbh.ngay) = :year ");
+                params.put("year", command.getMonth().substring(0,4));
             }
             from.append("  order by nbh.id desc");
             queryStr.append(from);
@@ -96,7 +98,7 @@ public class NhanVienKyLuatServiceImpl extends AbstractService<NhanVienKyLuat, L
             }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
-            List<NhanVienKyLuatDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("idNhanVien", "hoNhanVien", "tenNhanVien",
+            List<NhanVienKyLuatDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id","idNhanVien", "hoNhanVien", "tenNhanVien",
                             "tenChucVu", "tenPhongBan", "tenLoi", "mucPhat", "ngay", "nhanVienMieuTa","idKyLuat")
                     , objects, NhanVienKyLuatDTO.class);
 

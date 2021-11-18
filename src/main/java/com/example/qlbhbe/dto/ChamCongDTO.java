@@ -25,6 +25,7 @@ public class ChamCongDTO {
     private String tenPhongBan;
     private Long isCount;
     private Long idPhongBan;
+    private Long idChucVu;
     private Double heSoLuong = 0d;
     private Double totalBaoHiem = 0d;
     private Double totalKhenThuong = 0d;
@@ -43,6 +44,14 @@ public class ChamCongDTO {
         this.soGioLam = soGioLam;
         this.ngayLam = ngayLam;
         this.mieuTa = mieuTa;
+    }
+
+    public Long getIdChucVu() {
+        return idChucVu;
+    }
+
+    public void setIdChucVu(Long idChucVu) {
+        this.idChucVu = idChucVu;
     }
 
     public String getMonth() {

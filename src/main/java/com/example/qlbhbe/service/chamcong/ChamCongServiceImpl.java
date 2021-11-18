@@ -162,8 +162,10 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
 
             if (!danhMucDTOS.isEmpty()) {
                 for (ChamCongDTO danhMucDTO : danhMucDTOS) {
-                    danhMucDTO.setTotalLuongAfter(danhMucDTO.getHeSoLuong() * danhMucDTO.getSoGioLam());
-                    danhMucDTO.setTotalLuongBefore(danhMucDTO.getTotalLuongAfter() + danhMucDTO.getTotalKhenThuong() - danhMucDTO.getTotalKyLuat() - danhMucDTO.getTotalBaoHiem());
+                    if(danhMucDTO.getSoGioLam()!= null && danhMucDTO.getHeSoLuong() != null){
+                        danhMucDTO.setTotalLuongAfter(danhMucDTO.getHeSoLuong() * danhMucDTO.getSoGioLam());
+                        danhMucDTO.setTotalLuongBefore(danhMucDTO.getTotalLuongAfter() + danhMucDTO.getTotalKhenThuong() - danhMucDTO.getTotalKyLuat() - danhMucDTO.getTotalBaoHiem());
+                    }
                 }
             }
 

@@ -323,7 +323,7 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
                 from.append(" and month(nvkt.ngay) = :month ");
                 params.put("month", command.getPhongBanId());
             }
-            queryStr.append(" group by n.id " +
+            queryStr.append(" group by n.id, kt.id " +
                     " union all " +
                     " SELECT  n.id," +
                     "       n.ho," +
@@ -367,7 +367,7 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
                 from.append(" and month(nvkt.ngay) = :month1 ");
                 params.put("month1", command.getPhongBanId());
             }
-            queryStr.append(" group by n.id ");
+            queryStr.append(" group by n.id , kl.id");
 
             queryStr.append(from);
             count.append(" from (").append(queryStr).append(" ) tmp");
@@ -387,7 +387,26 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
             List<NhanVienDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "ho", "ten",
                             "tenChucVu", "tenPhongBan", "tenLoi", "mucPhat", "tenThuong", "mucThuong", "type")
                     , objects, NhanVienDTO.class);
-            return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));
+            List<NhanVienDTO> result = new ArrayList<>();
+            for (NhanVienDTO danhMucDTO : danhMucDTOS) {
+                if (danhMucDTO.getTenThuong() != null) {
+                    if (danhMucDTO.getType().equals("KT")) {
+                        NhanVienDTO nhanVienDTO = danhMucDTO;
+                        nhanVienDTO.setTenThuongPhat(danhMucDTO.getTenThuong());
+                        nhanVienDTO.setValueThuongPhat(danhMucDTO.getMucThuong());
+                        result.add(nhanVienDTO);
+                    }
+                }
+                if (danhMucDTO.getType().equals("KL")) {
+                    if (danhMucDTO.getTenLoi() != null) {
+                        NhanVienDTO nhanVienDTO = danhMucDTO;
+                        nhanVienDTO.setTenThuongPhat(danhMucDTO.getTenLoi());
+                        nhanVienDTO.setValueThuongPhat(danhMucDTO.getMucPhat() * -1);
+                        result.add(nhanVienDTO);
+                    }
+                }
+            }
+            return new PageImpl<>(result, pageable, Long.parseLong(o.toString()));
         } catch (Exception e) {
             throw e;
         }

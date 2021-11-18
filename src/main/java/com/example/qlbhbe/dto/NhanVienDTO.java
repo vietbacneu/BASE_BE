@@ -61,6 +61,8 @@ public class NhanVienDTO {
     private Double mucThuong;
     private LocalDate month;
     private String type;
+    private String tenThuongPhat;
+    private Double valueThuongPhat;
     public NhanVienDTO() {
     }
 
@@ -85,6 +87,22 @@ public class NhanVienDTO {
         this.tenPhongBan = phongBanTen;
         this.phongBanThongTin = phongBanThongTin;
         this.phongBanMieuTa = phongBanMieuTa;
+    }
+
+    public String getTenThuongPhat() {
+        return tenThuongPhat;
+    }
+
+    public void setTenThuongPhat(String tenThuongPhat) {
+        this.tenThuongPhat = tenThuongPhat;
+    }
+
+    public Double getValueThuongPhat() {
+        return valueThuongPhat;
+    }
+
+    public void setValueThuongPhat(Double valueThuongPhat) {
+        this.valueThuongPhat = valueThuongPhat;
     }
 
     public String getType() {

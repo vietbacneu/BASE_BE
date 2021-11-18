@@ -71,7 +71,7 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
                 from.append(" and cc.ngay_lam = ").append(command.getNgayLam().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
             }
             queryStr.append(from);
-            count.append(from);
+            count.append(" from (").append(queryStr).append(" ) as tmp");
             Query query = entityManager.createNativeQuery(queryStr.toString());
             Query countQuery = entityManager.createNativeQuery(count.toString());
 

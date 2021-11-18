@@ -68,8 +68,8 @@ public class NhanVienKhenThuongServiceImpl extends AbstractService<NhanVienKhenT
             from.append("  from nhan_vien n, nhan_vien_khen_thuong nbh, khen_thuong bh " +
                     " where n.id = nbh.id_nhan_vien and nbh.id_khen_thuong = bh.id");
             if (!DataUtil.isNullOrEmpty(command.getTenNhanVien())) {
-                from.append("   and concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten ");
-                params.put("ten", '%' + command.getTenNhanVien().toLowerCase(Locale.ROOT) + '%');
+                String tmp = '%' + command.getTenNhanVien().toLowerCase(Locale.ROOT) + '%';
+                from.append("   and lower(concat( n.ho, ' ' ,n.ten) ) like '").append(tmp).append("'");
             }
             if (!DataUtil.isNullOrEmpty(command.getIdKhenThuong())) {
                 from.append(" and bh.id = :ma ");

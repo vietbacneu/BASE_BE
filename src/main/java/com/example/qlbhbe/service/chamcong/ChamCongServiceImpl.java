@@ -2,6 +2,7 @@ package com.example.qlbhbe.service.chamcong;
 
 import com.example.qlbhbe.dto.ChamCongDTO;
 import com.example.qlbhbe.entity.ChamCong;
+import com.example.qlbhbe.entity.NhanVien;
 import com.example.qlbhbe.mapper.ChamCongMapper;
 import com.example.qlbhbe.repo.chamcong.ChamCongRepo;
 import com.example.qlbhbe.service.AbstractService;
@@ -45,6 +46,9 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
         Optional<ChamCong> opt = chamCongRepo.findById(id);
         if (opt.isPresent()) {
             ChamCong chamCong = opt.get();
+            NhanVien nhanVien =  new NhanVien();
+            nhanVien.setId(command.getIdNhanVien());
+            chamCong.setNhanVien(nhanVien);
             return ChamCongMapper.INSTANCE.update(command, chamCong);
         }
         return null;
@@ -57,18 +61,18 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
             StringBuilder count = new StringBuilder();
             StringBuilder from = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
-            queryStr.append(" select n.id as nvId, n.ho , n.ten, " +
+            queryStr.append(" select cc.id as ccid ,n.id as nvId, n.ho , n.ten, " +
                     "(select ten_chuc_vu from chuc_vu c where c.id = n.id_chuc_vu) tenChucvu, " +
                     "(select ten from phong_ban c where c.id = n.id_phong_ban) tenPP, cc.so_gio_lam, cc.ngay_lam, cc.mieu_ta ");
 
             count.append("select count(*) ");
             from.append(" from nhan_vien n, cham_cong cc where cc.id_nhan_vien = n.id ");
             if (!DataUtil.isNullOrEmpty(command.getTenNhanVien())) {
-                from.append("   and concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten ");
+                from.append("   and lower(concat( n.ho, ' ' ,n.ten) ) like :ten ");
                 params.put("ten", '%' + command.getTenNhanVien().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getNgayLam())) {
-                from.append(" and cc.ngay_lam = ").append(command.getNgayLam().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+                from.append(" and cc.ngay_lam = '").append(command.getNgayLam().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))).append("'");
             }
             queryStr.append(from);
             count.append(" from (").append(queryStr).append(" ) as tmp");
@@ -85,8 +89,8 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
             }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
-            List<ChamCongDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("idNhanVien", "hoNhanVien", "tenNhanVien",
-                            "tenChucVu", "tenPhongBan", "soGioLam", "ngayLam","mieuTa")
+            List<ChamCongDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id","idNhanVien", "hoNhanVien", "tenNhanVien",
+                            "tenChucVu", "tenPhongBan", "soGioLam", "ngayLam", "mieuTa")
                     , objects, ChamCongDTO.class);
 
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));
@@ -131,12 +135,12 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
 
             count.append("select count(*) ");
             if (!DataUtil.isNullOrEmpty(command.getTenNhanVien())) {
-                queryStr.append("   and concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten ");
+                queryStr.append("   and lower(concat( n.ho, ' ' ,n.ten) ) like :ten ");
                 params.put("ten", '%' + command.getTenNhanVien().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getMonth())) {
                 queryStr.append(" and month(cc.ngay_lam) = ").append(command.getMonth().substring(5));
-                queryStr.append(" and year(cc.ngay_lam) = ").append(command.getMonth().substring(0,4));
+                queryStr.append(" and year(cc.ngay_lam) = ").append(command.getMonth().substring(0, 4));
             }
             if (!DataUtil.isNullOrEmpty(command.getIdPhongBan())) {
                 queryStr.append(" and n.id_phong_ban = :pb ");

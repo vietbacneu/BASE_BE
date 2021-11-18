@@ -69,7 +69,7 @@ public class NhanVienKyLuatServiceImpl extends AbstractService<NhanVienKyLuat, L
                     "   where n.id = nbh.id_nhan_vien and nbh.id_ky_luat = bh.id ");
 
             if (!DataUtil.isNullOrEmpty(command.getTenNhanVien())) {
-                from.append("   and concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten ");
+                from.append("   and lower(concat( n.ho, ' ' ,n.ten) ) like :ten ");
                 params.put("ten", '%' + command.getTenNhanVien().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getIdKyLuat())) {

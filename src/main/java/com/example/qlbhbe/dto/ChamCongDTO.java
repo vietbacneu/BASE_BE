@@ -32,6 +32,9 @@ public class ChamCongDTO {
     private Double totalLuongBefore = 0d;
     private Double totalLuongAfter = 0d;
 
+    private String month;
+
+
     public ChamCongDTO() {
     }
 
@@ -42,6 +45,13 @@ public class ChamCongDTO {
         this.mieuTa = mieuTa;
     }
 
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
 
     public Long getIdNhanVien() {
         return idNhanVien;

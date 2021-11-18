@@ -306,7 +306,7 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
                     " from nhan_vien n ," +
                     "     nhan_vien_khen_thuong nvkt," +
                     "     khen_thuong kt" +
-                    " where nvkt.id_nhan_vien = n.id and nvkt.id_khen_thuong = kt.id");
+                    " where nvkt.id_nhan_vien = n.id and nvkt.id_khen_thuong = kt.id ");
             if (!DataUtil.isNullOrEmpty(command.getTen())) {
                 queryStr.append("   and concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten ");
                 params.put("ten", '%' + command.getTen().toLowerCase(Locale.ROOT) + '%');
@@ -323,8 +323,8 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
                 from.append(" and month(nvkt.ngay) = :month ");
                 params.put("month", command.getPhongBanId());
             }
-            queryStr.append("group by n.id" +
-                    " union all" +
+            queryStr.append(" group by n.id " +
+                    " union all " +
                     " SELECT  n.id," +
                     "       n.ho," +
                     "       n.ten," +
@@ -339,8 +339,8 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
                     "      0     as                 tenThuong," +
                     "      0 as mucThuong," +
                     "       'KL' as type" +
-                    " from nhan_vien n" +
-                    "         left join" +
+                    " from nhan_vien n " +
+                    "         left join " +
                     "     nhan_vien_ky_luat nvkl" +
                     "     on (" +
                     "             nvkl.id_nhan_vien = n.id" +
@@ -387,17 +387,7 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
             List<NhanVienDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "ho", "ten",
                             "tenChucVu", "tenPhongBan", "tenLoi", "mucPhat", "tenThuong", "mucThuong", "type")
                     , objects, NhanVienDTO.class);
-            List<NhanVienDTO> result = new ArrayList<>();
-            for (int i = 0; i < danhMucDTOS.size(); i++) {
-                for (int i1 = i + 1; i1 < danhMucDTOS.size(); i1++) {
-                    if (danhMucDTOS.get(i).getId().equals(danhMucDTOS.get(i1).getId()) && !danhMucDTOS.get(i).getType().equals(danhMucDTOS.get(i1).getType())) {
-                        NhanVienDTO nhanVienDTO = danhMucDTOS.get(i);
-                        nhanVienDTO.setTenLoi(danhMucDTOS.get(i1).getTenLoi());
-                        nhanVienDTO.setMucPhat(danhMucDTOS.get(i1).getMucPhat());
-                    }
-                }
-            }
-            return new PageImpl<>(result, pageable, Long.parseLong(o.toString()));
+            return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));
         } catch (Exception e) {
             throw e;
         }

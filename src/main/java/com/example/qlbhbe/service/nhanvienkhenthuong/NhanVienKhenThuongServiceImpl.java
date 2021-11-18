@@ -77,7 +77,7 @@ public class NhanVienKhenThuongServiceImpl extends AbstractService<NhanVienKhenT
             }
             if (!DataUtil.isNullOrEmpty(command.getMonth())) {
                 from.append(" and month(nbh.ngay) = :month ");
-                params.put("month", command.getMonth());
+                params.put("month", command.getMonth().substring(5));
             }
             from.append("  order by nbh.id desc");
             queryStr.append(from);

@@ -50,7 +50,7 @@ public class NhanVienKhenThuongDTO {
 
     private String tenPhongBan;
 
-    private LocalDate month;
+    private String month;
 
     public NhanVienKhenThuongDTO() {
     }
@@ -75,11 +75,11 @@ public class NhanVienKhenThuongDTO {
         this.khenThuongMieuta = khenThuongMieuta;
     }
 
-    public LocalDate getMonth() {
+    public String getMonth() {
         return month;
     }
 
-    public void setMonth(LocalDate month) {
+    public void setMonth(String month) {
         this.month = month;
     }
 

@@ -59,7 +59,7 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
             Map<String, Object> params = new HashMap<>();
             queryStr.append(" select n.id as nvId, n.ho , n.ten, " +
                     "(select ten_chuc_vu from chuc_vu c where c.id = n.id_chuc_vu) tenChucvu, " +
-                    "(select ten from phong_ban c where c.id = n.id_phong_ban) tenPP, cc.so_gio_lam, cc.ngay_lam ");
+                    "(select ten from phong_ban c where c.id = n.id_phong_ban) tenPP, cc.so_gio_lam, cc.ngay_lam, cc.mieu_ta ");
 
             count.append("select count(*) ");
             from.append(" from nhan_vien n, cham_cong cc where cc.id_nhan_vien = n.id ");
@@ -86,7 +86,7 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<ChamCongDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("idNhanVien", " hoNhanVien", "tenNhanVien",
-                            "tenChucVu", "tenPhongBan", "soSoLam", "ngayLam")
+                            "tenChucVu", "tenPhongBan", "soGioLam", "ngayLam","mieuta")
                     , objects, ChamCongDTO.class);
 
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));
@@ -134,8 +134,8 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
                 queryStr.append("   and concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten ");
                 params.put("ten", '%' + command.getTenNhanVien().toLowerCase(Locale.ROOT) + '%');
             }
-            if (!DataUtil.isNullOrEmpty(command.getNgayLam())) {
-                queryStr.append(" and month(cc.ngay_lam) = ").append(command.getNgayLam().getMonth());
+            if (!DataUtil.isNullOrEmpty(command.getMonth())) {
+                queryStr.append(" and month(cc.ngay_lam) = ").append(command.getMonth().substring(5));
             }
             if (!DataUtil.isNullOrEmpty(command.getIdPhongBan())) {
                 queryStr.append(" and n.id_phong_ban :pb ");
@@ -162,9 +162,10 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
 
             if (!danhMucDTOS.isEmpty()) {
                 for (ChamCongDTO danhMucDTO : danhMucDTOS) {
-                    if(danhMucDTO.getSoGioLam()!= null && danhMucDTO.getHeSoLuong() != null){
-                        danhMucDTO.setTotalLuongAfter(danhMucDTO.getHeSoLuong() * danhMucDTO.getSoGioLam());
-                        danhMucDTO.setTotalLuongBefore(danhMucDTO.getTotalLuongAfter() + danhMucDTO.getTotalKhenThuong() - danhMucDTO.getTotalKyLuat() - danhMucDTO.getTotalBaoHiem());
+                    if (danhMucDTO.getSoGioLam() != null && danhMucDTO.getHeSoLuong() != null) {
+                        danhMucDTO.setTotalLuongAfter(danhMucDTO.getTotalLuongAfter() + danhMucDTO.getTotalKhenThuong() - danhMucDTO.getTotalKyLuat() - danhMucDTO.getTotalBaoHiem());
+                        danhMucDTO.setTotalLuongBefore(danhMucDTO.getHeSoLuong() * danhMucDTO.getSoGioLam());
+
                     }
                 }
             }

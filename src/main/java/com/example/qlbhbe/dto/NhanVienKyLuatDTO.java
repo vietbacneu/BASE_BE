@@ -47,7 +47,7 @@ public class NhanVienKyLuatDTO {
 
     private String nhanVienMieuTa;
 
-    private LocalDate month;
+    private String month;
 
     private Long isCount;
 
@@ -55,11 +55,11 @@ public class NhanVienKyLuatDTO {
     public NhanVienKyLuatDTO() {
     }
 
-    public LocalDate getMonth() {
+    public String getMonth() {
         return month;
     }
 
-    public void setMonth(LocalDate month) {
+    public void setMonth(String month) {
         this.month = month;
     }
 

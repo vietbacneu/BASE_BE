@@ -77,7 +77,7 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
             from.append(" from nhan_vien n  " +
                     "   where 1=1 ");
             if (!DataUtil.isNullOrEmpty(command.getTen())) {
-                from.append("   and concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten ");
+                from.append("   and lower(concat( n.ho, ' ' ,n.ten) ) like :ten ");
                 params.put("ten", '%' + command.getTen().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getChucVuId())) {
@@ -308,7 +308,7 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
                     "     khen_thuong kt" +
                     " where nvkt.id_nhan_vien = n.id and nvkt.id_khen_thuong = kt.id ");
             if (!DataUtil.isNullOrEmpty(command.getTen())) {
-                queryStr.append("   and concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten ");
+                queryStr.append("   and lower(concat( n.ho, ' ' ,n.ten) ) like :ten ");
                 params.put("ten", '%' + command.getTen().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getChucVuId())) {
@@ -354,7 +354,7 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
                     "         )" +
                     " where 1 = 1");
             if (!DataUtil.isNullOrEmpty(command.getTen())) {
-                queryStr.append("  and concat( lower(n.ho), ' ' ,lower(n.ten)  ) like :ten1 ");
+                queryStr.append("  and lower(concat( n.ho, ' ' ,n.ten) ) like :ten1 ");
                 params.put("ten1", '%' + command.getTen().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getChucVuId())) {

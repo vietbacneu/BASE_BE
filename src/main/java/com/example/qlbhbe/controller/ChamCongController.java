@@ -34,6 +34,7 @@ public class ChamCongController {
         ChamCong chamCong = ChamCongMapper.INSTANCE.create(command);
         NhanVien nhanVien =  new NhanVien();
         nhanVien.setId(command.getIdNhanVien());
+        chamCong.setNhanVien(nhanVien);
         chamCongService.save(chamCong);
         return new CreatedIdResponse(chamCong.getId());
     }

@@ -87,7 +87,7 @@ public class NhanVienController {
         return nhanVienService.exportDanhGia(command);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/update")
     public void update(@RequestBody NhanVienDTO command) {
         nhanVienService.update(command.getId(), command);
     }

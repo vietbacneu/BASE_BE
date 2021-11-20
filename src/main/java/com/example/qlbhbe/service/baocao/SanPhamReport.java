@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface SanPhamReport {
-    List<SanPhamDTO> getSanPhamTon(SanPhamDTO sanPhamDTO) throws Exception;
+     List<SanPhamDTO>  getSanPhamTon(SanPhamDTO sanPhamDTO) throws Exception;
 
     List<SanPhamDTO> getSanPhamChiPhiMax(SanPhamDTO sanPhamDTO) throws Exception;
 

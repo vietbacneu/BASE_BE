@@ -5,6 +5,7 @@ import com.example.qlbhbe.dto.SanPhamDTO;
 import com.example.qlbhbe.entity.DanhMuc;
 import com.example.qlbhbe.entity.SanPham;
 import com.example.qlbhbe.mapper.SanPhamMapper;
+import com.example.qlbhbe.service.baocao.PDF;
 import com.example.qlbhbe.service.baocao.SanPhamReport;
 import com.example.qlbhbe.service.sanpham.SanPhamService;
 import com.example.qlbhbe.util.Constants;
@@ -32,10 +33,12 @@ public class SanPhamController {
 
     private final SanPhamService sanPhamService;
     private final SanPhamReport sanPhamReport;
+    private final PDF pdf;
 
-    public SanPhamController(SanPhamService sanPhamService, SanPhamReport sanPhamReport) {
+    public SanPhamController(SanPhamService sanPhamService, SanPhamReport sanPhamReport, PDF pdf) {
         this.sanPhamService = sanPhamService;
         this.sanPhamReport = sanPhamReport;
+        this.pdf = pdf;
     }
 
 
@@ -74,6 +77,11 @@ public class SanPhamController {
     public Map<String, String> exportSanPhamTon(@RequestBody SanPhamDTO sanPhamDTO) throws Exception {
         return sanPhamReport.exportSanPhamTon(sanPhamDTO);
     }
+    @PostMapping("/exportTonKhoPDF")
+    public Map<String, String> exportTonKhoPDF(@RequestBody SanPhamDTO sanPhamDTO) throws Exception {
+        return pdf.exportSanPhamTonPDF(sanPhamDTO);
+    }
+
 
     @PostMapping("/exportDoanhThu")
     public Map<String, String> exportDoanhThu(@RequestBody SanPhamDTO sanPhamDTO) throws Exception {

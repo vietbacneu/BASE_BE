@@ -6,6 +6,8 @@ import com.example.qlbhbe.entity.DanhMuc;
 import com.example.qlbhbe.entity.SanPham;
 import com.example.qlbhbe.mapper.SanPhamMapper;
 import com.example.qlbhbe.service.baocao.PDF;
+import com.example.qlbhbe.service.baocao.PDFSanPhamCTMax;
+import com.example.qlbhbe.service.baocao.PDFSanPhamDTMax;
 import com.example.qlbhbe.service.baocao.SanPhamReport;
 import com.example.qlbhbe.service.sanpham.SanPhamService;
 import com.example.qlbhbe.util.Constants;
@@ -34,11 +36,15 @@ public class SanPhamController {
     private final SanPhamService sanPhamService;
     private final SanPhamReport sanPhamReport;
     private final PDF pdf;
+    private final PDFSanPhamDTMax pdfSanPhamDTMax;
+    private final PDFSanPhamCTMax pdfSanPhamCTMax;
 
-    public SanPhamController(SanPhamService sanPhamService, SanPhamReport sanPhamReport, PDF pdf) {
+    public SanPhamController(SanPhamService sanPhamService, SanPhamReport sanPhamReport, PDF pdf, PDFSanPhamDTMax pdfSanPhamDTMax, PDFSanPhamCTMax pdfSanPhamCTMax) {
         this.sanPhamService = sanPhamService;
         this.sanPhamReport = sanPhamReport;
         this.pdf = pdf;
+        this.pdfSanPhamDTMax = pdfSanPhamDTMax;
+        this.pdfSanPhamCTMax = pdfSanPhamCTMax;
     }
 
 
@@ -81,7 +87,15 @@ public class SanPhamController {
     public Map<String, String> exportTonKhoPDF(@RequestBody SanPhamDTO sanPhamDTO) throws Exception {
         return pdf.exportSanPhamTonPDF(sanPhamDTO);
     }
+    @PostMapping("/exportDoanhThuPDF")
+    public Map<String, String> exportDoanhThuPDF(@RequestBody SanPhamDTO sanPhamDTO) throws Exception {
+        return pdfSanPhamDTMax.exportDoanhThuPDF(sanPhamDTO);
+    }
 
+    @PostMapping("/exportChiPhiPDF")
+    public Map<String, String> exportChiPhiPDF(@RequestBody SanPhamDTO sanPhamDTO) throws Exception {
+        return pdfSanPhamCTMax.exportChiPhiPDF(sanPhamDTO);
+    }
 
     @PostMapping("/exportDoanhThu")
     public Map<String, String> exportDoanhThu(@RequestBody SanPhamDTO sanPhamDTO) throws Exception {

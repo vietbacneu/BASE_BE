@@ -372,7 +372,7 @@ public class SanPhamReportImpl implements SanPhamReport {
     public Map<String, String> exportSanPhamDoanhThuMax(SanPhamDTO sanPhamDTO) throws Exception {
         try {
             Workbook workbook = new XSSFWorkbook();
-            Sheet sheet = workbook.createSheet("SanPhamDoanhThu");
+            Sheet sheet = workbook.createSheet("BaoCaoXuatKho");
 
             Font headerFontTitle = workbook.createFont();
             headerFontTitle.setBold(true);
@@ -386,7 +386,7 @@ public class SanPhamReportImpl implements SanPhamReport {
             headerCellStyle1.setWrapText(true);
             Row title = sheet.createRow(0);
             Cell cellTitle = title.createCell(2);
-            cellTitle.setCellValue("BÁO CÁO SẢN PHẨM DOANH THU");
+            cellTitle.setCellValue("BÁO CÁO HÀNG XUẤT KHO");
             cellTitle.setCellStyle(headerCellStyle1);
             CellRangeAddress cellMerge = new CellRangeAddress(0, 1, 2, 6);
             sheet.addMergedRegion(cellMerge);
@@ -505,7 +505,7 @@ public class SanPhamReportImpl implements SanPhamReport {
                 cell81.setCellValue(sanPhamDTO1.getTenCuaHang());
                 cell81.setCellStyle(cellStyle);
             }
-            String path = "D:/SanPhamDoanhThu" + System.currentTimeMillis() + ".xlsx";
+            String path = "D:/BaoCaoXuatKho" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
             workbook.write(fileOut);
             fileOut.close();
@@ -522,7 +522,7 @@ public class SanPhamReportImpl implements SanPhamReport {
     public Map<String, String> exportSanPhamChiPhiMax(SanPhamDTO sanPhamDTO) throws Exception {
         try {
             Workbook workbook = new XSSFWorkbook();
-            Sheet sheet = workbook.createSheet("SanPhamChiPhi");
+            Sheet sheet = workbook.createSheet("BaoCaoNhapKho");
 
             Font headerFontTitle = workbook.createFont();
             headerFontTitle.setBold(true);
@@ -536,7 +536,7 @@ public class SanPhamReportImpl implements SanPhamReport {
             headerCellStyle1.setWrapText(true);
             Row title = sheet.createRow(0);
             Cell cellTitle = title.createCell(2);
-            cellTitle.setCellValue("BÁO CÁO SẢN PHẨM CHI PHÍ");
+            cellTitle.setCellValue("BÁO CÁO HÀNG NHẬP KHO");
             cellTitle.setCellStyle(headerCellStyle1);
             CellRangeAddress cellMerge = new CellRangeAddress(0, 1, 2, 6);
             sheet.addMergedRegion(cellMerge);
@@ -654,7 +654,7 @@ public class SanPhamReportImpl implements SanPhamReport {
                 cell8.setCellValue(sanPhamDTO1.getTenCuaHang());
                 cell8.setCellStyle(cellStyle);
             }
-            String path = "D:/SanPhamChiPhi" + System.currentTimeMillis() + ".xlsx";
+            String path = "D:/BaoCaoNhapKho" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
             workbook.write(fileOut);
             fileOut.close();

@@ -22,7 +22,7 @@
 //
 //    static {
 //        try {
-//            catFont = new Font(BaseFont.createFont(ResourceUtils.getFile("classpath:templates/arial.ttf").getAbsolutePath()
+//            catFont = new Font(BaseFont.createFont("C:\\CDTT\\BE\\arial.ttf"
 //                    , BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 18,
 //                    Font.BOLD);
 //        } catch (DocumentException e) {
@@ -36,7 +36,7 @@
 //
 //    static {
 //        try {
-//            redFont = new Font(BaseFont.createFont(ResourceUtils.getFile("classpath:templates/arial.ttf").getAbsolutePath()
+//            redFont = new Font(BaseFont.createFont("C:\\CDTT\\BE\\arial.ttf"
 //                    , BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 12,
 //                    Font.NORMAL, BaseColor.RED);
 //        } catch (DocumentException e) {
@@ -50,7 +50,7 @@
 //
 //    static {
 //        try {
-//            subFont = new Font(BaseFont.createFont(ResourceUtils.getFile("classpath:templates/arial.ttf").getAbsolutePath()
+//            subFont = new Font(BaseFont.createFont("C:\\CDTT\\BE\\arial.ttf"
 //                    , BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 16,
 //                    Font.BOLD);
 //        } catch (DocumentException e) {
@@ -64,7 +64,7 @@
 //
 //    static {
 //        try {
-//            smallBold = new Font(BaseFont.createFont(ResourceUtils.getFile("classpath:templates/arial.ttf").getAbsolutePath()
+//            smallBold = new Font(BaseFont.createFont("C:\\CDTT\\BE\\arial.ttf"
 //                    , BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 12,
 //                    Font.BOLD);
 //        } catch (DocumentException e) {

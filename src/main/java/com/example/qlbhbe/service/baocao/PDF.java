@@ -27,7 +27,7 @@ public class PDF {
 
     static {
         try {
-            catFont = new Font(BaseFont.createFont(ResourceUtils.getFile("classpath:templates/arial.ttf").getAbsolutePath()
+            catFont = new Font(BaseFont.createFont("C:\\CDTT\\BE\\arial.ttf"
                     , BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 18,
                     Font.BOLD);
         } catch (DocumentException e) {
@@ -39,7 +39,7 @@ public class PDF {
 
     static {
         try {
-            font = new Font(BaseFont.createFont(ResourceUtils.getFile("classpath:templates/arial.ttf").getAbsolutePath()
+            font = new Font(BaseFont.createFont("C:\\CDTT\\BE\\arial.ttf"
                     , BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 14,
                     Font.NORMAL);
         } catch (DocumentException e) {
@@ -53,7 +53,7 @@ public class PDF {
 
     static {
         try {
-            redFont = new Font(BaseFont.createFont(ResourceUtils.getFile("classpath:templates/arial.ttf").getAbsolutePath()
+            redFont = new Font(BaseFont.createFont("C:\\CDTT\\BE\\arial.ttf"
                     , BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 12,
                     Font.NORMAL, BaseColor.RED);
         } catch (DocumentException e) {
@@ -67,7 +67,7 @@ public class PDF {
 
     static {
         try {
-            subFont = new Font(BaseFont.createFont(ResourceUtils.getFile("classpath:templates/arial.ttf").getAbsolutePath()
+            subFont = new Font(BaseFont.createFont("C:\\CDTT\\BE\\arial.ttf"
                     , BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 16,
                     Font.BOLD);
         } catch (DocumentException e) {
@@ -81,7 +81,7 @@ public class PDF {
 
     static {
         try {
-            smallBold = new Font(BaseFont.createFont(ResourceUtils.getFile("classpath:templates/arial.ttf").getAbsolutePath()
+            smallBold = new Font(BaseFont.createFont("C:\\CDTT\\BE\\arial.ttf"
                     , BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 12,
                     Font.BOLD);
         } catch (DocumentException e) {
@@ -95,7 +95,7 @@ public class PDF {
 
     static {
         try {
-            small = new Font(BaseFont.createFont(ResourceUtils.getFile("classpath:templates/arial.ttf").getAbsolutePath()
+            small = new Font(BaseFont.createFont("C:\\CDTT\\BE\\arial.ttf"
                     , BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 10,
                     Font.BOLD);
         } catch (DocumentException e) {
@@ -109,7 +109,7 @@ public class PDF {
 
     static {
         try {
-            smallContent = new Font(BaseFont.createFont(ResourceUtils.getFile("classpath:templates/arial.ttf").getAbsolutePath()
+            smallContent = new Font(BaseFont.createFont("C:\\CDTT\\BE\\arial.ttf"
                     , BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 10,
                     Font.NORMAL);
         } catch (DocumentException e) {
@@ -153,7 +153,7 @@ public class PDF {
     }
 
     private Font font(int size, int style) throws IOException, DocumentException {
-        return new Font(BaseFont.createFont(ResourceUtils.getFile("classpath:templates/arial.ttf").getAbsolutePath()
+        return new Font(BaseFont.createFont("C:\\CDTT\\BE\\arial.ttf"
                 , BaseFont.IDENTITY_H, BaseFont.EMBEDDED), size,
                 style);
     }

@@ -146,6 +146,10 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
                 queryStr.append(" and n.id_phong_ban = :pb ");
                 params.put("pb", command.getIdPhongBan());
             }
+            if (!DataUtil.isNullOrEmpty(command.getIdchucVu())) {
+                queryStr.append(" and n.id_chuc_vu = :cv ");
+                params.put("cv", command.getIdchucVu());
+            }
             if (!DataUtil.isNullOrEmpty(command.getIdChucVu())) {
                 queryStr.append(" and n.id_chuc_vu = :cv ");
                 params.put("cv", command.getIdChucVu());
@@ -172,7 +176,7 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
             if (!danhMucDTOS.isEmpty()) {
                 for (ChamCongDTO danhMucDTO : danhMucDTOS) {
                     if (danhMucDTO.getSoGioLam() != null && danhMucDTO.getHeSoLuong() != null) {
-                        danhMucDTO.setTotalLuongAfter(danhMucDTO.getTotalLuongAfter() + danhMucDTO.getTotalKhenThuong() - danhMucDTO.getTotalKyLuat() - danhMucDTO.getTotalBaoHiem());
+                        danhMucDTO.setTotalLuongAfter(danhMucDTO.getTotalLuongBefore() + danhMucDTO.getTotalKhenThuong() - danhMucDTO.getTotalKyLuat() - danhMucDTO.getTotalBaoHiem());
                         danhMucDTO.setTotalLuongBefore(danhMucDTO.getHeSoLuong() * danhMucDTO.getSoGioLam());
 
                     }

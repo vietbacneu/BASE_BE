@@ -32,6 +32,7 @@ public class ChamCongDTO {
     private Double totalKyLuat = 0d;
     private Double totalLuongBefore = 0d;
     private Double totalLuongAfter = 0d;
+    private Long idchucVu;
 
     private String month;
 
@@ -48,6 +49,14 @@ public class ChamCongDTO {
 
     public Long getIdChucVu() {
         return idChucVu;
+    }
+
+    public Long getIdchucVu() {
+        return idchucVu;
+    }
+
+    public void setIdchucVu(Long idchucVu) {
+        this.idchucVu = idchucVu;
     }
 
     public void setIdChucVu(Long idChucVu) {

@@ -197,19 +197,36 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
             Font headerFontTitle = workbook.createFont();
             headerFontTitle.setBold(true);
             headerFontTitle.setFontHeightInPoints((short) 20);
-            headerFontTitle.setColor(IndexedColors.RED.getIndex());
+            headerFontTitle.setColor(IndexedColors.BLACK.getIndex());
             CellStyle headerCellStyle1 = workbook.createCellStyle();
             headerCellStyle1.setFont(headerFontTitle);
-            headerCellStyle1.setBorderBottom(BorderStyle.THIN);
-            headerCellStyle1.setBorderTop(BorderStyle.THIN);
             headerCellStyle1.setAlignment(HorizontalAlignment.CENTER);
             headerCellStyle1.setWrapText(true);
-            Row title = sheet.createRow(0);
-            Cell cellTitle = title.createCell(1);
-            cellTitle.setCellValue("BÁO CÁO PHIẾU LƯƠNG NHÂN VIÊN");
-            cellTitle.setCellStyle(headerCellStyle1);
-            CellRangeAddress cellMerge = new CellRangeAddress(0, 1, 1, 6);
-            sheet.addMergedRegion(cellMerge);
+            Font headerFont2 = workbook.createFont();
+            headerFont2.setItalic(true);
+            headerFont2.setFontHeightInPoints((short) 12);
+            headerFont2.setColor(IndexedColors.BLACK.getIndex());
+
+            CellStyle headerCellStyle2 = workbook.createCellStyle();
+            headerCellStyle2.setFont(headerFont2);
+            headerCellStyle2.setAlignment(HorizontalAlignment.LEFT);
+            headerCellStyle2.setWrapText(true);
+
+            CellStyle headerCellStyle3 = workbook.createCellStyle();
+            headerCellStyle3.setFont(headerFont2);
+            headerCellStyle3.setAlignment(HorizontalAlignment.CENTER);
+            headerCellStyle3.setWrapText(true);
+
+
+            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty Cổ phần Thiết Kế Kiến Trúc và Nội Thất Eco Home Design");
+            mergeCell(sheet, 0, 0, 0, 6);
+            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: Số 9, phố Thảo Nguyên, KĐT Eco Park, Văn Giang, Hưng Yên");
+            mergeCell(sheet, 1, 1, 0, 6);
+            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế: 0107675189");
+            mergeCell(sheet, 2, 2, 0, 6);
+
+            setColumn(sheet, headerCellStyle1, 4, 0, "BÁO CÁO PHIẾU LƯƠNG NHÂN VIÊN");
+            mergeCell(sheet, 4, 5, 0, 9);
 
             Font headerFont = workbook.createFont();
             headerFont.setBold(true);
@@ -224,7 +241,7 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
             headerCellStyle.setBorderTop(BorderStyle.THIN);
             headerCellStyle.setAlignment(HorizontalAlignment.CENTER);
             headerCellStyle.setWrapText(true);
-            Row headerRow = sheet.createRow(3);
+            Row headerRow = sheet.createRow(7);
             for (int i = 0; i < 10; i++) {
                 sheet.setColumnWidth(i, 8500);
                 Cell cell = headerRow.createCell(i);
@@ -269,7 +286,7 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
                     cell.setCellStyle(headerCellStyle);
                 }
             }
-            int rowNum = 4;
+            int rowNum = 8;
             List<ChamCongDTO> nhapHangDTOS = searchPhieuLuong(command, PageRequest.of(0, 1000)).getContent();
             CellStyle cellStyle = workbook.createCellStyle();
 
@@ -322,7 +339,19 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
                 cell9.setCellValue(sanPhamDTO1.getTotalLuongAfter());
                 cell9.setCellStyle(cellStyle);
             }
-
+            setColumn(sheet, headerCellStyle3, rowNum + 1, 7, "Ngày …… Tháng …… Năm ……");
+            mergeCell(sheet, rowNum + 1, rowNum + 1, 7, 8);
+            rowNum++;
+            rowNum++;
+            Row sign = sheet.createRow(rowNum + 1);
+            setColumnWithRow(sign, sheet, headerCellStyle3, rowNum + 1, 1, "Người lập phiếu");
+            setColumnWithRow(sign, sheet, headerCellStyle3, rowNum + 1, 4, "Kế toán trưởng");
+            setColumnWithRow(sign, sheet, headerCellStyle3, rowNum + 1, 8, "Giám đốc");
+            rowNum++;
+            Row sign2 = sheet.createRow(rowNum + 1);
+            setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 1, "(Ký, họ tên)");
+            setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 4, "(Ký, họ tên)");
+            setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 8, "(Ký, họ tên)");
             String path = "D:/BaoCaoLuongNhanVien" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
             workbook.write(fileOut);
@@ -334,5 +363,25 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
         } catch (Exception e) {
             throw e;
         }
+    }
+    private void setColumn(Sheet sheet, CellStyle headerCellStyle1, int row, int column, String content) {
+        Row title = sheet.createRow(row);
+        Cell cellTitle = title.createCell(column);
+        cellTitle.setCellValue(content);
+        cellTitle.setCellStyle(headerCellStyle1);
+    }
+    private void setColumnWithRow(Row title, Sheet sheet, CellStyle headerCellStyle1, int row, int column, String content) {
+        Cell cellTitle = title.createCell(column);
+        cellTitle.setCellValue(content);
+        cellTitle.setCellStyle(headerCellStyle1);
+    }
+
+    private void mergeCell(Sheet sheet, int row, int lastRow, int column, int lastColumn) {
+        CellRangeAddress cellMerge = new CellRangeAddress(row, lastRow, column, lastColumn);
+        sheet.addMergedRegion(cellMerge);
+    }
+
+    String renderDouble(Double myvalue) {
+        return String.format("%.2f", myvalue);
     }
 }

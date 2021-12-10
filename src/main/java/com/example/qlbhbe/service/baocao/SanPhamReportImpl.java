@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.io.FileOutputStream;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -228,19 +229,11 @@ public class SanPhamReportImpl implements SanPhamReport {
             Font headerFontTitle = workbook.createFont();
             headerFontTitle.setBold(true);
             headerFontTitle.setFontHeightInPoints((short) 20);
-            headerFontTitle.setColor(IndexedColors.RED.getIndex());
+            headerFontTitle.setColor(IndexedColors.BLACK.getIndex());
             CellStyle headerCellStyle1 = workbook.createCellStyle();
             headerCellStyle1.setFont(headerFontTitle);
-            headerCellStyle1.setBorderBottom(BorderStyle.THIN);
-            headerCellStyle1.setBorderTop(BorderStyle.THIN);
             headerCellStyle1.setAlignment(HorizontalAlignment.CENTER);
             headerCellStyle1.setWrapText(true);
-            Row title = sheet.createRow(0);
-            Cell cellTitle = title.createCell(2);
-            cellTitle.setCellValue("BÁO CÁO SẢN PHẨM TỒN KHO");
-            cellTitle.setCellStyle(headerCellStyle1);
-            CellRangeAddress cellMerge = new CellRangeAddress(0, 1, 2, 6);
-            sheet.addMergedRegion(cellMerge);
 
             Font headerFont = workbook.createFont();
             headerFont.setBold(true);
@@ -256,9 +249,40 @@ public class SanPhamReportImpl implements SanPhamReport {
             headerCellStyle.setAlignment(HorizontalAlignment.CENTER);
             headerCellStyle.setWrapText(true);
 
-            Row headerRow = sheet.createRow(3);
+            Font headerFont2 = workbook.createFont();
+            headerFont2.setItalic(true);
+            headerFont2.setFontHeightInPoints((short) 12);
+            headerFont2.setColor(IndexedColors.BLACK.getIndex());
+
+            CellStyle headerCellStyle2 = workbook.createCellStyle();
+            headerCellStyle2.setFont(headerFont2);
+            headerCellStyle2.setAlignment(HorizontalAlignment.LEFT);
+            headerCellStyle2.setWrapText(true);
+
+            CellStyle headerCellStyle3 = workbook.createCellStyle();
+            headerCellStyle3.setFont(headerFont2);
+            headerCellStyle3.setAlignment(HorizontalAlignment.CENTER);
+            headerCellStyle3.setWrapText(true);
+
+
+            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty Cổ phần Nông Nghiệp và Thực Phẩm Lang Liêu");
+            mergeCell(sheet, 0, 0, 0, 6);
+            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: Số nhà 2B, ngõ 389 Trương Định, Phường Tân Mai, Quận Hoàng Mai, Thành phố Hà Nội");
+            mergeCell(sheet, 1, 1, 0, 6);
+            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế:  0109736359");
+            mergeCell(sheet, 2, 2, 0, 6);
+
+            setColumn(sheet, headerCellStyle1, 4, 0, "BÁO CÁO TỒN KHO");
+            mergeCell(sheet, 4, 5, 0, 9);
+            String date = "Từ ngày: 01/" + (LocalDateTime.now().getMonthValue() - 1) + "/" +
+                    LocalDateTime.now().getYear() + " - Đến ngày: 01/" + LocalDateTime.now().getMonthValue() + "/" + LocalDateTime.now().getYear();
+
+            setColumn(sheet, headerCellStyle3, 6, 0, date);
+            mergeCell(sheet, 6, 6, 0, 9);
+
+            Row headerRow = sheet.createRow(8);
             for (int i = 0; i < 10; i++) {
-                sheet.setColumnWidth(i, 8500);
+                sheet.setColumnWidth(i, 8000);
                 Cell cell = headerRow.createCell(i);
                 if (i == 0) {
                     cell.setCellValue("Mã Sản Phẩm");
@@ -301,7 +325,7 @@ public class SanPhamReportImpl implements SanPhamReport {
                     cell.setCellStyle(headerCellStyle);
                 }
             }
-            int rowNum = 4;
+            int rowNum = 9;
             List<SanPhamDTO> sanPhamDTOList = getSanPhamTon(sanPhamDTO);
             CellStyle cellStyle = workbook.createCellStyle();
 
@@ -354,7 +378,19 @@ public class SanPhamReportImpl implements SanPhamReport {
                 cell8.setCellValue(sanPhamDTO1.getTenCuaHang());
                 cell8.setCellStyle(cellStyle);
             }
-
+            setColumn(sheet, headerCellStyle3, rowNum + 1, 7, "Ngày …… Tháng …… Năm ……");
+            mergeCell(sheet, rowNum + 1, rowNum + 1, 7, 8);
+            rowNum++;
+            rowNum++;
+            Row sign = sheet.createRow(rowNum + 1);
+            setColumnWithRow(sign, sheet, headerCellStyle3, rowNum + 1, 1, "Người lập phiếu");
+            setColumnWithRow(sign, sheet, headerCellStyle3, rowNum + 1, 5, "Kế toán trưởng");
+            setColumnWithRow(sign, sheet, headerCellStyle3, rowNum + 1, 7, "Giám đốc");
+            rowNum++;
+            Row sign2 = sheet.createRow(rowNum + 1);
+            setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 1, "(Ký, họ tên)");
+            setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 5, "(Ký, họ tên)");
+            setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 7, "(Ký, họ tên)");
             String path = "./SanPhamTonKho" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
             workbook.write(fileOut);
@@ -372,25 +408,16 @@ public class SanPhamReportImpl implements SanPhamReport {
     public Map<String, String> exportSanPhamDoanhThuMax(SanPhamDTO sanPhamDTO) throws Exception {
         try {
             Workbook workbook = new XSSFWorkbook();
-            Sheet sheet = workbook.createSheet("SanPhamDoanhThu");
+            Sheet sheet = workbook.createSheet("SanPhamHangBan");
 
             Font headerFontTitle = workbook.createFont();
             headerFontTitle.setBold(true);
             headerFontTitle.setFontHeightInPoints((short) 20);
-            headerFontTitle.setColor(IndexedColors.RED.getIndex());
+            headerFontTitle.setColor(IndexedColors.BLACK.getIndex());
             CellStyle headerCellStyle1 = workbook.createCellStyle();
             headerCellStyle1.setFont(headerFontTitle);
-            headerCellStyle1.setBorderBottom(BorderStyle.THIN);
-            headerCellStyle1.setBorderTop(BorderStyle.THIN);
             headerCellStyle1.setAlignment(HorizontalAlignment.CENTER);
             headerCellStyle1.setWrapText(true);
-            Row title = sheet.createRow(0);
-            Cell cellTitle = title.createCell(2);
-            cellTitle.setCellValue("BÁO CÁO SẢN PHẨM DOANH THU");
-            cellTitle.setCellStyle(headerCellStyle1);
-            CellRangeAddress cellMerge = new CellRangeAddress(0, 1, 2, 6);
-            sheet.addMergedRegion(cellMerge);
-
 
             Font headerFont = workbook.createFont();
             headerFont.setBold(true);
@@ -406,10 +433,42 @@ public class SanPhamReportImpl implements SanPhamReport {
             headerCellStyle.setBorderTop(BorderStyle.THIN);
             headerCellStyle.setAlignment(HorizontalAlignment.CENTER);
             headerCellStyle.setWrapText(true);
-            Row headerRow = sheet.createRow(3);
+
+            Font headerFont2 = workbook.createFont();
+            headerFont2.setItalic(true);
+            headerFont2.setFontHeightInPoints((short) 12);
+            headerFont2.setColor(IndexedColors.BLACK.getIndex());
+
+            CellStyle headerCellStyle2 = workbook.createCellStyle();
+            headerCellStyle2.setFont(headerFont2);
+            headerCellStyle2.setAlignment(HorizontalAlignment.LEFT);
+            headerCellStyle2.setWrapText(true);
+
+            CellStyle headerCellStyle3 = workbook.createCellStyle();
+            headerCellStyle3.setFont(headerFont2);
+            headerCellStyle3.setAlignment(HorizontalAlignment.CENTER);
+            headerCellStyle3.setWrapText(true);
+
+
+            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty Cổ phần Nông Nghiệp và Thực Phẩm Lang Liêu");
+            mergeCell(sheet, 0, 0, 0, 6);
+            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: Số nhà 2B, ngõ 389 Trương Định, Phường Tân Mai, Quận Hoàng Mai, Thành phố Hà Nội");
+            mergeCell(sheet, 1, 1, 0, 6);
+            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế:  0109736359");
+            mergeCell(sheet, 2, 2, 0, 6);
+
+            setColumn(sheet, headerCellStyle1, 4, 0, "BÁO CÁO HÀNG BÁN");
+            mergeCell(sheet, 4, 5, 0, 9);
+            String date = "Từ ngày: 01/" + (LocalDateTime.now().getMonthValue() - 1) + "/" +
+                    LocalDateTime.now().getYear() + " - Đến ngày: 01/" + LocalDateTime.now().getMonthValue() + "/" + LocalDateTime.now().getYear();
+            setColumn(sheet, headerCellStyle3, 6, 0, date);
+            mergeCell(sheet, 6, 6, 0, 9);
+
+
+            Row headerRow = sheet.createRow(8);
 
             for (int i = 0; i < 10; i++) {
-                sheet.setColumnWidth(i, 8500);
+                sheet.setColumnWidth(i, 8000);
                 Cell cell = headerRow.createCell(i);
                 if (i == 0) {
                     cell.setCellValue("Mã Sản Phẩm");
@@ -452,7 +511,7 @@ public class SanPhamReportImpl implements SanPhamReport {
                     cell.setCellStyle(headerCellStyle);
                 }
             }
-            int rowNum = 4;
+            int rowNum = 9;
             List<SanPhamDTO> sanPhamDTOList = getSanPhamDoanhThuMax(sanPhamDTO);
             CellStyle cellStyle = workbook.createCellStyle();
 
@@ -461,7 +520,8 @@ public class SanPhamReportImpl implements SanPhamReport {
             cellStyle.setBorderRight(BorderStyle.THIN);
             cellStyle.setBorderTop(BorderStyle.THIN);
             cellStyle.setAlignment(HorizontalAlignment.CENTER);
-            cellStyle.setWrapText(true);
+
+            Double total = 0d;
             for (SanPhamDTO sanPhamDTO1 : sanPhamDTOList) {
                 Row row = sheet.createRow(rowNum++);
 
@@ -500,12 +560,31 @@ public class SanPhamReportImpl implements SanPhamReport {
                 Cell cell71 = row.createCell(8);
                 cell71.setCellValue(sanPhamDTO1.getTotalDoanhThu());
                 cell71.setCellStyle(cellStyle);
+                if (sanPhamDTO1.getTotalDoanhThu() != null)
+                    total += sanPhamDTO1.getTotalDoanhThu();
 
                 Cell cell81 = row.createCell(9);
                 cell81.setCellValue(sanPhamDTO1.getTenCuaHang());
                 cell81.setCellStyle(cellStyle);
             }
-            String path = "D:/SanPhamDoanhThu" + System.currentTimeMillis() + ".xlsx";
+            setColumn(sheet, headerCellStyle2, rowNum, 7, "Tổng:  " + renderDouble(total));
+            mergeCell(sheet, rowNum, rowNum, 7, 8);
+            rowNum++;
+            setColumn(sheet, headerCellStyle3, rowNum + 1, 7, "Ngày …… Tháng …… Năm ……");
+            mergeCell(sheet, rowNum + 1, rowNum + 1, 7, 8);
+            rowNum++;
+            rowNum++;
+            Row sign = sheet.createRow(rowNum + 1);
+            setColumnWithRow(sign, sheet, headerCellStyle3, rowNum + 1, 1, "Người lập phiếu");
+            setColumnWithRow(sign, sheet, headerCellStyle3, rowNum + 1, 5, "Kế toán trưởng");
+            setColumnWithRow(sign, sheet, headerCellStyle3, rowNum + 1, 7, "Giám đốc");
+            rowNum++;
+            Row sign2 = sheet.createRow(rowNum + 1);
+            setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 1, "(Ký, họ tên)");
+            setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 5, "(Ký, họ tên)");
+            setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 7, "(Ký, họ tên)");
+
+            String path = "./SanPhamHangBan" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
             workbook.write(fileOut);
             fileOut.close();
@@ -522,24 +601,16 @@ public class SanPhamReportImpl implements SanPhamReport {
     public Map<String, String> exportSanPhamChiPhiMax(SanPhamDTO sanPhamDTO) throws Exception {
         try {
             Workbook workbook = new XSSFWorkbook();
-            Sheet sheet = workbook.createSheet("SanPhamChiPhi");
+            Sheet sheet = workbook.createSheet("SanPhamHangNhap");
 
             Font headerFontTitle = workbook.createFont();
             headerFontTitle.setBold(true);
             headerFontTitle.setFontHeightInPoints((short) 20);
-            headerFontTitle.setColor(IndexedColors.RED.getIndex());
+            headerFontTitle.setColor(IndexedColors.BLACK.getIndex());
             CellStyle headerCellStyle1 = workbook.createCellStyle();
             headerCellStyle1.setFont(headerFontTitle);
-            headerCellStyle1.setBorderBottom(BorderStyle.THIN);
-            headerCellStyle1.setBorderTop(BorderStyle.THIN);
             headerCellStyle1.setAlignment(HorizontalAlignment.CENTER);
             headerCellStyle1.setWrapText(true);
-            Row title = sheet.createRow(0);
-            Cell cellTitle = title.createCell(2);
-            cellTitle.setCellValue("BÁO CÁO SẢN PHẨM CHI PHÍ");
-            cellTitle.setCellStyle(headerCellStyle1);
-            CellRangeAddress cellMerge = new CellRangeAddress(0, 1, 2, 6);
-            sheet.addMergedRegion(cellMerge);
 
             Font headerFont = workbook.createFont();
             headerFont.setBold(true);
@@ -555,10 +626,43 @@ public class SanPhamReportImpl implements SanPhamReport {
             headerCellStyle.setBorderTop(BorderStyle.THIN);
             headerCellStyle.setAlignment(HorizontalAlignment.CENTER);
             headerCellStyle.setWrapText(true);
-            Row headerRow = sheet.createRow(3);
+
+            Font headerFont2 = workbook.createFont();
+            headerFont2.setItalic(true);
+            headerFont2.setFontHeightInPoints((short) 12);
+            headerFont2.setColor(IndexedColors.BLACK.getIndex());
+
+            CellStyle headerCellStyle2 = workbook.createCellStyle();
+            headerCellStyle2.setFont(headerFont2);
+            headerCellStyle2.setAlignment(HorizontalAlignment.LEFT);
+            headerCellStyle2.setWrapText(true);
+
+            CellStyle headerCellStyle3 = workbook.createCellStyle();
+            headerCellStyle3.setFont(headerFont2);
+            headerCellStyle3.setAlignment(HorizontalAlignment.CENTER);
+            headerCellStyle3.setWrapText(true);
+
+
+            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty Cổ phần Nông Nghiệp và Thực Phẩm Lang Liêu");
+            mergeCell(sheet, 0, 0, 0, 6);
+            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: Số nhà 2B, ngõ 389 Trương Định, Phường Tân Mai, Quận Hoàng Mai, Thành phố Hà Nội");
+            mergeCell(sheet, 1, 1, 0, 6);
+            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế:  0109736359");
+            mergeCell(sheet, 2, 2, 0, 6);
+
+            setColumn(sheet, headerCellStyle1, 4, 0, "BÁO CÁO HÀNG NHẬP");
+            mergeCell(sheet, 4, 5, 0, 9);
+            String date = "Từ ngày: 01/" + (LocalDateTime.now().getMonthValue() - 1) + "/" +
+                    LocalDateTime.now().getYear() + " - Đến ngày: 01/" + LocalDateTime.now().getMonthValue() + "/" + LocalDateTime.now().getYear();
+            setColumn(sheet, headerCellStyle3, 6, 0, date);
+            mergeCell(sheet, 6, 6, 0, 9);
+
+
+
+            Row headerRow = sheet.createRow(8);
 
             for (int i = 0; i < 10; i++) {
-                sheet.setColumnWidth(i, 8500);
+                sheet.setColumnWidth(i, 8000);
                 Cell cell = headerRow.createCell(i);
                 if (i == 0) {
                     cell.setCellValue("Mã Sản Phẩm");
@@ -601,7 +705,7 @@ public class SanPhamReportImpl implements SanPhamReport {
                     cell.setCellStyle(headerCellStyle);
                 }
             }
-            int rowNum = 4;
+            int rowNum = 9;
             List<SanPhamDTO> sanPhamDTOList = getSanPhamChiPhiMax(sanPhamDTO);
             CellStyle cellStyle = workbook.createCellStyle();
 
@@ -611,6 +715,8 @@ public class SanPhamReportImpl implements SanPhamReport {
             cellStyle.setBorderTop(BorderStyle.THIN);
             cellStyle.setAlignment(HorizontalAlignment.CENTER);
             cellStyle.setWrapText(true);
+            Double total = 0d;
+
             for (SanPhamDTO sanPhamDTO1 : sanPhamDTOList) {
                 Row row = sheet.createRow(rowNum++);
 
@@ -649,12 +755,30 @@ public class SanPhamReportImpl implements SanPhamReport {
                 Cell cell7 = row.createCell(8);
                 cell7.setCellValue(sanPhamDTO1.getTotalChiPhi());
                 cell7.setCellStyle(cellStyle);
+                if (sanPhamDTO1.getTotalChiPhi() != null)
+                    total += sanPhamDTO1.getTotalChiPhi();
 
                 Cell cell8 = row.createCell(9);
                 cell8.setCellValue(sanPhamDTO1.getTenCuaHang());
                 cell8.setCellStyle(cellStyle);
             }
-            String path = "D:/SanPhamChiPhi" + System.currentTimeMillis() + ".xlsx";
+            setColumn(sheet, headerCellStyle2, rowNum, 7, "Tổng:  " + renderDouble(total));
+            mergeCell(sheet, rowNum, rowNum, 7, 8);
+            rowNum++;
+            setColumn(sheet, headerCellStyle3, rowNum + 1, 7, "Ngày …… Tháng …… Năm ……");
+            mergeCell(sheet, rowNum + 1, rowNum + 1, 7, 8);
+            rowNum++;
+            rowNum++;
+            Row sign = sheet.createRow(rowNum + 1);
+            setColumnWithRow(sign, sheet, headerCellStyle3, rowNum + 1, 1, "Người lập phiếu");
+            setColumnWithRow(sign, sheet, headerCellStyle3, rowNum + 1, 5, "Kế toán trưởng");
+            setColumnWithRow(sign, sheet, headerCellStyle3, rowNum + 1, 7, "Giám đốc");
+            rowNum++;
+            Row sign2 = sheet.createRow(rowNum + 1);
+            setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 1, "(Ký, họ tên)");
+            setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 5, "(Ký, họ tên)");
+            setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 7, "(Ký, họ tên)");
+            String path = "./SanPhamHangNhap" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
             workbook.write(fileOut);
             fileOut.close();
@@ -825,5 +949,27 @@ public class SanPhamReportImpl implements SanPhamReport {
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    private void setColumn(Sheet sheet, CellStyle headerCellStyle1, int row, int column, String content) {
+        Row title = sheet.createRow(row);
+        Cell cellTitle = title.createCell(column);
+        cellTitle.setCellValue(content);
+        cellTitle.setCellStyle(headerCellStyle1);
+    }
+
+    private void setColumnWithRow(Row title, Sheet sheet, CellStyle headerCellStyle1, int row, int column, String content) {
+        Cell cellTitle = title.createCell(column);
+        cellTitle.setCellValue(content);
+        cellTitle.setCellStyle(headerCellStyle1);
+    }
+
+    private void mergeCell(Sheet sheet, int row, int lastRow, int column, int lastColumn) {
+        CellRangeAddress cellMerge = new CellRangeAddress(row, lastRow, column, lastColumn);
+        sheet.addMergedRegion(cellMerge);
+    }
+
+    String renderDouble(Double myvalue) {
+        return String.format("%.2f", myvalue);
     }
 }

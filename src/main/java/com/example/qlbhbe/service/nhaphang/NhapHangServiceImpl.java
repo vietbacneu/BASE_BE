@@ -3,7 +3,6 @@ package com.example.qlbhbe.service.nhaphang;
 import com.example.qlbhbe.dto.MessageDTO;
 import com.example.qlbhbe.dto.NhapHangChiTietDTO;
 import com.example.qlbhbe.dto.NhapHangDTO;
-import com.example.qlbhbe.dto.SanPhamDTO;
 import com.example.qlbhbe.entity.*;
 import com.example.qlbhbe.mapper.NhapHangChiTietMapper;
 import com.example.qlbhbe.mapper.NhapHangMapper;
@@ -26,6 +25,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.io.FileOutputStream;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -180,7 +180,7 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
 
             if (!DataUtil.isNullOrEmpty(command.getIdNhaCungCap())) {
                 from.append(" and n.id_nha_cung_cap = :ten ");
-                params.put("ten",command.getIdNhaCungCap());
+                params.put("ten", command.getIdNhaCungCap());
             }
             if (!DataUtil.isNullOrEmpty(command.getMaNhapHang())) {
                 from.append(" and lower(n.ma_nhap_hang) like :ma ");
@@ -196,13 +196,27 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
             List<Object[]> objects = query.getResultList();
 
             List<NhapHangDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maNhapHang", "idNhaCungCap", "tenNhaCungCap", "idCuaHang", "tenCuaHang",
-                            "totalDT", "ngayNhap", "ngayTao", "nguoiTao","idPhuongThuc","tenPhuongThuc")
+                            "totalDT", "ngayNhap", "ngayTao", "nguoiTao", "idPhuongThuc", "tenPhuongThuc")
                     , objects, NhapHangDTO.class);
 
             return danhMucDTOS;
         } catch (Exception e) {
             throw e;
         }
+    }
+
+
+    private void setColumn(Sheet sheet, CellStyle headerCellStyle1, int row, int column, String content) {
+        Row title = sheet.createRow(row);
+        Cell cellTitle = title.createCell(column);
+        cellTitle.setCellValue(content);
+        cellTitle.setCellStyle(headerCellStyle1);
+    }
+
+    private void setColumnWithRow(Row title, Sheet sheet, CellStyle headerCellStyle1, int row, int column, String content) {
+        Cell cellTitle = title.createCell(column);
+        cellTitle.setCellValue(content);
+        cellTitle.setCellStyle(headerCellStyle1);
     }
 
     @Override
@@ -214,23 +228,14 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
             Font headerFontTitle = workbook.createFont();
             headerFontTitle.setBold(true);
             headerFontTitle.setFontHeightInPoints((short) 20);
-            headerFontTitle.setColor(IndexedColors.RED.getIndex());
+            headerFontTitle.setColor(IndexedColors.BLACK.getIndex());
             CellStyle headerCellStyle1 = workbook.createCellStyle();
             headerCellStyle1.setFont(headerFontTitle);
-            headerCellStyle1.setBorderBottom(BorderStyle.THIN);
-            headerCellStyle1.setBorderTop(BorderStyle.THIN);
             headerCellStyle1.setAlignment(HorizontalAlignment.CENTER);
             headerCellStyle1.setWrapText(true);
-            Row title = sheet.createRow(0);
-            Cell cellTitle = title.createCell(1);
-            cellTitle.setCellValue("BÁO CÁO HÓA ĐƠN NHẬP HÀNG");
-            cellTitle.setCellStyle(headerCellStyle1);
-            CellRangeAddress cellMerge = new CellRangeAddress(0, 1, 1, 6);
-            sheet.addMergedRegion(cellMerge);
-
             Font headerFont = workbook.createFont();
             headerFont.setBold(true);
-            headerFont.setFontHeightInPoints((short) 14);
+            headerFont.setFontHeightInPoints((short) 13);
             headerFont.setColor(IndexedColors.BLACK.getIndex());
 // Create a CellStyle with the font
             CellStyle headerCellStyle = workbook.createCellStyle();
@@ -242,9 +247,39 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
             headerCellStyle.setAlignment(HorizontalAlignment.CENTER);
             headerCellStyle.setWrapText(true);
 
-            Row headerRow = sheet.createRow(3);
+            Font headerFont2 = workbook.createFont();
+            headerFont2.setItalic(true);
+            headerFont2.setFontHeightInPoints((short) 12);
+            headerFont2.setColor(IndexedColors.BLACK.getIndex());
+
+            CellStyle headerCellStyle2 = workbook.createCellStyle();
+            headerCellStyle2.setFont(headerFont2);
+            headerCellStyle2.setAlignment(HorizontalAlignment.LEFT);
+            headerCellStyle2.setWrapText(true);
+
+            CellStyle headerCellStyle3 = workbook.createCellStyle();
+            headerCellStyle3.setFont(headerFont2);
+            headerCellStyle3.setAlignment(HorizontalAlignment.CENTER);
+            headerCellStyle3.setWrapText(true);
+
+            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty Cổ phần Nông Nghiệp và Thực Phẩm Lang Liêu");
+            mergeCell(sheet, 0, 0, 0, 6);
+            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: Số nhà 2B, ngõ 389 Trương Định, Phường Tân Mai, Quận Hoàng Mai, Thành phố Hà Nội");
+            mergeCell(sheet, 1, 1, 0, 6);
+            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế:  0109736359");
+            mergeCell(sheet, 2, 2, 0, 6);
+
+            setColumn(sheet, headerCellStyle1, 4, 0, "BÁO CÁO NHẬP HÀNG");
+
+            mergeCell(sheet, 4, 5, 0, 6);
+
+            setColumn(sheet, headerCellStyle3, 6, 0, "Từ ngày: 01/"+ (LocalDateTime.now().getMonthValue() - 1) + "/"+
+                    LocalDateTime.now().getYear() + " - Đến ngày: 01/" + LocalDateTime.now().getMonthValue() + "/"+ LocalDateTime.now().getYear());
+            mergeCell(sheet, 6, 6, 0, 6);
+
+            Row headerRow = sheet.createRow(8);
             for (int i = 0; i < 7; i++) {
-                sheet.setColumnWidth(i, 8500);
+                sheet.setColumnWidth(i, 8000);
                 Cell cell = headerRow.createCell(i);
                 if (i == 0) {
                     cell.setCellValue("Mã Nhập Hàng");
@@ -275,7 +310,7 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
                     cell.setCellStyle(headerCellStyle);
                 }
             }
-            int rowNum = 4;
+            int rowNum = 9;
             List<NhapHangDTO> nhapHangDTOS = getNhapHangMax(sanPhamDTO);
             CellStyle cellStyle = workbook.createCellStyle();
 
@@ -285,6 +320,7 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
             cellStyle.setBorderTop(BorderStyle.THIN);
             cellStyle.setAlignment(HorizontalAlignment.CENTER);
             cellStyle.setWrapText(true);
+            Double total = 0d;
             for (NhapHangDTO sanPhamDTO1 : nhapHangDTOS) {
                 Row row = sheet.createRow(rowNum++);
 
@@ -307,7 +343,8 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
                 Cell cell3 = row.createCell(4);
                 cell3.setCellValue(sanPhamDTO1.getTotalDT());
                 cell3.setCellStyle(cellStyle);
-
+                if (sanPhamDTO1.getTotalDT() != null)
+                    total += sanPhamDTO1.getTotalDT();
                 Cell cell4 = row.createCell(5);
                 if (!DataUtil.isNullOrEmpty(sanPhamDTO1.getNgayNhap())) {
                     cell4.setCellValue(sanPhamDTO1.getNgayNhap().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
@@ -318,6 +355,23 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
                 cell41.setCellValue(sanPhamDTO1.getNguoiTao());
                 cell41.setCellStyle(cellStyle);
             }
+            setColumn(sheet, headerCellStyle2, rowNum, 4, "Tổng:  " + renderDouble(total));
+            mergeCell(sheet, rowNum, rowNum, 4, 5);
+            rowNum++;
+            setColumn(sheet, headerCellStyle3, rowNum + 1, 4, "Ngày …… Tháng …… Năm ……");
+            mergeCell(sheet, rowNum + 1, rowNum + 1, 4, 5);
+            rowNum++;
+            rowNum++;
+            Row sign = sheet.createRow(rowNum + 1);
+            setColumnWithRow(sign, sheet, headerCellStyle3, rowNum + 1, 1, "Người lập phiếu");
+            setColumnWithRow(sign, sheet, headerCellStyle3, rowNum + 1, 3, "Kế toán trưởng");
+            setColumnWithRow(sign, sheet, headerCellStyle3, rowNum + 1, 5, "Giám đốc");
+            rowNum++;
+            Row sign2 = sheet.createRow(rowNum + 1);
+            setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 1, "(Ký, họ tên)");
+            setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 3, "(Ký, họ tên)");
+            setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 5, "(Ký, họ tên)");
+
 
             String path = "./HoaDonNhapHang" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
@@ -330,5 +384,14 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    private void mergeCell(Sheet sheet, int row, int lastRow, int column, int lastColumn) {
+        CellRangeAddress cellMerge = new CellRangeAddress(row, lastRow, column, lastColumn);
+        sheet.addMergedRegion(cellMerge);
+    }
+
+    String renderDouble(Double myvalue) {
+        return String.format("%.2f", myvalue);
     }
 }

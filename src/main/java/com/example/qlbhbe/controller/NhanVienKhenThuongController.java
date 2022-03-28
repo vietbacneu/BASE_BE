@@ -13,6 +13,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 
 @RestController
@@ -21,6 +23,9 @@ import javax.validation.Valid;
 public class NhanVienKhenThuongController {
 
     private final NhanVienKhenThuongService nhanVienKhenThuongService;
+
+    @PersistenceContext
+    EntityManager entityManager;
 
     public NhanVienKhenThuongController(NhanVienKhenThuongService nhanVienKhenThuongService) {
         this.nhanVienKhenThuongService = nhanVienKhenThuongService;

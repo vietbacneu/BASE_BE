@@ -5,8 +5,10 @@ import com.example.qlbhbe.dto.TroCapDTO;
 import com.example.qlbhbe.entity.TroCap;
 import com.example.qlbhbe.mapper.TroCapMapper;
 import com.example.qlbhbe.service.trocap.TroCapService;
-import com.example.qlbhbe.service.trocap.TroCapSearchService;
 import com.example.qlbhbe.util.Constants;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,13 +26,14 @@ import javax.validation.Valid;
 public class TroCapController {
 
     private final TroCapService troCapService;
-    private final TroCapSearchService troCapSearchService;
-    private final TroCapDetailsService troCapDetailsService;
 
-    public TroCapController(TroCapService troCapService, TroCapSearchService troCapSearchService, TroCapDetailsService troCapDetailsService) {
+    public TroCapController(TroCapService troCapService) {
         this.troCapService = troCapService;
-        this.troCapSearchService = troCapSearchService;
-        this.troCapDetailsService = troCapDetailsService;
+    }
+
+    @PostMapping("/search")
+    public Page<TroCapDTO> search(@RequestBody(required = false) TroCapDTO command, @PageableDefault Pageable pageable) throws Exception {
+        return troCapService.search(command, pageable);
     }
 
     @PostMapping
@@ -40,9 +43,9 @@ public class TroCapController {
         return new CreatedIdResponse(troCap.getId());
     }
 
-    @PutMapping("{id}")
-    public void update(@PathVariable("id") long id, @Valid @RequestBody TroCapDTO command) {
-        troCapService.update(id, command);
+    @PutMapping("/update")
+    public void update( @Valid @RequestBody TroCapDTO command) {
+        troCapService.update(command.getId(), command);
     }
 
     @DeleteMapping("{id}")

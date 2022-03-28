@@ -18,6 +18,16 @@ public class TroCapDTO {
 
     private String maTroCap;
 
+    private Long isCount;
+
+    public Long getIsCount() {
+        return isCount;
+    }
+
+    public void setIsCount(Long isCount) {
+        this.isCount = isCount;
+    }
+
     public TroCapDTO() {
     }
 

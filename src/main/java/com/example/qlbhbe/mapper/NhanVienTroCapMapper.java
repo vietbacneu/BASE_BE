@@ -20,24 +20,7 @@ public interface NhanVienTroCapMapper {
         return nhanVienTroCap;
     }
 
-    @Mapping(source = "idNhanVien.id", target = "idNhanVienId")
-    @Mapping(source = "idNhanVien.ho", target = "idNhanVienHo")
-    @Mapping(source = "idNhanVien.ten", target = "idNhanVienTen")
-    @Mapping(source = "idNhanVien.sdt", target = "idNhanVienSdt")
-    @Mapping(source = "idNhanVien.email", target = "idNhanVienEmail")
-    @Mapping(source = "idNhanVien.gioiTinh", target = "idNhanVienGioiTinh")
-    @Mapping(source = "idNhanVien.diaChi", target = "idNhanVienDiaChi")
-    @Mapping(source = "idNhanVien.ngaySinh", target = "idNhanVienNgaySinh")
-    @Mapping(source = "idNhanVien.ngayBatDau", target = "idNhanVienNgayBatDau")
-    @Mapping(source = "idNhanVien.trinhDo", target = "idNhanVienTrinhDo")
-    @Mapping(source = "idTroCap.id", target = "idTroCapId")
-    @Mapping(source = "idTroCap.ten", target = "idTroCapTen")
-    @Mapping(source = "idTroCap.mucTroCap", target = "idTroCapMucTroCap")
-    @Mapping(source = "idTroCap.mieuTa", target = "idTroCapMieuTa")
-    @Mapping(source = "idTroCap.maTroCap", target = "idTroCapMaTroCap")
-    NhanVienTroCapDTO toNhanVienTroCapDTO(NhanVienTroCap nhanVienTroCap);
+    NhanVienTroCap update(NhanVienTroCapDTO command, @MappingTarget NhanVienTroCap entity);
 
-    NhanVienTroCap update(UpdateNhanVienTroCapRequest command, @MappingTarget NhanVienTroCap entity);
-
-    NhanVienTroCap create(CreateNhanVienTroCapRequest command);
+    NhanVienTroCap create(NhanVienTroCapDTO command);
 }

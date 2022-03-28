@@ -29,6 +29,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -154,6 +155,11 @@ public class DataUtil {
             throw e;
         }
 
+    }
+
+    public static LocalDate getLocalDate(Date input) {
+        if (input == null) input = new Date();
+        return input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
 

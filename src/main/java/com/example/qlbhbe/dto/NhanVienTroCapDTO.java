@@ -1,9 +1,10 @@
 package com.example.qlbhbe.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * Generated at 2022/03/28 15:06:58
@@ -15,15 +16,15 @@ public class NhanVienTroCapDTO {
 
     private String mieuTa;
 
-    private LocalDateTime tuNgay;
+    private LocalDate tuNgay;
 
-    private LocalDateTime denNgay;
+    private LocalDate denNgay;
 
-    private Long idNhanVienId;
+    private Long idNhanVien;
 
-    private String idNhanVienHo;
+    private String hoNhanVien;
 
-    private String idNhanVienTen;
+    private String tenNhanVien;
 
     private String idNhanVienSdt;
 
@@ -33,49 +34,31 @@ public class NhanVienTroCapDTO {
 
     private String idNhanVienDiaChi;
 
-    private LocalDate idNhanVienNgaySinh;
+    private Date idNhanVienNgaySinh;
 
-    private LocalDate idNhanVienNgayBatDau;
+    private Date idNhanVienNgayBatDau;
 
     private String idNhanVienTrinhDo;
 
-    private Long idTroCapId;
+    private Long troCap;
 
-    private String idTroCapTen;
+    private String tenTroCap;
 
-    private Double idTroCapMucTroCap;
+    private Double mucTroCap;
 
     private String idTroCapMieuTa;
 
     private String idTroCapMaTroCap;
 
+    private String tenChucVu;
+
+    private String tenPhongBan;
+
     public NhanVienTroCapDTO() {
     }
 
-    public NhanVienTroCapDTO(Long id, String mieuTa, LocalDateTime tuNgay, LocalDateTime denNgay, Long idNhanVienId, String idNhanVienHo, String idNhanVienTen, String idNhanVienSdt, String idNhanVienEmail, String idNhanVienGioiTinh, String idNhanVienDiaChi, LocalDate idNhanVienNgaySinh, LocalDate idNhanVienNgayBatDau, String idNhanVienTrinhDo, Long idTroCapId, String idTroCapTen, Double idTroCapMucTroCap, String idTroCapMieuTa, String idTroCapMaTroCap) {
-        this.id = id;
-        this.mieuTa = mieuTa;
-        this.tuNgay = tuNgay;
-        this.denNgay = denNgay;
-        this.idNhanVienId = idNhanVienId;
-        this.idNhanVienHo = idNhanVienHo;
-        this.idNhanVienTen = idNhanVienTen;
-        this.idNhanVienSdt = idNhanVienSdt;
-        this.idNhanVienEmail = idNhanVienEmail;
-        this.idNhanVienGioiTinh = idNhanVienGioiTinh;
-        this.idNhanVienDiaChi = idNhanVienDiaChi;
-        this.idNhanVienNgaySinh = idNhanVienNgaySinh;
-        this.idNhanVienNgayBatDau = idNhanVienNgayBatDau;
-        this.idNhanVienTrinhDo = idNhanVienTrinhDo;
-        this.idTroCapId = idTroCapId;
-        this.idTroCapTen = idTroCapTen;
-        this.idTroCapMucTroCap = idTroCapMucTroCap;
-        this.idTroCapMieuTa = idTroCapMieuTa;
-        this.idTroCapMaTroCap = idTroCapMaTroCap;
-    }
-
     public Long getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(Long id) {
@@ -83,55 +66,55 @@ public class NhanVienTroCapDTO {
     }
 
     public String getMieuTa() {
-        return this.mieuTa;
+        return mieuTa;
     }
 
     public void setMieuTa(String mieuTa) {
         this.mieuTa = mieuTa;
     }
-
-    public LocalDateTime getTuNgay() {
-        return this.tuNgay;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    public LocalDate getTuNgay() {
+        return tuNgay;
     }
 
-    public void setTuNgay(LocalDateTime tuNgay) {
+    public void setTuNgay(LocalDate tuNgay) {
         this.tuNgay = tuNgay;
     }
-
-    public LocalDateTime getDenNgay() {
-        return this.denNgay;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    public LocalDate getDenNgay() {
+        return denNgay;
     }
 
-    public void setDenNgay(LocalDateTime denNgay) {
+    public void setDenNgay(LocalDate denNgay) {
         this.denNgay = denNgay;
     }
 
-    public Long getIdNhanVienId() {
-        return this.idNhanVienId;
+    public Long getIdNhanVien() {
+        return idNhanVien;
     }
 
-    public void setIdNhanVienId(Long idNhanVienId) {
-        this.idNhanVienId = idNhanVienId;
+    public void setIdNhanVien(Long idNhanVien) {
+        this.idNhanVien = idNhanVien;
     }
 
-    public String getIdNhanVienHo() {
-        return this.idNhanVienHo;
+    public String getHoNhanVien() {
+        return hoNhanVien;
     }
 
-    public void setIdNhanVienHo(String idNhanVienHo) {
-        this.idNhanVienHo = idNhanVienHo;
+    public void setHoNhanVien(String hoNhanVien) {
+        this.hoNhanVien = hoNhanVien;
     }
 
-    public String getIdNhanVienTen() {
-        return this.idNhanVienTen;
+    public String getTenNhanVien() {
+        return tenNhanVien;
     }
 
-    public void setIdNhanVienTen(String idNhanVienTen) {
-        this.idNhanVienTen = idNhanVienTen;
+    public void setTenNhanVien(String tenNhanVien) {
+        this.tenNhanVien = tenNhanVien;
     }
 
     public String getIdNhanVienSdt() {
-        return this.idNhanVienSdt;
+        return idNhanVienSdt;
     }
 
     public void setIdNhanVienSdt(String idNhanVienSdt) {
@@ -139,7 +122,7 @@ public class NhanVienTroCapDTO {
     }
 
     public String getIdNhanVienEmail() {
-        return this.idNhanVienEmail;
+        return idNhanVienEmail;
     }
 
     public void setIdNhanVienEmail(String idNhanVienEmail) {
@@ -147,7 +130,7 @@ public class NhanVienTroCapDTO {
     }
 
     public String getIdNhanVienGioiTinh() {
-        return this.idNhanVienGioiTinh;
+        return idNhanVienGioiTinh;
     }
 
     public void setIdNhanVienGioiTinh(String idNhanVienGioiTinh) {
@@ -155,63 +138,63 @@ public class NhanVienTroCapDTO {
     }
 
     public String getIdNhanVienDiaChi() {
-        return this.idNhanVienDiaChi;
+        return idNhanVienDiaChi;
     }
 
     public void setIdNhanVienDiaChi(String idNhanVienDiaChi) {
         this.idNhanVienDiaChi = idNhanVienDiaChi;
     }
 
-    public LocalDate getIdNhanVienNgaySinh() {
-        return this.idNhanVienNgaySinh;
+    public Date getIdNhanVienNgaySinh() {
+        return idNhanVienNgaySinh;
     }
 
-    public void setIdNhanVienNgaySinh(LocalDate idNhanVienNgaySinh) {
+    public void setIdNhanVienNgaySinh(Date idNhanVienNgaySinh) {
         this.idNhanVienNgaySinh = idNhanVienNgaySinh;
     }
 
-    public LocalDate getIdNhanVienNgayBatDau() {
-        return this.idNhanVienNgayBatDau;
+    public Date getIdNhanVienNgayBatDau() {
+        return idNhanVienNgayBatDau;
     }
 
-    public void setIdNhanVienNgayBatDau(LocalDate idNhanVienNgayBatDau) {
+    public void setIdNhanVienNgayBatDau(Date idNhanVienNgayBatDau) {
         this.idNhanVienNgayBatDau = idNhanVienNgayBatDau;
     }
 
     public String getIdNhanVienTrinhDo() {
-        return this.idNhanVienTrinhDo;
+        return idNhanVienTrinhDo;
     }
 
     public void setIdNhanVienTrinhDo(String idNhanVienTrinhDo) {
         this.idNhanVienTrinhDo = idNhanVienTrinhDo;
     }
 
-    public Long getIdTroCapId() {
-        return this.idTroCapId;
+    public Long getTroCap() {
+        return troCap;
     }
 
-    public void setIdTroCapId(Long idTroCapId) {
-        this.idTroCapId = idTroCapId;
+    public void setTroCap(Long troCap) {
+        this.troCap = troCap;
     }
 
-    public String getIdTroCapTen() {
-        return this.idTroCapTen;
+    public String getTenTroCap() {
+        return tenTroCap;
     }
 
-    public void setIdTroCapTen(String idTroCapTen) {
-        this.idTroCapTen = idTroCapTen;
+    public void setTenTroCap(String tenTroCap) {
+        this.tenTroCap = tenTroCap;
     }
 
-    public Double getIdTroCapMucTroCap() {
-        return this.idTroCapMucTroCap;
+    public Double getMucTroCap() {
+        return mucTroCap;
     }
 
-    public void setIdTroCapMucTroCap(Double idTroCapMucTroCap) {
-        this.idTroCapMucTroCap = idTroCapMucTroCap;
+    public void setMucTroCap(Double mucTroCap) {
+        this.mucTroCap = mucTroCap;
     }
 
     public String getIdTroCapMieuTa() {
-        return this.idTroCapMieuTa;
+        return idTroCapMieuTa;
     }
 
     public void setIdTroCapMieuTa(String idTroCapMieuTa) {
@@ -219,10 +202,26 @@ public class NhanVienTroCapDTO {
     }
 
     public String getIdTroCapMaTroCap() {
-        return this.idTroCapMaTroCap;
+        return idTroCapMaTroCap;
     }
 
     public void setIdTroCapMaTroCap(String idTroCapMaTroCap) {
         this.idTroCapMaTroCap = idTroCapMaTroCap;
+    }
+
+    public String getTenChucVu() {
+        return tenChucVu;
+    }
+
+    public void setTenChucVu(String tenChucVu) {
+        this.tenChucVu = tenChucVu;
+    }
+
+    public String getTenPhongBan() {
+        return tenPhongBan;
+    }
+
+    public void setTenPhongBan(String tenPhongBan) {
+        this.tenPhongBan = tenPhongBan;
     }
 }

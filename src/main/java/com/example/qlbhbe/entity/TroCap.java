@@ -13,39 +13,29 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "bao_hiem")
+@Table(name = "tro_cap")
 @EntityListeners(AuditingEntityListener.class)
-public class BaoHiem implements Serializable {
+public class TroCap implements Serializable {
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String maBaoHiem;
-
-    @Column(name = "ma_so")
-    private String maSo;
-
     @Column(name = "ten")
     private String ten;
 
-    @Column(name = "thong_tin")
-    private String thongTin;
+    @Column(name = "muc_tro_cap")
+    private Double mucTroCap;
 
-    @Column(name = "he_so")
-    private Double heSo;
+    @Column(name = "mieu_ta")
+    private String mieuTa;
 
-    public Double getHeSo() {
-        return heSo;
-    }
-
-    public void setHeSo(Double heSo) {
-        this.heSo = heSo;
-    }
+    @Column(name = "ma_tro_cap")
+    private String maTroCap;
 
     public long getId() {
         return this.id;
@@ -53,14 +43,6 @@ public class BaoHiem implements Serializable {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getMaSo() {
-        return this.maSo;
-    }
-
-    public void setMaSo(String maSo) {
-        this.maSo = maSo;
     }
 
     public String getTen() {
@@ -71,19 +53,27 @@ public class BaoHiem implements Serializable {
         this.ten = ten;
     }
 
-    public String getThongTin() {
-        return this.thongTin;
+    public Double getMucTroCap() {
+        return this.mucTroCap;
     }
 
-    public void setThongTin(String thongTin) {
-        this.thongTin = thongTin;
+    public void setMucTroCap(Double mucTroCap) {
+        this.mucTroCap = mucTroCap;
     }
 
-    public String getMaBaoHiem() {
-        return maBaoHiem;
+    public String getMieuTa() {
+        return this.mieuTa;
     }
 
-    public void setMaBaoHiem(String maBaoHiem) {
-        this.maBaoHiem = maBaoHiem;
+    public void setMieuTa(String mieuTa) {
+        this.mieuTa = mieuTa;
+    }
+
+    public String getMaTroCap() {
+        return this.maTroCap;
+    }
+
+    public void setMaTroCap(String maTroCap) {
+        this.maTroCap = maTroCap;
     }
 }

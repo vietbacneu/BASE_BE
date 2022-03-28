@@ -5,6 +5,7 @@ import com.example.qlbhbe.entity.ChamCong;
 import com.example.qlbhbe.entity.NhanVien;
 import com.example.qlbhbe.mapper.ChamCongMapper;
 import com.example.qlbhbe.repo.chamcong.ChamCongRepo;
+import com.example.qlbhbe.repo.nhanvien.NhanVienRepo;
 import com.example.qlbhbe.service.AbstractService;
 import com.example.qlbhbe.util.DataUtil;
 import org.apache.poi.ss.usermodel.*;
@@ -22,8 +23,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -36,6 +39,9 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
     EntityManager entityManager;
 
     @Autowired
+    NhanVienRepo nhanVienRepo;
+
+    @Autowired
     public ChamCongServiceImpl(ChamCongRepo chamCongRepo) {
         super(chamCongRepo);
         this.chamCongRepo = chamCongRepo;
@@ -46,7 +52,7 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
         Optional<ChamCong> opt = chamCongRepo.findById(id);
         if (opt.isPresent()) {
             ChamCong chamCong = opt.get();
-            NhanVien nhanVien =  new NhanVien();
+            NhanVien nhanVien = new NhanVien();
             nhanVien.setId(command.getIdNhanVien());
             chamCong.setNhanVien(nhanVien);
             return ChamCongMapper.INSTANCE.update(command, chamCong);
@@ -89,7 +95,7 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
             }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
-            List<ChamCongDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id","idNhanVien", "hoNhanVien", "tenNhanVien",
+            List<ChamCongDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "idNhanVien", "hoNhanVien", "tenNhanVien",
                             "tenChucVu", "tenPhongBan", "soGioLam", "ngayLam", "mieuTa")
                     , objects, ChamCongDTO.class);
 
@@ -364,12 +370,14 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
             throw e;
         }
     }
+
     private void setColumn(Sheet sheet, CellStyle headerCellStyle1, int row, int column, String content) {
         Row title = sheet.createRow(row);
         Cell cellTitle = title.createCell(column);
         cellTitle.setCellValue(content);
         cellTitle.setCellStyle(headerCellStyle1);
     }
+
     private void setColumnWithRow(Row title, Sheet sheet, CellStyle headerCellStyle1, int row, int column, String content) {
         Cell cellTitle = title.createCell(column);
         cellTitle.setCellValue(content);
@@ -384,4 +392,5 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
     String renderDouble(Double myvalue) {
         return String.format("%.2f", myvalue);
     }
+
 }

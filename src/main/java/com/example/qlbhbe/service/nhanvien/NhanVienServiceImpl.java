@@ -37,6 +37,10 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
     @PersistenceContext
     EntityManager entityManager;
 
+    public static void main(String[] args) {
+        System.out.printf(Base64.getEncoder().encodeToString("hello nguyễn việt bắc".getBytes()));
+    }
+
     @Autowired
     public NhanVienServiceImpl(NhanVienRepo nhanVienRepo) {
         super(nhanVienRepo);
@@ -285,19 +289,19 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
                 cell11.setCellValue(sanPhamDTO1.getHeSoLuong());
                 cell11.setCellStyle(cellStyle);
             }
-            setColumn(sheet, headerCellStyle3, rowNum + 1, 10, "Ngày …… Tháng …… Năm ……");
-            mergeCell(sheet, rowNum + 1, rowNum + 1, 10, 11);
+            setColumn(sheet, headerCellStyle3, rowNum + 1, 9, "Ngày …… Tháng …… Năm ……");
+            mergeCell(sheet, rowNum + 1, rowNum + 1, 9, 10);
             rowNum++;
             rowNum++;
             Row sign = sheet.createRow(rowNum + 1);
             setColumnWithRow(sign, sheet, headerCellStyle3, rowNum + 1, 1, "Người lập phiếu");
             setColumnWithRow(sign, sheet, headerCellStyle3, rowNum + 1, 6, "Kế toán trưởng");
-            setColumnWithRow(sign, sheet, headerCellStyle3, rowNum + 1, 11, "Giám đốc");
+            setColumnWithRow(sign, sheet, headerCellStyle3, rowNum + 1, 10, "Giám đốc");
             rowNum++;
             Row sign2 = sheet.createRow(rowNum + 1);
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 1, "(Ký, họ tên)");
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 6, "(Ký, họ tên)");
-            setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 11, "(Ký, họ tên)");
+            setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 10, "(Ký, họ tên)");
             String path = "D:/BaoCaoNhanVien" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
             workbook.write(fileOut);

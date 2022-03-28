@@ -2,6 +2,7 @@ package com.example.qlbhbe.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -31,8 +32,14 @@ public class NhanVienBaoHiem implements Serializable {
     @Column(name = "mieu_ta")
     private String mieuTa;
 
-    @Column(name = "muc_dong")
-    private Double mucDong;
+    @Column(name = "tu_ngay")
+    private Date tuNgay;
+
+    @Column(name = "den_ngay")
+    private Date denNgay;
+
+    @Column(name = "so_tien")
+    private Double soTien;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_nhan_vien")
@@ -42,13 +49,30 @@ public class NhanVienBaoHiem implements Serializable {
     @JoinColumn(name = "id_bao_hiem")
     private BaoHiem baoHiem;
 
-    public Double getMucDong() {
-        return mucDong;
+    public Double getSoTien() {
+        return soTien;
     }
 
-    public void setMucDong(Double mucDong) {
-        this.mucDong = mucDong;
+    public void setSoTien(Double soTien) {
+        this.soTien = soTien;
     }
+
+    public Date getTuNgay() {
+        return tuNgay;
+    }
+
+    public void setTuNgay(Date tuNgay) {
+        this.tuNgay = tuNgay;
+    }
+
+    public Date getDenNgay() {
+        return denNgay;
+    }
+
+    public void setDenNgay(Date denNgay) {
+        this.denNgay = denNgay;
+    }
+
     public long getId() {
         return this.id;
     }

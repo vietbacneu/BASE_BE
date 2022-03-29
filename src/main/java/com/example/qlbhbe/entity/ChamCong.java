@@ -28,6 +28,9 @@ public class ChamCong implements Serializable {
     @Column(name = "so_gio_lam")
     private Double soGioLam;
 
+    @Column(name = "luong")
+    private Double luong;
+
     @Column(name = "ngay_lam")
     private LocalDate ngayLam;
 
@@ -37,6 +40,14 @@ public class ChamCong implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_nhan_vien")
     private NhanVien nhanVien;
+
+    public Double getLuong() {
+        return luong;
+    }
+
+    public void setLuong(Double luong) {
+        this.luong = luong;
+    }
 
     public long getId() {
         return this.id;

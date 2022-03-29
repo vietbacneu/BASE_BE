@@ -69,7 +69,7 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
             Map<String, Object> params = new HashMap<>();
             queryStr.append(" select cc.id as ccid ,n.id as nvId, n.ho , n.ten, " +
                     "(select ten_chuc_vu from chuc_vu c where c.id = n.id_chuc_vu) tenChucvu, " +
-                    "(select ten from phong_ban c where c.id = n.id_phong_ban) tenPP, cc.so_gio_lam, cc.ngay_lam, cc.mieu_ta ");
+                    "(select ten from phong_ban c where c.id = n.id_phong_ban) tenPP, cc.so_gio_lam, cc.ngay_lam, cc.mieu_ta, cc.luong ");
 
             count.append("select count(*) ");
             from.append(" from nhan_vien n, cham_cong cc where cc.id_nhan_vien = n.id ");
@@ -96,7 +96,7 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<ChamCongDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "idNhanVien", "hoNhanVien", "tenNhanVien",
-                            "tenChucVu", "tenPhongBan", "soGioLam", "ngayLam", "mieuTa")
+                            "tenChucVu", "tenPhongBan", "soGioLam", "ngayLam", "mieuTa", "luong")
                     , objects, ChamCongDTO.class);
 
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));

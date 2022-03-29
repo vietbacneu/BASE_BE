@@ -14,6 +14,8 @@ public class BaoHiemDTO {
 
     private String maSo;
 
+    private Double heSo;
+
     private String ten;
 
     private Integer mucDong;
@@ -31,6 +33,14 @@ public class BaoHiemDTO {
         this.ten = ten;
         this.mucDong = mucDong;
         this.thongTin = thongTin;
+    }
+
+    public Double getHeSo() {
+        return heSo;
+    }
+
+    public void setHeSo(Double heSo) {
+        this.heSo = heSo;
     }
 
     public String getMaBaoHiem() {

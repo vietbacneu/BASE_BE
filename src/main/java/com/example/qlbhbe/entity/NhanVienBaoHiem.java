@@ -38,8 +38,8 @@ public class NhanVienBaoHiem implements Serializable {
     @Column(name = "den_ngay")
     private Date denNgay;
 
-    @Column(name = "so_tien")
-    private Double soTien;
+    @Column(name = "he_so")
+    private Double heSo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_nhan_vien")
@@ -49,12 +49,12 @@ public class NhanVienBaoHiem implements Serializable {
     @JoinColumn(name = "id_bao_hiem")
     private BaoHiem baoHiem;
 
-    public Double getSoTien() {
-        return soTien;
+    public Double getHeSo() {
+        return heSo;
     }
 
-    public void setSoTien(Double soTien) {
-        this.soTien = soTien;
+    public void setHeSo(Double soTien) {
+        this.heSo = soTien;
     }
 
     public Date getTuNgay() {

@@ -26,6 +26,7 @@ public class ChamCongDTO {
     private Long isCount;
     private Long idPhongBan;
     private Long idChucVu;
+    private Double luong;
     private Double heSoLuong = 0d;
     private Double totalBaoHiem = 0d;
     private Double totalKhenThuong = 0d;
@@ -36,6 +37,13 @@ public class ChamCongDTO {
 
     private String month;
 
+    public Double getLuong() {
+        return luong;
+    }
+
+    public void setLuong(Double luong) {
+        this.luong = luong;
+    }
 
     public ChamCongDTO() {
     }

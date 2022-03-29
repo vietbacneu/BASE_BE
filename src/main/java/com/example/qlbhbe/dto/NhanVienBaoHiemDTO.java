@@ -15,6 +15,10 @@ public class NhanVienBaoHiemDTO {
 
     private LocalDate ngayDong;
 
+    private LocalDate tuNgay;
+
+    private LocalDate denNgay;
+
     private String mieuTa;
 
     private Long idNhanVien;
@@ -53,11 +57,37 @@ public class NhanVienBaoHiemDTO {
 
     private Double mucDong;
 
+    private Double heSo;
+
     private Long isCount;
 
     private String month;
 
     public NhanVienBaoHiemDTO() {
+    }
+
+    public Double getHeSo() {
+        return heSo;
+    }
+
+    public LocalDate getTuNgay() {
+        return tuNgay;
+    }
+
+    public void setTuNgay(LocalDate tuNgay) {
+        this.tuNgay = tuNgay;
+    }
+
+    public LocalDate getDenNgay() {
+        return denNgay;
+    }
+
+    public void setDenNgay(LocalDate denNgay) {
+        this.denNgay = denNgay;
+    }
+
+    public void setHeSo(Double heSo) {
+        this.heSo = heSo;
     }
 
     public String getMonth() {

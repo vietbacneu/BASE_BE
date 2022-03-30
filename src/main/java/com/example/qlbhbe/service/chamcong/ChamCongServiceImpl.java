@@ -23,10 +23,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -111,33 +109,41 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
             StringBuilder queryStr = new StringBuilder();
             StringBuilder count = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
-            queryStr.append(" SELECT  " +
-                    "    n.id, " +
-                    "    n.ho, " +
-                    "    n.ten, " +
-                    "    (SELECT  " +
-                    "            ten_chuc_vu " +
-                    "        FROM " +
-                    "            chuc_vu c " +
-                    "        WHERE " +
-                    "            c.id = n.id_chuc_vu) as tenChucvu, " +
-                    "  (SELECT  " +
-                    "            he_so_luong " +
-                    "        FROM " +
-                    "            chuc_vu c " +
-                    "        WHERE " +
-                    "            c.id = n.id_chuc_vu) as hsl,       " +
-                    "    (SELECT  " +
-                    "            ten " +
-                    "        FROM " +
-                    "            phong_ban c " +
-                    "        WHERE " +
-                    "            c.id = n.id_phong_ban) as tenPP, " +
-                    "   sum(cc.so_gio_lam) , " +
-                    " (select sum(muc_dong) from nhan_vien_bao_hiem tmp where tmp.id_nhan_vien = n.id and month(tmp.ngay_dong) = month(cc.ngay_lam)  group by tmp.id_nhan_vien  ) as totalbh, " +
-                    "    (select sum(muc_thuong) from khen_thuong kt,  nhan_vien_khen_thuong tmp where kt.id = tmp.id_khen_thuong and tmp.id_nhan_vien = n.id and month(tmp.ngay) = month(cc.ngay_lam)  group by tmp.id_nhan_vien) as totalkt, " +
-                    " (select sum(muc_phat) from ky_luat kt, nhan_vien_ky_luat tmp where kt.id = tmp.id_ky_luat and tmp.id_nhan_vien = n.id and month(tmp.ngay) = month(cc.ngay_lam) group by tmp.id_nhan_vien ) as totalkl " +
-                    "    from nhan_vien n left join cham_cong cc on (cc.id_nhan_vien = n.id ) where 1=1  ");
+            queryStr.append(" SELECT n.id," +
+                    "       n.ho," +
+                    "       n.ten," +
+                    "       cv.ten_chuc_vu                   tenChucvu," +
+                    "       cc.luong                         hsl," +
+                    "       (SELECT ten" +
+                    "        FROM phong_ban c" +
+                    "        WHERE c.id = n.id_phong_ban) AS tenPP," +
+                    "       SUM(cc.so_gio_lam)," +
+                    "       (SELECT tmp.he_so * cc.luong * 24" +
+                    "        FROM nhan_vien_bao_hiem tmp" +
+                    "        WHERE tmp.id_nhan_vien = n.id" +
+                    "          and year(tu_ngay) <= year(cc.ngay_lam)\n" +
+                    "          and (den_ngay is null or (den_ngay >= MONTH(cc.ngay_lam) and year(den_ngay) >= year(cc.ngay_lam))) " +
+                    "        GROUP BY tmp.id_nhan_vien)   AS totalbh," +
+                    "       (SELECT SUM(tmp.muc_thuong)" +
+                    "        FROM nhan_vien_khen_thuong tmp" +
+                    "        WHERE  tmp.id_nhan_vien = n.id" +
+                    "          AND MONTH(tmp.ngay) = MONTH(cc.ngay_lam)" +
+                    "        GROUP BY tmp.id_nhan_vien)   AS totalkt," +
+                    "       (SELECT SUM(tmp.muc_phat)" +
+                    "        FROM  nhan_vien_ky_luat tmp" +
+                    "        WHERE tmp.id_nhan_vien = n.id" +
+                    "          AND MONTH(tmp.ngay) = MONTH(cc.ngay_lam)" +
+                    "        GROUP BY tmp.id_nhan_vien)   AS totalkl," +
+                    "       (SELECT SUM(tmp.muc_tro_cap)" +
+                    "        FROM nhan_vien_tro_cap tmp" +
+                    "        WHERE tmp.id_nhan_vien = n.id" +
+                    "           and year(tu_ngay) <= year(cc.ngay_lam)\n" +
+                    "          and (den_ngay is null or (den_ngay >= MONTH(cc.ngay_lam) and year(den_ngay) >= year(cc.ngay_lam))) " +
+                    "        GROUP BY tmp.id_nhan_vien)   AS totaltc " +
+                    " FROM nhan_vien n" +
+                    "         LEFT JOIN" +
+                    "     cham_cong cc ON (cc.id_nhan_vien = n.id)" +
+                    "         left join chuc_vu cv on (n.id_chuc_vu = cv.id) where 1=1  ");
 
             count.append("select count(*) ");
             if (!DataUtil.isNullOrEmpty(command.getTenNhanVien())) {
@@ -145,7 +151,7 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
                 params.put("ten", '%' + command.getTenNhanVien().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getMonth())) {
-                queryStr.append(" and month(cc.ngay_lam) = ").append(command.getMonth().substring(5));
+                queryStr.append(" and month(cc.ngay_lam) = ").append(command.getMonth().substring(5,7));
                 queryStr.append(" and year(cc.ngay_lam) = ").append(command.getMonth().substring(0, 4));
             }
             if (!DataUtil.isNullOrEmpty(command.getIdPhongBan())) {
@@ -176,14 +182,14 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<ChamCongDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("idNhanVien", "hoNhanVien", "tenNhanVien",
-                            "tenChucVu", "heSoLuong", "tenPhongBan", "soGioLam", "totalBaoHiem", "totalKhenThuong", "totalKyLuat")
+                            "tenChucVu", "heSoLuong", "tenPhongBan", "soGioLam", "totalBaoHiem", "totalKhenThuong", "totalKyLuat", "totalTc")
                     , objects, ChamCongDTO.class);
 
             if (!danhMucDTOS.isEmpty()) {
                 for (ChamCongDTO danhMucDTO : danhMucDTOS) {
                     if (danhMucDTO.getSoGioLam() != null && danhMucDTO.getHeSoLuong() != null) {
                         danhMucDTO.setTotalLuongBefore(danhMucDTO.getHeSoLuong() * danhMucDTO.getSoGioLam());
-                        danhMucDTO.setTotalLuongAfter(danhMucDTO.getTotalLuongBefore() + danhMucDTO.getTotalKhenThuong() - danhMucDTO.getTotalKyLuat() - danhMucDTO.getTotalBaoHiem());
+                        danhMucDTO.setTotalLuongAfter(danhMucDTO.getTotalLuongBefore() + danhMucDTO.getTotalKhenThuong() - danhMucDTO.getTotalKyLuat() - danhMucDTO.getTotalBaoHiem() + danhMucDTO.getTotalTc());
                     }
                 }
             }
@@ -224,11 +230,11 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
             headerCellStyle3.setWrapText(true);
 
 
-            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty Cổ phần Thiết Kế Kiến Trúc và Nội Thất Eco Home Design");
+            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty TNHH Ariston Thermo Việt Nam");
             mergeCell(sheet, 0, 0, 0, 6);
-            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: Số 9, phố Thảo Nguyên, KĐT Eco Park, Văn Giang, Hưng Yên");
+            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: TS3, TS3, KCN Tiên Sơn, Đồng Nguyên, Từ Sơn, Bắc Ninh");
             mergeCell(sheet, 1, 1, 0, 6);
-            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế: 0107675189");
+            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế: 0101486153");
             mergeCell(sheet, 2, 2, 0, 6);
 
             setColumn(sheet, headerCellStyle1, 4, 0, "BÁO CÁO PHIẾU LƯƠNG NHÂN VIÊN");

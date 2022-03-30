@@ -62,7 +62,7 @@ public class NhanVienKhenThuongServiceImpl extends AbstractService<NhanVienKhenT
             queryStr.append(" select nbh.id asNvbh, n.id as nvId, n.ho , n.ten, " +
                     "(select ten_chuc_vu from chuc_vu c where c.id = n.id_chuc_vu) tenChucvu, " +
                     "(select ten from phong_ban c where c.id = n.id_phong_ban) tenPP, " +
-                    " bh.ten as tenBh, bh.muc_thuong, nbh.ngay, nbh.mieu_ta, bh.id ");
+                    " bh.ten as tenBh, nbh.muc_thuong, nbh.ngay, nbh.mieu_ta, bh.id ");
 
             count.append("select count(*) ");
             from.append("  from nhan_vien n, nhan_vien_khen_thuong nbh, khen_thuong bh " +
@@ -98,7 +98,7 @@ public class NhanVienKhenThuongServiceImpl extends AbstractService<NhanVienKhenT
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<NhanVienKhenThuongDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id","idNhanVien", "hoNhanVien", "tenNhanVien",
-                            "tenChucVu", "tenPhongBan", "tenKhenThuong", "khenThuongMucThuong", "ngay", "mieuTa","idKhenThuong")
+                            "tenChucVu", "tenPhongBan", "tenKhenThuong", "mucThuong", "ngay", "mieuTa","idKhenThuong")
                     , objects, NhanVienKhenThuongDTO.class);
 
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));

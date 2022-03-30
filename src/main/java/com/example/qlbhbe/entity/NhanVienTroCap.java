@@ -1,19 +1,10 @@
 package com.example.qlbhbe.entity;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "nhan_vien_tro_cap")
@@ -34,6 +25,10 @@ public class NhanVienTroCap implements Serializable {
     @Column(name = "mieu_ta")
     private String mieuTa;
 
+
+    @Column(name = "muc_Tro_Cap")
+    private Double mucTroCap;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_nhan_vien")
     private NhanVien nhanVien;
@@ -41,6 +36,14 @@ public class NhanVienTroCap implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_tro_cap")
     private TroCap idTroCap;
+
+    public Double getMucTroCap() {
+        return mucTroCap;
+    }
+
+    public void setMucTroCap(Double mucTroCap) {
+        this.mucTroCap = mucTroCap;
+    }
 
     public long getId() {
         return this.id;

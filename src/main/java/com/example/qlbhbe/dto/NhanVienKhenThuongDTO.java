@@ -52,6 +52,8 @@ public class NhanVienKhenThuongDTO {
 
     private String month;
 
+    private Double mucThuong;
+
     public NhanVienKhenThuongDTO() {
     }
 
@@ -73,6 +75,14 @@ public class NhanVienKhenThuongDTO {
         this.tenKhenThuong = tenKhenThuong;
         this.khenThuongMucThuong = khenThuongMucThuong;
         this.khenThuongMieuta = khenThuongMieuta;
+    }
+
+    public Double getMucThuong() {
+        return mucThuong;
+    }
+
+    public void setMucThuong(Double mucThuong) {
+        this.mucThuong = mucThuong;
     }
 
     public String getMonth() {

@@ -31,6 +31,9 @@ public class NhanVienKyLuat implements Serializable {
     @Column(name = "ngay")
     private LocalDate ngay;
 
+    @Column(name = "muc_phat")
+    private Double mucPhat;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_nhan_vien")
     private NhanVien nhanVien;
@@ -38,6 +41,14 @@ public class NhanVienKyLuat implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_ky_luat")
     private KyLuat kyLuat;
+
+    public Double getMucPhat() {
+        return mucPhat;
+    }
+
+    public void setMucPhat(Double mucPhat) {
+        this.mucPhat = mucPhat;
+    }
 
     public long getId() {
         return this.id;

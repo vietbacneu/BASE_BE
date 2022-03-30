@@ -33,12 +33,22 @@ public class ChamCongDTO {
     private Double totalKyLuat = 0d;
     private Double totalLuongBefore = 0d;
     private Double totalLuongAfter = 0d;
+    private Double totalTc = 0d;
+
     private Long idchucVu;
 
     private String month;
 
     public Double getLuong() {
         return luong;
+    }
+
+    public Double getTotalTc() {
+        return totalTc;
+    }
+
+    public void setTotalTc(Double totalTc) {
+        this.totalTc = totalTc;
     }
 
     public void setLuong(Double luong) {

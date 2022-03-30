@@ -64,7 +64,7 @@ public class NhanVienTroCapServiceImpl extends AbstractService<NhanVienTroCap, L
             queryStr.append(" select nvtc.id asNvbh, n.id as nvId, n.ho , n.ten, " +
                     "(select ten_chuc_vu from chuc_vu c where c.id = n.id_chuc_vu) tenChucvu, " +
                     "(select ten from phong_ban c where c.id = n.id_phong_ban) tenPP, " +
-                    " tc.ten as tenBh, tc.muc_tro_cap, nvtc.tu_ngay, nvtc.mieu_ta, tc.id, nvtc.den_ngay ");
+                    " tc.ten as tenBh, nvtc.muc_tro_cap, nvtc.tu_ngay, nvtc.mieu_ta, tc.id, nvtc.den_ngay ");
 
             count.append("select count(*) ");
             from.append("  from nhan_vien n, nhan_vien_tro_cap nvtc, tro_cap tc " +

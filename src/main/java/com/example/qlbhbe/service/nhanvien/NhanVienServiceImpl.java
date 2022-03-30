@@ -148,11 +148,11 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
             headerCellStyle3.setWrapText(true);
 
 
-            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty Cổ phần Thiết Kế Kiến Trúc và Nội Thất Eco Home Design");
+            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty TNHH Ariston Thermo Việt Nam");
             mergeCell(sheet, 0, 0, 0, 6);
-            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: Số 9, phố Thảo Nguyên, KĐT Eco Park, Văn Giang, Hưng Yên");
+            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: TS3, TS3, KCN Tiên Sơn, Đồng Nguyên, Từ Sơn, Bắc Ninh");
             mergeCell(sheet, 1, 1, 0, 6);
-            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế: 0107675189");
+            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế: 0101486153");
             mergeCell(sheet, 2, 2, 0, 6);
 
             setColumn(sheet, headerCellStyle1, 4, 0, "BÁO CÁO NHÂN VIÊN");
@@ -335,7 +335,7 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
                     "      0 as                 tenLoi," +
                     "      0 as mucPhat," +
                     "       kt.ten     as                 tenThuong," +
-                    "       sum(kt.muc_thuong)," +
+                    "       sum(nvkt.muc_thuong)," +
                     "       'KT' as type" +
                     " from nhan_vien n ," +
                     "     nhan_vien_khen_thuong nvkt," +
@@ -371,7 +371,7 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
                     "        FROM phong_ban c" +
                     "        WHERE c.id = n.id_phong_ban) tenPP," +
                     "       kl.ten_loi as                 tenLoi," +
-                    "       sum(kl.muc_phat)," +
+                    "       sum(nvkl.muc_phat)," +
                     "      0     as                 tenThuong," +
                     "      0 as mucThuong," +
                     "       'KL' as type" +
@@ -481,11 +481,11 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
             headerCellStyle3.setWrapText(true);
 
 
-            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty Cổ phần Thiết Kế Kiến Trúc và Nội Thất Eco Home Design");
+            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty TNHH Ariston Thermo Việt Nam");
             mergeCell(sheet, 0, 0, 0, 6);
-            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: Số 9, phố Thảo Nguyên, KĐT Eco Park, Văn Giang, Hưng Yên");
+            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: TS3, TS3, KCN Tiên Sơn, Đồng Nguyên, Từ Sơn, Bắc Ninh");
             mergeCell(sheet, 1, 1, 0, 6);
-            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế: 0107675189");
+            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế: 0101486153");
             mergeCell(sheet, 2, 2, 0, 6);
 
             setColumn(sheet, headerCellStyle1, 4, 0, "BÁO CÁO ĐÁNH GIÁ NHÂN VIÊN");

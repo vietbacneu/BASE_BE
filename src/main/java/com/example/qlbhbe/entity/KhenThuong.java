@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "khen_thuong")
+@Table(name = "khen_thuong_ky_luat")
 @EntityListeners(AuditingEntityListener.class)
 public class KhenThuong implements Serializable {
 
@@ -20,16 +20,20 @@ public class KhenThuong implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String maKhenThuong;
+    @Column(name = "maDanhGia")
+    private String maDanhGia;
 
     @Column(name = "ten")
     private String ten;
 
-    @Column(name = "muc_thuong")
-    private Double mucThuong;
+    @Column(name = "so_tien")
+    private Double soTien;
 
     @Column(name = "mieu_ta")
     private String mieuTa;
+
+    @Column(name = "loai")
+    private String loai;
 
     public long getId() {
         return this.id;
@@ -47,27 +51,35 @@ public class KhenThuong implements Serializable {
         this.ten = ten;
     }
 
-    public Double getMucThuong() {
-        return this.mucThuong;
+    public String getMaDanhGia() {
+        return maDanhGia;
     }
 
-    public void setMucThuong(Double mucThuong) {
-        this.mucThuong = mucThuong;
+    public void setMaDanhGia(String maDanhGia) {
+        this.maDanhGia = maDanhGia;
+    }
+
+    public Double getSoTien() {
+        return soTien;
+    }
+
+    public void setSoTien(Double soTien) {
+        this.soTien = soTien;
     }
 
     public String getMieuTa() {
-        return this.mieuTa;
+        return mieuTa;
     }
 
-    public void setMieuTa(String mieuta) {
-        this.mieuTa = mieuta;
+    public void setMieuTa(String mieuTa) {
+        this.mieuTa = mieuTa;
     }
 
-    public String getMaKhenThuong() {
-        return maKhenThuong;
+    public String getLoai() {
+        return loai;
     }
 
-    public void setMaKhenThuong(String maKhenThuong) {
-        this.maKhenThuong = maKhenThuong;
+    public void setLoai(String loai) {
+        this.loai = loai;
     }
 }

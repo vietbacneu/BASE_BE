@@ -54,6 +54,13 @@ public class NhanVienKhenThuongDTO {
 
     private Double mucThuong;
 
+    private String loai;
+
+    private String tenLoai;
+
+    private Double soTien;
+
+
     public NhanVienKhenThuongDTO() {
     }
 
@@ -75,6 +82,30 @@ public class NhanVienKhenThuongDTO {
         this.tenKhenThuong = tenKhenThuong;
         this.khenThuongMucThuong = khenThuongMucThuong;
         this.khenThuongMieuta = khenThuongMieuta;
+    }
+
+    public String getLoai() {
+        return loai;
+    }
+
+    public void setLoai(String loai) {
+        this.loai = loai;
+    }
+
+    public String getTenLoai() {
+        return tenLoai;
+    }
+
+    public void setTenLoai(String tenLoai) {
+        this.tenLoai = tenLoai;
+    }
+
+    public Double getSoTien() {
+        return soTien;
+    }
+
+    public void setSoTien(Double soTien) {
+        this.soTien = soTien;
     }
 
     public Double getMucThuong() {

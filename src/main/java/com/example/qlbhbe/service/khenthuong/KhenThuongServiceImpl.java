@@ -1,6 +1,5 @@
 package com.example.qlbhbe.service.khenthuong;
 
-import com.example.qlbhbe.dto.ChucVuDTO;
 import com.example.qlbhbe.dto.KhenThuongDTO;
 import com.example.qlbhbe.entity.KhenThuong;
 import com.example.qlbhbe.mapper.KhenThuongMapper;
@@ -52,19 +51,23 @@ public class KhenThuongServiceImpl extends AbstractService<KhenThuong, Long> imp
             StringBuilder count = new StringBuilder();
             StringBuilder from = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
-            queryStr.append("select id, ma_khen_thuong, " +
+            queryStr.append("select id, ma_danh_gia, " +
                     "       ten, " +
-                    "       muc_thuong, " +
-                    "       mieu_ta ");
+                    "       so_tien, " +
+                    "       mieu_ta, loai ");
             count.append(" select count(*) ");
-            from.append(" from khen_thuong where 1 = 1 ");
+            from.append(" from khen_thuong_ky_luat where 1 = 1 ");
             if (!DataUtil.isNullOrEmpty(command.getTen())) {
                 from.append(" and lower(ten) like :ten ");
                 params.put("ten", '%' + command.getTen().toLowerCase(Locale.ROOT) + '%');
             }
-            if (!DataUtil.isNullOrEmpty(command.getMaKhenThuong())) {
-                from.append(" and lower(ma_khen_thuong) like :ma ");
-                params.put("ma", '%' + command.getMaKhenThuong().toLowerCase(Locale.ROOT) +'%');
+            if (!DataUtil.isNullOrEmpty(command.getMaDanhGia())) {
+                from.append(" and lower(ma_danh_gia) like :ma ");
+                params.put("ma", '%' + command.getMaDanhGia().toLowerCase(Locale.ROOT) + '%');
+            }
+            if (!DataUtil.isNullOrEmpty(command.getLoai())) {
+                from.append(" and lower(loai) like :loai ");
+                params.put("loai", '%' + command.getLoai().toLowerCase(Locale.ROOT) + '%');
             }
             queryStr.append(from);
             count.append(from);
@@ -81,9 +84,15 @@ public class KhenThuongServiceImpl extends AbstractService<KhenThuong, Long> imp
             }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
-            List<KhenThuongDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maKhenThuong" ,"ten", "mucThuong", "mieuTa")
+            List<KhenThuongDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maDanhGia", "ten", "soTien", "mieuTa", "loai")
                     , objects, KhenThuongDTO.class);
-
+            for (KhenThuongDTO danhMucDTO : danhMucDTOS) {
+                if (danhMucDTO.getLoai() != null && danhMucDTO.getLoai().equals("khenthuong")) {
+                    danhMucDTO.setTenLoai("Khen thưởng");
+                } else if (danhMucDTO.getLoai() != null && danhMucDTO.getLoai().equals("kyluat")) {
+                    danhMucDTO.setTenLoai("Kỷ luật");
+                }
+            }
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));
         } catch (Exception e) {
             throw e;

@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name = "nhan_vien_khen_thuong")
+@Table(name = "nhan_vien_khen_thuong_ky_luat")
 @EntityListeners(AuditingEntityListener.class)
 public class NhanVienKhenThuong implements Serializable {
 
@@ -31,23 +31,23 @@ public class NhanVienKhenThuong implements Serializable {
     @Column(name = "mieu_ta")
     private String mieuTa;
 
-    @Column(name = "muc_thuong")
-    private Double mucThuong;
+    @Column(name = "so_tien")
+    private Double soTien;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_nhan_vien")
     private NhanVien nhanVien;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_khen_thuong")
+    @JoinColumn(name = "id_danh_gia")
     private KhenThuong khenThuong;
 
-    public Double getMucThuong() {
-        return mucThuong;
+    public Double getSoTien() {
+        return soTien;
     }
 
-    public void setMucThuong(Double mucThuong) {
-        this.mucThuong = mucThuong;
+    public void setSoTien(Double soTien) {
+        this.soTien = soTien;
     }
 
     public long getId() {

@@ -1,5 +1,6 @@
 package com.example.qlbhbe.service.nhanvienkhenthuong;
 
+import com.example.qlbhbe.dto.KhenThuongDTO;
 import com.example.qlbhbe.dto.NhanVienKhenThuongDTO;
 import com.example.qlbhbe.entity.KhenThuong;
 import com.example.qlbhbe.entity.NhanVien;
@@ -62,11 +63,11 @@ public class NhanVienKhenThuongServiceImpl extends AbstractService<NhanVienKhenT
             queryStr.append(" select nbh.id asNvbh, n.id as nvId, n.ho , n.ten, " +
                     "(select ten_chuc_vu from chuc_vu c where c.id = n.id_chuc_vu) tenChucvu, " +
                     "(select ten from phong_ban c where c.id = n.id_phong_ban) tenPP, " +
-                    " bh.ten as tenBh, nbh.muc_thuong, nbh.ngay, nbh.mieu_ta, bh.id ");
+                    " bh.ten as tenBh, nbh.so_tien, nbh.ngay, nbh.mieu_ta, bh.id, bh.loai ");
 
             count.append("select count(*) ");
-            from.append("  from nhan_vien n, nhan_vien_khen_thuong nbh, khen_thuong bh " +
-                    " where n.id = nbh.id_nhan_vien and nbh.id_khen_thuong = bh.id");
+            from.append("  from nhan_vien n, nhan_vien_khen_thuong_ky_luat nbh, khen_thuong_ky_luat bh " +
+                    " where n.id = nbh.id_nhan_vien and nbh.id_danh_gia = bh.id");
             if (!DataUtil.isNullOrEmpty(command.getTenNhanVien())) {
                 String tmp = '%' + command.getTenNhanVien().toLowerCase(Locale.ROOT) + '%';
                 from.append("   and lower(concat( n.ho, ' ' ,n.ten) ) like '").append(tmp).append("'");
@@ -77,7 +78,7 @@ public class NhanVienKhenThuongServiceImpl extends AbstractService<NhanVienKhenT
             }
             if (!DataUtil.isNullOrEmpty(command.getMonth())) {
                 from.append(" and month(nbh.ngay) = :month ");
-                params.put("month", command.getMonth().substring(5));
+                params.put("month", command.getMonth().substring(5,7));
                 from.append(" and year(nbh.ngay) = :year ");
                 params.put("year", command.getMonth().substring(0,4));
             }
@@ -98,9 +99,16 @@ public class NhanVienKhenThuongServiceImpl extends AbstractService<NhanVienKhenT
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<NhanVienKhenThuongDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id","idNhanVien", "hoNhanVien", "tenNhanVien",
-                            "tenChucVu", "tenPhongBan", "tenKhenThuong", "mucThuong", "ngay", "mieuTa","idKhenThuong")
+                            "tenChucVu", "tenPhongBan", "tenKhenThuong", "soTien", "ngay", "mieuTa","idKhenThuong", "loai")
                     , objects, NhanVienKhenThuongDTO.class);
 
+            for (NhanVienKhenThuongDTO danhMucDTO : danhMucDTOS) {
+                if (danhMucDTO.getLoai() != null && danhMucDTO.getLoai().equals("khenthuong")) {
+                    danhMucDTO.setTenLoai("Khen thưởng");
+                } else if (danhMucDTO.getLoai() != null && danhMucDTO.getLoai().equals("kyluat")) {
+                    danhMucDTO.setTenLoai("Kỷ luật");
+                }
+            }
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));
         } catch (Exception e) {
             throw e;

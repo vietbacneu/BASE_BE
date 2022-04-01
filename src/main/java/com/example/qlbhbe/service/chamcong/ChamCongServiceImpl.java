@@ -124,22 +124,22 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
                     "          and year(tu_ngay) <= year(cc.ngay_lam)\n" +
                     "          and (den_ngay is null or (den_ngay >= MONTH(cc.ngay_lam) and year(den_ngay) >= year(cc.ngay_lam))) " +
                     "        GROUP BY tmp.id_nhan_vien)   AS totalbh," +
-                    "       (SELECT SUM(tmp.muc_thuong)" +
-                    "        FROM nhan_vien_khen_thuong tmp" +
-                    "        WHERE  tmp.id_nhan_vien = n.id" +
-                    "          AND MONTH(tmp.ngay) = MONTH(cc.ngay_lam)" +
-                    "        GROUP BY tmp.id_nhan_vien)   AS totalkt," +
-                    "       (SELECT SUM(tmp.muc_phat)" +
-                    "        FROM  nhan_vien_ky_luat tmp" +
-                    "        WHERE tmp.id_nhan_vien = n.id" +
-                    "          AND MONTH(tmp.ngay) = MONTH(cc.ngay_lam)" +
-                    "        GROUP BY tmp.id_nhan_vien)   AS totalkl," +
-                    "       (SELECT SUM(tmp.muc_tro_cap)" +
-                    "        FROM nhan_vien_tro_cap tmp" +
-                    "        WHERE tmp.id_nhan_vien = n.id" +
-                    "           and year(tu_ngay) <= year(cc.ngay_lam)\n" +
-                    "          and (den_ngay is null or (den_ngay >= MONTH(cc.ngay_lam) and year(den_ngay) >= year(cc.ngay_lam))) " +
-                    "        GROUP BY tmp.id_nhan_vien)   AS totaltc " +
+                    "       (SELECT SUM(tmp.so_tien)\n" +
+                    "        FROM nhan_vien_khen_thuong_ky_luat tmp,\n" +
+                    "             khen_thuong_ky_luat ktkl\n" +
+                    "        WHERE tmp.id_nhan_vien = n.id\n" +
+                    "          and ktkl.id = tmp.id_danh_gia\n" +
+                    "          and ktkl.loai = 'khenthuong'\n" +
+                    "          AND MONTH(tmp.ngay) = MONTH(cc.ngay_lam)\n" +
+                    "        GROUP BY tmp.id_nhan_vien)                               AS totalkt,\n" +
+                    "       (SELECT SUM(tmp.so_tien)\n" +
+                    "        FROM nhan_vien_khen_thuong_ky_luat tmp,\n" +
+                    "             khen_thuong_ky_luat ktkl\n" +
+                    "        WHERE tmp.id_nhan_vien = n.id\n" +
+                    "          and ktkl.id = tmp.id_danh_gia\n" +
+                    "          and ktkl.loai = 'kyluat'\n" +
+                    "          AND MONTH(tmp.ngay) = MONTH(cc.ngay_lam)\n" +
+                    "        GROUP BY tmp.id_nhan_vien)                               AS totalkl " +
                     " FROM nhan_vien n" +
                     "         LEFT JOIN" +
                     "     cham_cong cc ON (cc.id_nhan_vien = n.id)" +
@@ -182,14 +182,14 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<ChamCongDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("idNhanVien", "hoNhanVien", "tenNhanVien",
-                            "tenChucVu", "heSoLuong", "tenPhongBan", "soGioLam", "totalBaoHiem", "totalKhenThuong", "totalKyLuat", "totalTc")
+                            "tenChucVu", "heSoLuong", "tenPhongBan", "soGioLam", "totalBaoHiem", "totalKhenThuong", "totalKyLuat")
                     , objects, ChamCongDTO.class);
 
             if (!danhMucDTOS.isEmpty()) {
                 for (ChamCongDTO danhMucDTO : danhMucDTOS) {
                     if (danhMucDTO.getSoGioLam() != null && danhMucDTO.getHeSoLuong() != null) {
                         danhMucDTO.setTotalLuongBefore(danhMucDTO.getHeSoLuong() * danhMucDTO.getSoGioLam());
-                        danhMucDTO.setTotalLuongAfter(danhMucDTO.getTotalLuongBefore() + danhMucDTO.getTotalKhenThuong() - danhMucDTO.getTotalKyLuat() - danhMucDTO.getTotalBaoHiem() + danhMucDTO.getTotalTc());
+                        danhMucDTO.setTotalLuongAfter(danhMucDTO.getTotalLuongBefore() + danhMucDTO.getTotalKhenThuong() - danhMucDTO.getTotalKyLuat() - danhMucDTO.getTotalBaoHiem());
                     }
                 }
             }
@@ -230,11 +230,11 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
             headerCellStyle3.setWrapText(true);
 
 
-            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty TNHH Ariston Thermo Việt Nam");
+            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Trường THPT chuyên Hoàng Văn Thụ - Sở Giáo Dục và Đào Tạo tỉnh Hòa Bình ");
             mergeCell(sheet, 0, 0, 0, 6);
-            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: TS3, TS3, KCN Tiên Sơn, Đồng Nguyên, Từ Sơn, Bắc Ninh");
+            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: Phường Thịnh Lang – Thành phố Hòa Bình – Tỉnh Hòa Bình ");
             mergeCell(sheet, 1, 1, 0, 6);
-            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế: 0101486153");
+            setColumn(sheet, headerCellStyle2, 2, 0, "Email: th.hov@hoabinhedu.vn");
             mergeCell(sheet, 2, 2, 0, 6);
 
             setColumn(sheet, headerCellStyle1, 4, 0, "BÁO CÁO PHIẾU LƯƠNG NHÂN VIÊN");

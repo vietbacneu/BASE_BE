@@ -148,11 +148,11 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
             headerCellStyle3.setWrapText(true);
 
 
-            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty TNHH Ariston Thermo Việt Nam");
+            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Trường THPT chuyên Hoàng Văn Thụ - Sở Giáo Dục và Đào Tạo tỉnh Hòa Bình ");
             mergeCell(sheet, 0, 0, 0, 6);
-            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: TS3, TS3, KCN Tiên Sơn, Đồng Nguyên, Từ Sơn, Bắc Ninh");
+            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: Phường Thịnh Lang – Thành phố Hòa Bình – Tỉnh Hòa Bình ");
             mergeCell(sheet, 1, 1, 0, 6);
-            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế: 0101486153");
+            setColumn(sheet, headerCellStyle2, 2, 0, "Email: th.hov@hoabinhedu.vn");
             mergeCell(sheet, 2, 2, 0, 6);
 
             setColumn(sheet, headerCellStyle1, 4, 0, "BÁO CÁO NHÂN VIÊN");
@@ -323,24 +323,21 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
             StringBuilder from = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
             count.append("select count(*) ");
-            queryStr.append(" SELECT  n.id," +
-                    "       n.ho," +
-                    "       n.ten," +
-                    "       (SELECT ten_chuc_vu" +
-                    "        FROM chuc_vu c" +
-                    "        WHERE c.id = n.id_chuc_vu)   tenChucvu," +
-                    "       (SELECT ten" +
-                    "        FROM phong_ban c" +
-                    "        WHERE c.id = n.id_phong_ban) tenPP," +
-                    "      0 as                 tenLoi," +
-                    "      0 as mucPhat," +
-                    "       kt.ten     as                 tenThuong," +
-                    "       sum(nvkt.muc_thuong)," +
-                    "       'KT' as type" +
-                    " from nhan_vien n ," +
-                    "     nhan_vien_khen_thuong nvkt," +
-                    "     khen_thuong kt" +
-                    " where nvkt.id_nhan_vien = n.id and nvkt.id_khen_thuong = kt.id ");
+            queryStr.append(" SELECT n.id,\n" +
+                    "       n.ho,\n" +
+                    "       n.ten,\n" +
+                    "       (SELECT ten_chuc_vu FROM chuc_vu c WHERE c.id = n.id_chuc_vu) tenChucvu,\n" +
+                    "       (SELECT ten FROM phong_ban c WHERE c.id = n.id_phong_ban)     tenPP,\n" +
+                    "       0      as                                                     tenLoi,\n" +
+                    "       0      as                                                     mucPhat,\n" +
+                    "       kt.ten as                                                     tenThuong,\n" +
+                    "       sum(nvkt.so_tien),\n" +
+                    "       'KT'   as                                                     type\n" +
+                    "from nhan_vien n,\n" +
+                    "     nhan_vien_khen_thuong_ky_luat nvkt,\n" +
+                    "     khen_thuong_ky_luat kt\n" +
+                    "where nvkt.id_nhan_vien = n.id\n" +
+                    "  and nvkt.id_danh_gia = kt.id and kt.loai = 'khenthuong'  ");
             if (!DataUtil.isNullOrEmpty(command.getTen())) {
                 queryStr.append("   and lower(concat( n.ho, ' ' ,n.ten) ) like :ten ");
                 params.put("ten", '%' + command.getTen().toLowerCase(Locale.ROOT) + '%');
@@ -355,38 +352,26 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
             }
             if (!DataUtil.isNullOrEmpty(command.getMonth())) {
                 queryStr.append(" and month(nvkt.ngay) = :month ");
-                params.put("month", command.getMonth().substring(5));
+                params.put("month", command.getMonth().substring(5,7));
                 queryStr.append(" and year(nvkt.ngay) = :year ");
                 params.put("year", command.getMonth().substring(0,4));
             }
             queryStr.append(" group by n.id, kt.id " +
                     " union all " +
-                    " SELECT  n.id," +
-                    "       n.ho," +
-                    "       n.ten," +
-                    "       (SELECT ten_chuc_vu" +
-                    "        FROM chuc_vu c" +
-                    "        WHERE c.id = n.id_chuc_vu)   tenChucvu," +
-                    "       (SELECT ten" +
-                    "        FROM phong_ban c" +
-                    "        WHERE c.id = n.id_phong_ban) tenPP," +
-                    "       kl.ten_loi as                 tenLoi," +
-                    "       sum(nvkl.muc_phat)," +
-                    "      0     as                 tenThuong," +
-                    "      0 as mucThuong," +
-                    "       'KL' as type" +
-                    " from nhan_vien n " +
-                    "         left join " +
-                    "     nhan_vien_ky_luat nvkl" +
-                    "     on (" +
-                    "             nvkl.id_nhan_vien = n.id" +
-                    "         )" +
-                    "         left join" +
-                    "     ky_luat kl" +
-                    "     on (" +
-                    "             nvkl.id_ky_luat = kl.id" +
-                    "         )" +
-                    " where 1 = 1");
+                    " SELECT n.id,\n" +
+                    "       n.ho,\n" +
+                    "       n.ten,\n" +
+                    "       (SELECT ten_chuc_vu FROM chuc_vu c WHERE c.id = n.id_chuc_vu) tenChucvu,\n" +
+                    "       (SELECT ten FROM phong_ban c WHERE c.id = n.id_phong_ban)     tenPP,\n" +
+                    "       kl.ten as                                                 tenLoi,\n" +
+                    "       sum(nvkl.so_tien),\n" +
+                    "       0          as                                                 tenThuong,\n" +
+                    "       0          as                                                 mucThuong,\n" +
+                    "       'KL'       as                                                 type\n" +
+                    "from nhan_vien n\n" +
+                    "         left join nhan_vien_khen_thuong_ky_luat nvkl on (nvkl.id_nhan_vien = n.id)\n" +
+                    "         left join khen_thuong_ky_luat kl on (nvkl.id_danh_gia = kl.id)\n" +
+                    "where 1 = 1 and kl.loai = 'kyluat' ");
             if (!DataUtil.isNullOrEmpty(command.getTen())) {
                 queryStr.append("  and lower(concat( n.ho, ' ' ,n.ten) ) like :ten1 ");
                 params.put("ten1", '%' + command.getTen().toLowerCase(Locale.ROOT) + '%');
@@ -401,7 +386,7 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
             }
             if (!DataUtil.isNullOrEmpty(command.getMonth())) {
                 queryStr.append(" and month(nvkl.ngay) = :month1 ");
-                params.put("month1", command.getMonth().substring(5));
+                params.put("month1", command.getMonth().substring(5,7));
                 queryStr.append(" and year(nvkl.ngay) = :year1 ");
                 params.put("year1", command.getMonth().substring(0,4));
             }
@@ -481,11 +466,11 @@ public class NhanVienServiceImpl extends AbstractService<NhanVien, Long> impleme
             headerCellStyle3.setWrapText(true);
 
 
-            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty TNHH Ariston Thermo Việt Nam");
+            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Trường THPT chuyên Hoàng Văn Thụ - Sở Giáo Dục và Đào Tạo tỉnh Hòa Bình ");
             mergeCell(sheet, 0, 0, 0, 6);
-            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: TS3, TS3, KCN Tiên Sơn, Đồng Nguyên, Từ Sơn, Bắc Ninh");
+            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: Phường Thịnh Lang – Thành phố Hòa Bình – Tỉnh Hòa Bình ");
             mergeCell(sheet, 1, 1, 0, 6);
-            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế: 0101486153");
+            setColumn(sheet, headerCellStyle2, 2, 0, "Email: th.hov@hoabinhedu.vn");
             mergeCell(sheet, 2, 2, 0, 6);
 
             setColumn(sheet, headerCellStyle1, 4, 0, "BÁO CÁO ĐÁNH GIÁ NHÂN VIÊN");

@@ -55,11 +55,7 @@ public class DanhMucServiceImpl extends AbstractService<DanhMuc, Long> implement
             queryStr.append("select id, " +
                     "       ma_danh_muc, " +
                     "       ten_danh_muc, " +
-                    "       thong_tin, " +
-                    "       ngay_tao, " +
-                    "       nguoi_tao, " +
-                    "       ngay_thay_doi, " +
-                    "       nguoi_thay_doi ");
+                    "       thong_tin");
             count.append("select count(*) ");
             from.append(" from danh_muc where 1 = 1 ");
             if (!DataUtil.isNullOrEmpty(danhMucDTO.getTenDanhMuc())) {
@@ -84,8 +80,7 @@ public class DanhMucServiceImpl extends AbstractService<DanhMuc, Long> implement
             }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
-            List<DanhMucDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maDanhMuc", "tenDanhMuc", "thongTin",
-                            "ngayTao", "nguoiTao", "ngayThayDoi", "nguoiThayDoi")
+            List<DanhMucDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maDanhMuc", "tenDanhMuc", "thongTin")
                     , objects, DanhMucDTO.class);
 
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));

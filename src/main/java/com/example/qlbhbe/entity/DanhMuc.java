@@ -29,21 +29,6 @@ public class DanhMuc implements Serializable {
     @Column(name = "thong_tin")
     private String thongTin;
 
-     @CreatedDate
-    @Column(name = "ngay_tao")
-    private LocalDate ngayTao = LocalDate.now();
-
-    @CreatedBy
-    @Column(name = "nguoi_tao")
-    private String nguoiTao = "admin";
-
-    @LastModifiedDate
-    @Column(name = "ngay_thay_doi")
-    private LocalDate ngayThayDoi = LocalDate.now();
-
-    @LastModifiedBy
-    @Column(name = "nguoi_thay_doi")
-    private String nguoiThayDoi = "admin";
 
     public DanhMuc(long id) {
         this.id = id;
@@ -82,37 +67,5 @@ public class DanhMuc implements Serializable {
 
     public void setThongTin(String thongTin) {
         this.thongTin = thongTin;
-    }
-
-    public java.time.LocalDate getNgayTao() {
-        return this.ngayTao;
-    }
-
-    public void setNgayTao(java.time.LocalDate ngayTao) {
-        this.ngayTao = ngayTao;
-    }
-
-    public java.time.LocalDate getNgayThayDoi() {
-        return this.ngayThayDoi;
-    }
-
-    public void setNgayThayDoi(java.time.LocalDate ngayThayDoi) {
-        this.ngayThayDoi = ngayThayDoi;
-    }
-
-    public String getNguoiTao() {
-        return nguoiTao;
-    }
-
-    public void setNguoiTao(String nguoiTao) {
-        this.nguoiTao = nguoiTao;
-    }
-
-    public String getNguoiThayDoi() {
-        return nguoiThayDoi;
-    }
-
-    public void setNguoiThayDoi(String nguoiThayDoi) {
-        this.nguoiThayDoi = nguoiThayDoi;
     }
 }

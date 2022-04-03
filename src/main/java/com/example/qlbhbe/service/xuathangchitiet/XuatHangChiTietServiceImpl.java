@@ -51,21 +51,21 @@ public class XuatHangChiTietServiceImpl extends AbstractService<XuatHangChiTiet,
             StringBuilder from = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
             queryStr.append("select id ," +
-                    "    id_xuat_hang ," +
-                    "    id_san_pham ," +
+                    "    id_ban_hang ," +
+                    "    id_hang_hoa ," +
                     "    so_luong ," +
                     "    gia," +
-                    "    mieu_ta , ngay_het_han , ngay_san_xuat, (select ten_san_pham from san_pham s where s.id = id_san_pham) tenSanpham , so_luong*gia ");
+                    "    mieu_ta , (select ten_san_pham from san_pham s where s.id = id_hang_hoa) tenSanpham , so_luong*gia ");
 
 
             count.append("select count(*) ");
-            from.append(" from xuat_hang_chi_tiet where 1=1 ");
+            from.append(" from hop_dong_ban_hang_chi_tiet where 1=1 ");
             if (!DataUtil.isNullOrEmpty(command.getId())) {
                 from.append(" and id = :id ");
                 params.put("id", command.getId());
             }
             if (!DataUtil.isNullOrEmpty(command.getIdXuatHang())) {
-                from.append(" and id_xuat_hang like :idNhapHang ");
+                from.append(" and id_ban_hang like :idNhapHang ");
                 params.put("idNhapHang", command.getIdXuatHang());
             }
             queryStr.append(from);
@@ -79,7 +79,7 @@ public class XuatHangChiTietServiceImpl extends AbstractService<XuatHangChiTiet,
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<XuatHangChiTietDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(
-                    Arrays.asList("id", "idXuatHang", "idSanPham", "soLuong", "gia", "mieuTa","ngayHetHan","ngaySanXuat","tenSanPham", "tongTien"),
+                    Arrays.asList("id", "idXuatHang", "idSanPham", "soLuong", "gia", "mieuTa","tenSanPham", "tongTien"),
                     objects, XuatHangChiTietDTO.class);
             return danhMucDTOS;
         } catch (Exception e) {

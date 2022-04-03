@@ -27,6 +27,10 @@ public class NhapHangDTO {
 
     private Long idNhaCungCap;
 
+    private Long idNhanVien;
+
+    private String tenNhanVien;
+
     private String tenNhaCungCap;
 
     private String startDate;
@@ -43,7 +47,43 @@ public class NhapHangDTO {
 
     private Double totalDT;
 
+    private String hopDongDinhKem;
+
+    private String duongDan;
+
     List<NhapHangChiTietDTO> nhapHangChiTietDTOList;
+
+    public String getDuongDan() {
+        return duongDan;
+    }
+
+    public String getTenNhanVien() {
+        return tenNhanVien;
+    }
+
+    public void setTenNhanVien(String tenNhanVien) {
+        this.tenNhanVien = tenNhanVien;
+    }
+
+    public Long getIdNhanVien() {
+        return idNhanVien;
+    }
+
+    public void setIdNhanVien(Long idNhanVien) {
+        this.idNhanVien = idNhanVien;
+    }
+
+    public void setDuongDan(String duongDan) {
+        this.duongDan = duongDan;
+    }
+
+    public String getHopDongDinhKem() {
+        return hopDongDinhKem;
+    }
+
+    public void setHopDongDinhKem(String hopDongDinhKem) {
+        this.hopDongDinhKem = hopDongDinhKem;
+    }
 
     public Double getTotalDT() {
         return totalDT;

@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "xuat_hang")
+@Table(name = "hop_dong_ban_hang")
 @EntityListeners(AuditingEntityListener.class)
 public class XuatHang implements Serializable {
 
@@ -20,39 +20,53 @@ public class XuatHang implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "ma_xuat_hang")
+    @Column(name = "ma_hop_dong_ban_hang")
     private String maXuatHang;
+
+    @Column(name = "duong_dan")
+    private String duongDan;
+
+    @Column(name = "hop_dong_dinh_kem")
+    private String hopDongDinhKem;
 
     @Column(name = "ngay_xuat")
     private LocalDate ngayXuat;
-
-    @CreatedDate
-    @Column(name = "ngay_tao")
-    private LocalDate ngayTao = LocalDate.now();
-
-    @CreatedBy
-    @Column(name = "nguoi_tao")
-    private String nguoiTao = "admin";
-
-    @LastModifiedDate
-    @Column(name = "ngay_thay_doi")
-    private LocalDate ngayThayDoi = LocalDate.now();
-
-    @LastModifiedBy
-    @Column(name = "nguoi_thay_doi")
-    private String nguoiThayDoi = "admin";
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_cua_hang")
-    private CuaHang cuaHang;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_khach_hang")
     private KhachHang khachHang;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_nhan_vien")
+    private NhanVien nhanVien;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_thanh_toan")
     private PhuongThucThanhToan thanhToan;
+
+    public String getDuongDan() {
+        return duongDan;
+    }
+
+    public void setDuongDan(String duongDan) {
+        this.duongDan = duongDan;
+    }
+
+    public String getHopDongDinhKem() {
+        return hopDongDinhKem;
+    }
+
+    public void setHopDongDinhKem(String hopDongDinhKem) {
+        this.hopDongDinhKem = hopDongDinhKem;
+    }
+
+    public NhanVien getNhanVien() {
+        return nhanVien;
+    }
+
+    public void setNhanVien(NhanVien nhanVien) {
+        this.nhanVien = nhanVien;
+    }
 
     public PhuongThucThanhToan getThanhToan() {
         return thanhToan;
@@ -84,46 +98,6 @@ public class XuatHang implements Serializable {
 
     public void setNgayXuat(java.time.LocalDate ngayNhap) {
         this.ngayXuat = ngayNhap;
-    }
-
-    public java.time.LocalDate getNgayTao() {
-        return this.ngayTao;
-    }
-
-    public void setNgayTao(java.time.LocalDate ngayTao) {
-        this.ngayTao = ngayTao;
-    }
-
-    public java.time.LocalDate getNgayThayDoi() {
-        return this.ngayThayDoi;
-    }
-
-    public void setNgayThayDoi(java.time.LocalDate ngayThayDoi) {
-        this.ngayThayDoi = ngayThayDoi;
-    }
-
-    public String getNguoiTao() {
-        return nguoiTao;
-    }
-
-    public void setNguoiTao(String nguoiTao) {
-        this.nguoiTao = nguoiTao;
-    }
-
-    public String getNguoiThayDoi() {
-        return nguoiThayDoi;
-    }
-
-    public void setNguoiThayDoi(String nguoiThayDoi) {
-        this.nguoiThayDoi = nguoiThayDoi;
-    }
-
-    public CuaHang getCuaHang() {
-        return cuaHang;
-    }
-
-    public void setCuaHang(CuaHang cuaHang) {
-        this.cuaHang = cuaHang;
     }
 
     public KhachHang getKhachHang() {

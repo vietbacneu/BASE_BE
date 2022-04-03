@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name = "nhap_hang_chi_tiet")
+@Table(name = "hop_dong_nhap_hang_chi_tiet")
 @EntityListeners(AuditingEntityListener.class)
 public class NhapHangChiTiet implements Serializable {
 
@@ -34,35 +34,13 @@ public class NhapHangChiTiet implements Serializable {
     @Column(name = "mieu_ta")
     private String mieuTa;
 
-    @Column(name = "ngay_het_han")
-    private LocalDate ngayHetHan;
-
-    @Column(name = "ngay_san_xuat")
-    private LocalDate ngaySanXuat;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_nhap_hang")
     private NhapHang nhapHang;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_san_pham")
+    @JoinColumn(name = "id_hang_hoa")
     private SanPham sanPham;
-
-    public LocalDate getNgayHetHan() {
-        return ngayHetHan;
-    }
-
-    public void setNgayHetHan(LocalDate ngayHetHan) {
-        this.ngayHetHan = ngayHetHan;
-    }
-
-    public LocalDate getNgaySanXuat() {
-        return ngaySanXuat;
-    }
-
-    public void setNgaySanXuat(LocalDate ngaySanXuat) {
-        this.ngaySanXuat = ngaySanXuat;
-    }
 
     public long getId() {
         return this.id;

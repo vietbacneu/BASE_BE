@@ -41,14 +41,14 @@ public class NhapHangChiTietServiceImpl extends AbstractService<NhapHangChiTiet,
             Map<String, Object> params = new HashMap<>();
             queryStr.append("select id ," +
                     "    id_nhap_hang," +
-                    "    id_san_pham ," +
+                    "    id_hang_hoa ," +
                     "    so_luong ," +
                     "    gia," +
-                    "    mieu_ta , ngay_het_han , ngay_san_xuat, " +
-                    " (select ten_san_pham from san_pham s where s.id = id_san_pham) tenSanpham, so_luong*gia  ");
+                    "    mieu_ta,  " +
+                    " (select ten_san_pham from san_pham s where s.id = id_hang_hoa) tenSanpham, so_luong*gia  ");
 
             count.append("select count(*) ");
-            from.append(" from nhap_hang_chi_tiet where 1=1 ");
+            from.append(" from hop_dong_nhap_hang_chi_tiet where 1=1 ");
             if (!DataUtil.isNullOrEmpty(command.getId())) {
                 from.append(" and id = :id ");
                 params.put("id", command.getId());
@@ -68,7 +68,7 @@ public class NhapHangChiTietServiceImpl extends AbstractService<NhapHangChiTiet,
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<NhapHangChiTietDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(
-                    Arrays.asList("id", "idNhapHang", "idSanPham", "soLuong", "gia", "mieuTa", "ngayHetHan", "ngaySanXuat", "tenSanPham", "tongTien"),
+                    Arrays.asList("id", "idNhapHang", "idSanPham", "soLuong", "gia", "mieuTa", "tenSanPham", "tongTien"),
                     objects, NhapHangChiTietDTO.class);
             return danhMucDTOS;
         } catch (Exception e) {

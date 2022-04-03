@@ -22,6 +22,7 @@ import javax.validation.Valid;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -89,6 +90,24 @@ public class SanPhamController {
     public ResponseEntity<Object> download(@RequestParam String path) throws IOException {
         HttpHeaders headers = new HttpHeaders();
         File file = new File(path);
+        headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getName()));
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(file.length())
+                .contentType(MediaType.parseMediaType("application/txt"))
+                .body(resource);
+    }
+
+    @GetMapping("/downloadFileAttach")
+    public ResponseEntity<Object> downloadFileAttach(@RequestParam String path) throws IOException {
+        HttpHeaders headers = new HttpHeaders();
+        byte[] encodedBytes = Base64.getDecoder().decode(path);
+        String path2 = new String(encodedBytes);
+        File file = new File(path2);
         headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getName()));
         headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
         headers.add("Pragma", "no-cache");

@@ -43,9 +43,39 @@ public class XuatHangDTO {
 
     private Double totalDT;
 
+    private String hopDongDinhKem;
+    private String duongDan;
+    private Long idNhanVien;
+    private String tenNhanVien;
+
     List<XuatHangChiTietDTO> xuatHangChiTietDTOList;
 
     public XuatHangDTO() {
+    }
+
+
+    public String getDuongDan() {
+        return duongDan;
+    }
+
+    public Long getIdNhanVien() {
+        return idNhanVien;
+    }
+
+    public void setIdNhanVien(Long idNhanVien) {
+        this.idNhanVien = idNhanVien;
+    }
+
+    public String getTenNhanVien() {
+        return tenNhanVien;
+    }
+
+    public void setTenNhanVien(String tenNhanVien) {
+        this.tenNhanVien = tenNhanVien;
+    }
+
+    public void setDuongDan(String duongDan) {
+        this.duongDan = duongDan;
     }
 
     public XuatHangDTO(Long id, String nguoiTao, LocalDate ngayTao, String nguoiThayDoi, LocalDate ngayThayDoi, String maXuatHang, LocalDate ngayXuat) {
@@ -59,6 +89,13 @@ public class XuatHangDTO {
     }
 
 
+    public String getHopDongDinhKem() {
+        return hopDongDinhKem;
+    }
+
+    public void setHopDongDinhKem(String hopDongDinhKem) {
+        this.hopDongDinhKem = hopDongDinhKem;
+    }
 
     public Double getTotalDT() {
         return totalDT;

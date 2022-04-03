@@ -83,31 +83,27 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
             StringBuilder from = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
             queryStr.append("select s.id              ," +
-                    "    s.ma_xuat_hang    ," +
+                    "    s.ma_hop_dong_ban_hang    ," +
                     "    s.id_khach_hang ," +
-                    "    s.id_cua_hang       ," +
-                    "    s.nguoi_tao       ," +
-                    "    s.ngay_tao        ," +
-                    "    s.nguoi_thay_doi  ," +
-                    "    s.ngay_thay_doi   ," +
                     "    n.ten_khach_hang ," +
-                    " (select ten_cua_hang from cua_hang c where c.id =  s.id_cua_hang )  tencuahang , " +
-                    " s.ngay_xuat , " +
-                    "   id_thanh_toan, (select ten_phuong_thuc from phuong_thuc_thanh_toan c where c.id =  s.id_thanh_toan )  ten_phuong_thuc  ");
+                        " s.ngay_xuat , " +
+                    "   id_thanh_toan, (select ten_phuong_thuc from phuong_thuc_thanh_toan c where c.id =  s.id_thanh_toan )  ten_phuong_thuc," +
+                    "   id_nhan_vien,  (select ten_nhan_vien from nhan_vien c where c.id =  s.id_nhan_vien ) tenNhanVien ,hop_dong_dinh_kem, duong_dan  ");
 
             count.append("select count(*) ");
-            from.append(" from xuat_hang s, khach_hang n  where s.id_khach_hang = n.id  ");
+            from.append(" from hop_dong_ban_hang s, khach_hang n  where s.id_khach_hang = n.id  ");
             if (!DataUtil.isNullOrEmpty(command.getTenKhachHang())) {
                 from.append(" and lower(n.ten_khach_hang) like :ten ");
                 params.put("ten", '%' + command.getTenKhachHang().toLowerCase(Locale.ROOT) + '%');
             }
+            if (!DataUtil.isNullOrEmpty(command.getIdKhachHang())) {
+                from.append(" and lower(s.id_khach_hang) = :idKH ");
+                params.put("idKH",  command.getIdKhachHang());
+            }
+
             if (!DataUtil.isNullOrEmpty(command.getMaXuatHang())) {
                 from.append(" and lower(s.ma_xuat_hang) like :ma ");
                 params.put("ma", '%' + command.getMaXuatHang().toLowerCase(Locale.ROOT) + '%');
-            }
-            if (!DataUtil.isNullOrEmpty(command.getIdCuaHang())) {
-                from.append(" and s.id_cua_hang = :ch ");
-                params.put("ch", command.getIdCuaHang());
             }
             if (!DataUtil.isNullOrEmpty(command.getStartDate())) {
                 from.append(" and s.ngay_xuat >= to_date(:startDate,'dd/MM/yyyy') ");
@@ -129,8 +125,8 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
             query.setMaxResults(pageable.getPageSize());
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
-            List<XuatHangDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maXuatHang", "idKhachHang", "idCuaHang", "nguoiTao", "ngayTao",
-                            "nguoiThayDoi", "ngayThayDoi", "tenKhachHang", "tenCuaHang", "ngayXuat", "idPhuongThuc", "tenPhuongThuc")
+            List<XuatHangDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maXuatHang", "idKhachHang","tenKhachHang",
+                            "ngayXuat", "idPhuongThuc", "tenPhuongThuc", "idNhanVien", "tenNhanVien", "hopDongDinhKem","duongDan" )
                     , objects, XuatHangDTO.class);
             for (XuatHangDTO danhMucDTO : danhMucDTOS) {
                 XuatHangChiTietDTO xuatHangChiTietDTO = new XuatHangChiTietDTO();
@@ -149,10 +145,12 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
     public MessageDTO save(XuatHangDTO xuatHangDTO) {
         XuatHang nhapHang = xuatHangMapper.toXuatHangEntity(xuatHangDTO);
         nhapHang.setKhachHang(new KhachHang(xuatHangDTO.getIdKhachHang()));
-        nhapHang.setCuaHang(new CuaHang(xuatHangDTO.getIdCuaHang()));
         PhuongThucThanhToan phuongThucThanhToan = new PhuongThucThanhToan();
         phuongThucThanhToan.setId(xuatHangDTO.getIdPhuongThuc());
         nhapHang.setThanhToan(phuongThucThanhToan);
+        NhanVien nhanVien = new NhanVien();
+        nhanVien.setId(xuatHangDTO.getIdNhanVien());
+        nhapHang.setNhanVien(nhanVien);
         XuatHang newNH = xuatHangRepo.save(nhapHang);
         List<XuatHangChiTietDTO> ls = xuatHangDTO.getXuatHangChiTietDTOList();
         for (XuatHangChiTietDTO l : ls) {

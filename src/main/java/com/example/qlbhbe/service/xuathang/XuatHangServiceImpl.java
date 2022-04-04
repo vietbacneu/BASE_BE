@@ -1,8 +1,6 @@
 package com.example.qlbhbe.service.xuathang;
 
-import com.example.qlbhbe.dto.MessageDTO;
-import com.example.qlbhbe.dto.XuatHangChiTietDTO;
-import com.example.qlbhbe.dto.XuatHangDTO;
+import com.example.qlbhbe.dto.*;
 import com.example.qlbhbe.entity.*;
 import com.example.qlbhbe.mapper.XuatHangChiTietMapper;
 import com.example.qlbhbe.mapper.XuatHangMapper;
@@ -121,8 +119,10 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
                 query.setParameter(p.getKey(), p.getValue());
                 countQuery.setParameter(p.getKey(), p.getValue());
             }
-            query.setFirstResult((int) pageable.getOffset());
-            query.setMaxResults(pageable.getPageSize());
+            if (!DataUtil.isNullOrEmpty(command.getIsCount())) {
+                query.setFirstResult((int) pageable.getOffset());
+                query.setMaxResults(pageable.getPageSize());
+            }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<XuatHangDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maXuatHang", "idKhachHang","tenKhachHang",
@@ -134,6 +134,14 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
                 List<XuatHangChiTietDTO> tm = xuatHangChiTietService.search(xuatHangChiTietDTO);
                 danhMucDTO.setXuatHangChiTietDTOList(tm);
             }
+            for (XuatHangDTO danhMucDTO : danhMucDTOS) {
+                Double total = 0d;
+                for (XuatHangChiTietDTO nhapHangChiTietDTO : danhMucDTO.getXuatHangChiTietDTOList()) {
+                    total += nhapHangChiTietDTO.getGia() * nhapHangChiTietDTO.getSoLuong();
+                }
+                danhMucDTO.setSoTien(total);
+            }
+
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));
         } catch (Exception e) {
             throw e;

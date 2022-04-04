@@ -47,12 +47,32 @@ public class XuatHangDTO {
     private String duongDan;
     private Long idNhanVien;
     private String tenNhanVien;
+    private Double soTien;
+
+    private Long isCount;
+
 
     List<XuatHangChiTietDTO> xuatHangChiTietDTOList;
 
     public XuatHangDTO() {
     }
 
+
+    public Double getSoTien() {
+        return soTien;
+    }
+
+    public void setSoTien(Double soTien) {
+        this.soTien = soTien;
+    }
+
+    public Long getIsCount() {
+        return isCount;
+    }
+
+    public void setIsCount(Long isCount) {
+        this.isCount = isCount;
+    }
 
     public String getDuongDan() {
         return duongDan;

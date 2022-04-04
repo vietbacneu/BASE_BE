@@ -119,18 +119,28 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
                 query.setParameter(p.getKey(), p.getValue());
                 countQuery.setParameter(p.getKey(), p.getValue());
             }
-            query.setFirstResult((int) pageable.getOffset());
-            query.setMaxResults(pageable.getPageSize());
+            if (!DataUtil.isNullOrEmpty(command.getIsCount())) {
+                query.setFirstResult((int) pageable.getOffset());
+                query.setMaxResults(pageable.getPageSize());
+            }
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<NhapHangDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maNhapHang", "idNhaCungCap", "ngayNhap",
-                            "tenNhaCungCap","idPhuongThuc", "tenPhuongThuc", "hopDongDinhKem", "duongDan", "idNhanVien", "tenNhanVien")
+                            "tenNhaCungCap", "idPhuongThuc", "tenPhuongThuc", "hopDongDinhKem", "duongDan", "idNhanVien", "tenNhanVien")
                     , objects, NhapHangDTO.class);
             for (NhapHangDTO danhMucDTO : danhMucDTOS) {
                 NhapHangChiTietDTO nhapHangChiTietDTO = new NhapHangChiTietDTO();
                 nhapHangChiTietDTO.setIdNhapHang(danhMucDTO.getId());
                 List<NhapHangChiTietDTO> tm = nhapHangChiTietService.search(nhapHangChiTietDTO);
                 danhMucDTO.setNhapHangChiTietDTOList(tm);
+            }
+
+            for (NhapHangDTO danhMucDTO : danhMucDTOS) {
+                Double total = 0d;
+                for (NhapHangChiTietDTO nhapHangChiTietDTO : danhMucDTO.getNhapHangChiTietDTOList()) {
+                    total += nhapHangChiTietDTO.getGia() * nhapHangChiTietDTO.getSoLuong();
+                }
+                danhMucDTO.setSoTien(total);
             }
             return new PageImpl<>(danhMucDTOS, pageable, Long.parseLong(o.toString()));
         } catch (Exception e) {
@@ -273,8 +283,8 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
 
             mergeCell(sheet, 4, 5, 0, 6);
 
-            setColumn(sheet, headerCellStyle3, 6, 0, "Từ ngày: 01/"+ (LocalDateTime.now().getMonthValue() - 1) + "/"+
-                    LocalDateTime.now().getYear() + " - Đến ngày: 01/" + LocalDateTime.now().getMonthValue() + "/"+ LocalDateTime.now().getYear());
+            setColumn(sheet, headerCellStyle3, 6, 0, "Từ ngày: 01/" + (LocalDateTime.now().getMonthValue() - 1) + "/" +
+                    LocalDateTime.now().getYear() + " - Đến ngày: 01/" + LocalDateTime.now().getMonthValue() + "/" + LocalDateTime.now().getYear());
             mergeCell(sheet, 6, 6, 0, 6);
 
             Row headerRow = sheet.createRow(8);

@@ -2,6 +2,8 @@ package com.example.qlbhbe.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.List;
+
 /**
  * Generated at 2022/04/03 21:28:32
  */
@@ -20,6 +22,9 @@ public class CongNoDTO {
 
     private Double soTien;
 
+    private List<CongNoChiTietDTO> congNoChiTietDTOS;
+
+
     public CongNoDTO() {
     }
 
@@ -30,6 +35,14 @@ public class CongNoDTO {
         this.idHopDong = idHopDong;
         this.trangThaiThanhToan = trangThaiThanhToan;
         this.soTien = soTien;
+    }
+
+    public List<CongNoChiTietDTO> getCongNoChiTietDTOS() {
+        return congNoChiTietDTOS;
+    }
+
+    public void setCongNoChiTietDTOS(List<CongNoChiTietDTO> congNoChiTietDTOS) {
+        this.congNoChiTietDTOS = congNoChiTietDTOS;
     }
 
     public Long getId() {

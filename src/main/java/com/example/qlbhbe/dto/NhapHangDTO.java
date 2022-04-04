@@ -51,7 +51,28 @@ public class NhapHangDTO {
 
     private String duongDan;
 
+    private Double soTien;
+
+    private Long isCount;
+
     List<NhapHangChiTietDTO> nhapHangChiTietDTOList;
+
+
+    public Long getIsCount() {
+        return isCount;
+    }
+
+    public void setIsCount(Long isCount) {
+        this.isCount = isCount;
+    }
+
+    public Double getSoTien() {
+        return soTien;
+    }
+
+    public void setSoTien(Double soTien) {
+        this.soTien = soTien;
+    }
 
     public String getDuongDan() {
         return duongDan;

@@ -364,7 +364,7 @@ public class ChamCongServiceImpl extends AbstractService<ChamCong, Long> impleme
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 1, "(Ký, họ tên)");
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 4, "(Ký, họ tên)");
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 8, "(Ký, họ tên)");
-            String path = "D:/BaoCaoLuongNhanVien" + System.currentTimeMillis() + ".xlsx";
+            String path = "E:/BaoCaoLuongNhanVien" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
             workbook.write(fileOut);
             fileOut.close();

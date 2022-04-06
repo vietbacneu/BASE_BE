@@ -8,6 +8,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper
 public interface CongNoChiTietMapper {
 
@@ -20,6 +22,12 @@ public interface CongNoChiTietMapper {
     }
 
     CongNoChiTietDTO toCongNoChiTietDTO(CongNoChiTiet congNoChiTiet);
+
+   List<CongNoChiTietDTO> toCongNoChiTietDTOList(List<CongNoChiTiet> congNoChiTiet);
+
+    CongNoChiTiet toCongNoChiTiet(CongNoChiTietDTO congNoChiTiet);
+
+    List<CongNoChiTiet> toCongNoChiTietList(List<CongNoChiTietDTO> congNoChiTiet);
 
     CongNoChiTiet update(CongNoChiTietDTO command, @MappingTarget CongNoChiTiet entity);
 

@@ -2,10 +2,12 @@ package com.example.qlbhbe.controller;
 
 import com.example.qlbhbe.controller.response.CreatedIdResponse;
 import com.example.qlbhbe.dto.CongNoDTO;
-import com.example.qlbhbe.entity.CongNo;
-import com.example.qlbhbe.mapper.CongNoMapper;
 import com.example.qlbhbe.service.congno.CongNoService;
 import com.example.qlbhbe.util.Constants;
+import com.example.qlbhbe.util.Utils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,15 +20,14 @@ public class CongNoController {
 
     private final CongNoService congNoService;
 
+
     public CongNoController(CongNoService congNoService) {
         this.congNoService = congNoService;
     }
 
     @PostMapping
     public CreatedIdResponse create(@Valid @RequestBody CongNoDTO command) {
-        CongNo congNo = CongNoMapper.INSTANCE.create(command);
-        congNoService.save(congNo);
-        return new CreatedIdResponse(congNo.getId());
+        return congNoService.create(command);
     }
 
     @PutMapping("/update")
@@ -37,6 +38,12 @@ public class CongNoController {
     @DeleteMapping("{id}")
     public void delete(@PathVariable(name = "id") long id) {
         congNoService.deleteById(id);
+    }
+
+    @PostMapping("/search")
+    public Page<CongNoDTO> list(@RequestBody CongNoDTO params, @PageableDefault Pageable pageable) throws Exception {
+        pageable = Utils.getDefaultSortPageable(pageable);
+        return congNoService.search(params, pageable);
     }
 
 }

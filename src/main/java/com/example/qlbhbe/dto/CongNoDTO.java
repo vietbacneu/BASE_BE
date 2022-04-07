@@ -14,9 +14,9 @@ public class CongNoDTO {
 
     private String maCongNo;
 
-    private String loadHopDong;
+    private String loaiHopDong;
 
-    private Integer idHopDong;
+    private Long idHopDong;
 
     private Long idNhanVien;
 
@@ -30,14 +30,42 @@ public class CongNoDTO {
 
     private String loaiHopDongName;
 
+    private String tenNhanVien;
+
     private String maHopDong;
 
     private List<CongNoChiTietDTO> congNoChiTietDTOS;
 
+    private Double soTienConLai;
+
+    private Double soTienDaThanhToan;
 
     public CongNoDTO() {
     }
 
+    public String getTenNhanVien() {
+        return tenNhanVien;
+    }
+
+    public void setTenNhanVien(String tenNhanVien) {
+        this.tenNhanVien = tenNhanVien;
+    }
+
+    public Double getSoTienConLai() {
+        return soTienConLai;
+    }
+
+    public void setSoTienConLai(Double soTienConLai) {
+        this.soTienConLai = soTienConLai;
+    }
+
+    public Double getSoTienDaThanhToan() {
+        return soTienDaThanhToan;
+    }
+
+    public void setSoTienDaThanhToan(Double soTienDaThanhToan) {
+        this.soTienDaThanhToan = soTienDaThanhToan;
+    }
 
     public String getTrangThaiName() {
         return trangThaiName;
@@ -95,19 +123,19 @@ public class CongNoDTO {
         this.maCongNo = maCongNo;
     }
 
-    public String getLoadHopDong() {
-        return this.loadHopDong;
+    public String getLoaiHopDong() {
+        return this.loaiHopDong;
     }
 
-    public void setLoadHopDong(String loadHopDong) {
-        this.loadHopDong = loadHopDong;
+    public void setLoaiHopDong(String loaiHopDong) {
+        this.loaiHopDong = loaiHopDong;
     }
 
-    public Integer getIdHopDong() {
+    public Long getIdHopDong() {
         return idHopDong;
     }
 
-    public void setIdHopDong(Integer idHopDong) {
+    public void setIdHopDong(Long idHopDong) {
         this.idHopDong = idHopDong;
     }
 

@@ -2,6 +2,7 @@ package com.example.qlbhbe.controller;
 
 import com.example.qlbhbe.controller.response.CreatedIdResponse;
 import com.example.qlbhbe.dto.CongNoDTO;
+import com.example.qlbhbe.dto.NhapHangDTO;
 import com.example.qlbhbe.service.congno.CongNoService;
 import com.example.qlbhbe.util.Constants;
 import com.example.qlbhbe.util.Utils;
@@ -12,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @RestController
 @RequestMapping(Constants.API + "/congNos")
@@ -31,8 +33,8 @@ public class CongNoController {
     }
 
     @PutMapping("/update")
-    public void update(@PathVariable("id") long id, @Valid @RequestBody CongNoDTO command) {
-        congNoService.update(id, command);
+    public void update(@Valid @RequestBody CongNoDTO command) {
+        congNoService.update(command.getId(), command);
     }
 
     @DeleteMapping("{id}")
@@ -44,6 +46,17 @@ public class CongNoController {
     public Page<CongNoDTO> list(@RequestBody CongNoDTO params, @PageableDefault Pageable pageable) throws Exception {
         pageable = Utils.getDefaultSortPageable(pageable);
         return congNoService.search(params, pageable);
+    }
+
+    @PostMapping("/searchForExport")
+    public Page<CongNoDTO> searchForExport(@RequestBody CongNoDTO params, @PageableDefault Pageable pageable) throws Exception {
+        pageable = Utils.getDefaultSortPageable(pageable);
+        return congNoService.searchForExport(params, pageable);
+    }
+
+    @PostMapping("/export")
+    public Map<String, String> exportNhapMax(@RequestBody CongNoDTO sanPhamDTO) throws Exception {
+        return congNoService.export(sanPhamDTO);
     }
 
 }

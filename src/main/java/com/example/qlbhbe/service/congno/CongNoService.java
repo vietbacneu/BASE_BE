@@ -8,6 +8,8 @@ import com.example.qlbhbe.service.BaseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Map;
+
 
 public interface CongNoService extends BaseService<CongNo, Long> {
 
@@ -15,4 +17,8 @@ public interface CongNoService extends BaseService<CongNo, Long> {
 
     CreatedIdResponse create(CongNoDTO command);
     Page<CongNoDTO> search(CongNoDTO command, Pageable pageable) throws Exception;
+
+    Page<CongNoDTO> searchForExport(CongNoDTO command, Pageable pageable) throws Exception;
+
+    Map<String, String> export(CongNoDTO command) throws Exception;
 }

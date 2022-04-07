@@ -10,7 +10,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface CongNoChiTietMapper {
 
     CongNoChiTietMapper INSTANCE = Mappers.getMapper(CongNoChiTietMapper.class);
@@ -23,11 +23,7 @@ public interface CongNoChiTietMapper {
 
     CongNoChiTietDTO toCongNoChiTietDTO(CongNoChiTiet congNoChiTiet);
 
-   List<CongNoChiTietDTO> toCongNoChiTietDTOList(List<CongNoChiTiet> congNoChiTiet);
-
     CongNoChiTiet toCongNoChiTiet(CongNoChiTietDTO congNoChiTiet);
-
-    List<CongNoChiTiet> toCongNoChiTietList(List<CongNoChiTietDTO> congNoChiTiet);
 
     CongNoChiTiet update(CongNoChiTietDTO command, @MappingTarget CongNoChiTiet entity);
 

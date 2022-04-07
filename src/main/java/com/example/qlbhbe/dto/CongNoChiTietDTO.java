@@ -16,6 +16,14 @@ public class CongNoChiTietDTO {
 
     private LocalDate ngayThanhToan;
 
+    private String trangThai;
+
+    private String trangThaiName;
+
+    private String maCongNo;
+
+
+
     public CongNoChiTietDTO() {
     }
 
@@ -23,6 +31,30 @@ public class CongNoChiTietDTO {
         this.id = id;
         this.soTienThanhToan = soTienThanhToan;
         this.ngayThanhToan = ngayThanhToan;
+    }
+
+    public String getTrangThaiName() {
+        return trangThaiName;
+    }
+
+    public void setTrangThaiName(String trangThaiName) {
+        this.trangThaiName = trangThaiName;
+    }
+
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    public String getMaCongNo() {
+        return maCongNo;
+    }
+
+    public void setMaCongNo(String maCongNo) {
+        this.maCongNo = maCongNo;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
     }
 
     public Long getId() {

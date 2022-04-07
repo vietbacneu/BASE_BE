@@ -1,7 +1,6 @@
 package com.example.qlbhbe.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -12,10 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -31,8 +27,8 @@ public class CongNo implements Serializable {
     @Column(name = "ma_cong_no")
     private String maCongNo;
 
-    @Column(name = "load_hop_dong")
-    private String loadHopDong;
+    @Column(name = "loai_hop_dong")
+    private String loaiHopDong;
 
     @Column(name = "id_hop_dong")
     private Integer idHopDong;
@@ -45,7 +41,7 @@ public class CongNo implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_nhan_vien")
-    private NhanVien idNhanVien;
+    private NhanVien nhanVien;
 
     public long getId() {
         return this.id;
@@ -63,12 +59,12 @@ public class CongNo implements Serializable {
         this.maCongNo = maCongNo;
     }
 
-    public String getLoadHopDong() {
-        return this.loadHopDong;
+    public String getLoaiHopDong() {
+        return this.loaiHopDong;
     }
 
-    public void setLoadHopDong(String loadHopDong) {
-        this.loadHopDong = loadHopDong;
+    public void setLoaiHopDong(String loadHopDong) {
+        this.loaiHopDong = loadHopDong;
     }
 
     public Integer getIdHopDong() {
@@ -95,11 +91,11 @@ public class CongNo implements Serializable {
         this.soTien = soTien;
     }
 
-    public NhanVien getIdNhanVien() {
-        return this.idNhanVien;
+    public NhanVien getNhanVien() {
+        return this.nhanVien;
     }
 
-    public void setIdNhanVien(NhanVien idNhanVien) {
-        this.idNhanVien = idNhanVien;
+    public void setNhanVien(NhanVien idNhanVien) {
+        this.nhanVien = idNhanVien;
     }
 }

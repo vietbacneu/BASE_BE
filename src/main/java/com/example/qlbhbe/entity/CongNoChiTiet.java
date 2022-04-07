@@ -22,9 +22,20 @@ public class CongNoChiTiet implements Serializable {
     @Column(name = "ngay_thanh_toan")
     private LocalDate ngayThanhToan;
 
+    @Column(name = "trang_thai")
+    private String trangThai;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_cong_no")
     private CongNo idCongNo;
+
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
+    }
 
     public long getId() {
         return this.id;

@@ -265,11 +265,11 @@ public class SanPhamReportImpl implements SanPhamReport {
             headerCellStyle3.setWrapText(true);
 
 
-            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty Cổ phần Nông Nghiệp và Thực Phẩm Lang Liêu");
+            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty Nhân Hòa");
             mergeCell(sheet, 0, 0, 0, 6);
-            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: Số nhà 2B, ngõ 389 Trương Định, Phường Tân Mai, Quận Hoàng Mai, Thành phố Hà Nội");
+            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: Tầng 4, Tòa nhà 97-99 Láng Hạ, Đống Đa, TP Hà Nội");
             mergeCell(sheet, 1, 1, 0, 6);
-            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế:  0109736359");
+            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế:  0101289966");
             mergeCell(sheet, 2, 2, 0, 6);
 
             setColumn(sheet, headerCellStyle1, 4, 0, "BÁO CÁO TỒN KHO");
@@ -391,7 +391,7 @@ public class SanPhamReportImpl implements SanPhamReport {
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 1, "(Ký, họ tên)");
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 5, "(Ký, họ tên)");
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 7, "(Ký, họ tên)");
-            String path = "./SanPhamTonKho" + System.currentTimeMillis() + ".xlsx";
+            String path = "D:/SanPhamTonKho" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
             workbook.write(fileOut);
             fileOut.close();
@@ -450,11 +450,11 @@ public class SanPhamReportImpl implements SanPhamReport {
             headerCellStyle3.setWrapText(true);
 
 
-            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty Cổ phần Nông Nghiệp và Thực Phẩm Lang Liêu");
+            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty Nhân Hòa");
             mergeCell(sheet, 0, 0, 0, 6);
-            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: Số nhà 2B, ngõ 389 Trương Định, Phường Tân Mai, Quận Hoàng Mai, Thành phố Hà Nội");
+            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: Tầng 4, Tòa nhà 97-99 Láng Hạ, Đống Đa, TP Hà Nội");
             mergeCell(sheet, 1, 1, 0, 6);
-            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế:  0109736359");
+            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế:  0101289966");
             mergeCell(sheet, 2, 2, 0, 6);
 
             setColumn(sheet, headerCellStyle1, 4, 0, "BÁO CÁO HÀNG BÁN");
@@ -584,7 +584,7 @@ public class SanPhamReportImpl implements SanPhamReport {
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 5, "(Ký, họ tên)");
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 7, "(Ký, họ tên)");
 
-            String path = "./SanPhamHangBan" + System.currentTimeMillis() + ".xlsx";
+            String path = "D:/SanPhamHangBan" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
             workbook.write(fileOut);
             fileOut.close();
@@ -643,11 +643,11 @@ public class SanPhamReportImpl implements SanPhamReport {
             headerCellStyle3.setWrapText(true);
 
 
-            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty Cổ phần Nông Nghiệp và Thực Phẩm Lang Liêu");
+            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty Nhân Hòa");
             mergeCell(sheet, 0, 0, 0, 6);
-            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: Số nhà 2B, ngõ 389 Trương Định, Phường Tân Mai, Quận Hoàng Mai, Thành phố Hà Nội");
+            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: Tầng 4, Tòa nhà 97-99 Láng Hạ, Đống Đa, TP Hà Nội");
             mergeCell(sheet, 1, 1, 0, 6);
-            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế:  0109736359");
+            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế:  0101289966");
             mergeCell(sheet, 2, 2, 0, 6);
 
             setColumn(sheet, headerCellStyle1, 4, 0, "BÁO CÁO HÀNG NHẬP");
@@ -778,7 +778,7 @@ public class SanPhamReportImpl implements SanPhamReport {
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 1, "(Ký, họ tên)");
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 5, "(Ký, họ tên)");
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 7, "(Ký, họ tên)");
-            String path = "./SanPhamHangNhap" + System.currentTimeMillis() + ".xlsx";
+            String path = "D:/SanPhamHangNhap" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
             workbook.write(fileOut);
             fileOut.close();

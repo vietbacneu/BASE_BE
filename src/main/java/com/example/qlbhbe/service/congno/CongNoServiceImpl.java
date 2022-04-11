@@ -12,12 +12,14 @@ import com.example.qlbhbe.repo.congno.CongNoRepo;
 import com.example.qlbhbe.repo.congnochitiet.CongNoChiTietRepo;
 import com.example.qlbhbe.service.AbstractService;
 import com.example.qlbhbe.util.DataUtil;
+import com.example.qlbhbe.util.Utils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -187,24 +189,23 @@ public class CongNoServiceImpl extends AbstractService<CongNo, Long> implements 
                     "       case\n" +
                     "           when cnd.trang_thai = 'dathanhtoan' then\n" +
                     "               sum(cnd.so_tien_thanh_toan)\n" +
-                    "           else 0 end                                      as                                        soTienDaThanhToan,\n" +
+                    "           else null end                                      as                                        soTienDaThanhToan,\n" +
                     "       cn.so_tien - ifnull(sum(cnd.so_tien_thanh_toan), 0) as                                        soTienConLai\n," +
-                    "   (select ten_nhan_vien from nhan_vien where id = id_nhan_vien) as tenNhanVien" +
-                    "from cong_no cn,\n" +
+                    "   (select ten_nhan_vien from nhan_vien where id = id_nhan_vien) as tenNhanVien " +
+                    " from cong_no cn,\n" +
                     "     cong_no_chi_tiet cnd\n" +
-                    "where cn.id = cnd.id_cong_no  ");
+                    " where cn.id = cnd.id_cong_no  ");
 
 
             count.append("");
             if (!DataUtil.isNullOrEmpty(command.getLoaiHopDong())) {
-                from.append(" and lower(cn.loai_hop_dong) like :ten ");
+                queryStr.append(" and lower(cn.loai_hop_dong) like :ten ");
                 params.put("ten", '%' + command.getLoaiHopDong().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(command.getMaCongNo())) {
-                from.append(" and lower(cn.ma_cong_no) like :ma ");
+                queryStr.append(" and lower(cn.ma_cong_no) like :ma ");
                 params.put("ma", '%' + command.getMaCongNo().toLowerCase(Locale.ROOT) + '%');
             }
-            queryStr.append(from);
             Query query = entityManager.createNativeQuery(queryStr.toString());
             Query countQuery = entityManager.createNativeQuery("select count(*) from (" + queryStr.toString() + ") tmp");
             for (Map.Entry<String, Object> p : params.entrySet()) {
@@ -219,6 +220,9 @@ public class CongNoServiceImpl extends AbstractService<CongNo, Long> implements 
                     , objects, CongNoDTO.class);
 
             for (CongNoDTO danhMucDTO : danhMucDTOS) {
+                if (danhMucDTO.getId()==null){
+                    danhMucDTOS = new ArrayList<>();
+                }
                 List<CongNoChiTietDTO> congNoChiTietDTO = new ArrayList<>();
                 List<CongNoChiTiet> tmp = congNoChiTietRepo.searchByCongNoId(danhMucDTO.getId());
                 for (CongNoChiTiet congNoChiTiet : tmp) {
@@ -236,7 +240,7 @@ public class CongNoServiceImpl extends AbstractService<CongNo, Long> implements 
     public Map<String, String> export(CongNoDTO command) throws Exception {
         try {
             Workbook workbook = new XSSFWorkbook();
-            Sheet sheet = workbook.createSheet("HoaDonNhapHang");
+            Sheet sheet = workbook.createSheet("BaoCaoCongNo");
 
             Font headerFontTitle = workbook.createFont();
             headerFontTitle.setBold(true);
@@ -275,14 +279,14 @@ public class CongNoServiceImpl extends AbstractService<CongNo, Long> implements 
             headerCellStyle3.setAlignment(HorizontalAlignment.CENTER);
             headerCellStyle3.setWrapText(true);
 
-            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty Cổ phần Nông Nghiệp và Thực Phẩm Lang Liêu");
+            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty Nhân Hòa");
             mergeCell(sheet, 0, 0, 0, 6);
-            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: Số nhà 2B, ngõ 389 Trương Định, Phường Tân Mai, Quận Hoàng Mai, Thành phố Hà Nội");
+            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: Tầng 4, Tòa nhà 97-99 Láng Hạ, Đống Đa, TP Hà Nội");
             mergeCell(sheet, 1, 1, 0, 6);
-            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế:  0109736359");
+            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế:  0101289966");
             mergeCell(sheet, 2, 2, 0, 6);
-
-            setColumn(sheet, headerCellStyle1, 4, 0, "BÁO CÁO NHẬP HÀNG");
+            
+            setColumn(sheet, headerCellStyle1, 4, 0, "BÁO CÁO CÔNG NỢ");
 
             mergeCell(sheet, 4, 5, 0, 6);
 
@@ -324,7 +328,7 @@ public class CongNoServiceImpl extends AbstractService<CongNo, Long> implements 
                 }
             }
             int rowNum = 9;
-            List<CongNoDTO> nhapHangDTOS = searchForExport(command, null).getContent();
+            List<CongNoDTO> nhapHangDTOS = searchForExport(command, Utils.getDefaultSortPageable(PageRequest.of(0,122))).getContent();
             CellStyle cellStyle = workbook.createCellStyle();
 
             cellStyle.setBorderBottom(BorderStyle.THIN);
@@ -350,15 +354,15 @@ public class CongNoServiceImpl extends AbstractService<CongNo, Long> implements 
                 cell2.setCellStyle(cellStyle);
 
                 Cell cell23 = row.createCell(3);
-                cell23.setCellValue(sanPhamDTO1.getSoTien());
+                cell23.setCellValue(DataUtil.safeToDouble(sanPhamDTO1.getSoTien()));
                 cell23.setCellStyle(cellStyle);
 
                 Cell cell3 = row.createCell(4);
-                cell3.setCellValue(sanPhamDTO1.getSoTienDaThanhToan());
+                cell3.setCellValue(DataUtil.safeToDouble(sanPhamDTO1.getSoTienDaThanhToan()));
                 cell3.setCellStyle(cellStyle);
                 ;
                 Cell cell4 = row.createCell(5);
-                cell4.setCellValue(sanPhamDTO1.getSoTienConLai());
+                cell4.setCellValue(DataUtil.safeToDouble(sanPhamDTO1.getSoTienConLai()));
                 cell4.setCellStyle(cellStyle);
 
                 Cell cell41 = row.createCell(6);
@@ -383,7 +387,7 @@ public class CongNoServiceImpl extends AbstractService<CongNo, Long> implements 
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 5, "(Ký, họ tên)");
 
 
-            String path = "./HoaDonNhapHang" + System.currentTimeMillis() + ".xlsx";
+            String path = "D:/HoaDonNhapHang" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
             workbook.write(fileOut);
             fileOut.close();

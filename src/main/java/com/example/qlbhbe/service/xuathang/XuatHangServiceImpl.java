@@ -15,6 +15,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -219,7 +220,7 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
     public Map<String, String> exportXuatMax(XuatHangDTO command) throws Exception {
         try {
             Workbook workbook = new XSSFWorkbook();
-            Sheet sheet = workbook.createSheet("HoaDonBanHang");
+            Sheet sheet = workbook.createSheet("HopDongXuatHang");
 
             Font headerFontTitle = workbook.createFont();
             headerFontTitle.setBold(true);
@@ -261,14 +262,14 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
             headerCellStyle.setWrapText(true);
 
 
-            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty Cổ phần Nông Nghiệp và Thực Phẩm Lang Liêu");
+            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty Nhân Hòa");
             mergeCell(sheet, 0, 0, 0, 6);
-            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: Số nhà 2B, ngõ 389 Trương Định, Phường Tân Mai, Quận Hoàng Mai, Thành phố Hà Nội");
+            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: Tầng 4, Tòa nhà 97-99 Láng Hạ, Đống Đa, TP Hà Nội");
             mergeCell(sheet, 1, 1, 0, 6);
-            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế:  0109736359");
+            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế:  0101289966");
             mergeCell(sheet, 2, 2, 0, 6);
 
-            setColumn(sheet, headerCellStyle1, 4, 0, "BÁO CÁO XUẤT HÀNG");
+            setColumn(sheet, headerCellStyle1, 4, 0, "BÁO CÁO HỢP ĐỒNG XUẤT HÀNG");
             mergeCell(sheet, 4, 5, 0, 6);
             setColumn(sheet, headerCellStyle3, 6, 0, "Từ ngày: 01/"+ (LocalDateTime.now().getMonthValue() - 1) + "/"+
                     LocalDateTime.now().getYear() + " - Đến ngày: 01/" + LocalDateTime.now().getMonthValue() + "/"+ LocalDateTime.now().getYear());
@@ -287,29 +288,26 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
                     cell.setCellStyle(headerCellStyle);
                 }
                 if (i == 2) {
-                    cell.setCellValue("Tên Cửa Hàng");
-                    cell.setCellStyle(headerCellStyle);
-                }
-                if (i == 3) {
                     cell.setCellValue("Phương Thức Thanh Toán");
                     cell.setCellStyle(headerCellStyle);
                 }
-                if (i == 4) {
+                if (i == 3) {
                     cell.setCellValue("Tổng Tiền");
                     cell.setCellStyle(headerCellStyle);
                 }
-                if (i == 5) {
+                if (i == 4) {
                     cell.setCellValue("Ngày Nhập");
                     cell.setCellStyle(headerCellStyle);
                 }
-                if (i == 6) {
-                    cell.setCellValue("Người Nhập");
+                if (i == 5) {
+                    cell.setCellValue("Nhân viên");
                     cell.setCellStyle(headerCellStyle);
                 }
             }
             int rowNum = 9;
             Double total = 0d;
-            List<XuatHangDTO> nhapHangDTOS = searchXuatMax(command);
+            command.setIsCount(null);
+            List<XuatHangDTO> nhapHangDTOS = search(command, PageRequest.of(0,1)).getContent();
             CellStyle cellStyle = workbook.createCellStyle();
 
             cellStyle.setBorderBottom(BorderStyle.THIN);
@@ -329,33 +327,28 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
                 cell1.setCellValue(sanPhamDTO1.getTenKhachHang());
                 cell1.setCellStyle(cellStyle);
 
-                Cell cell2 = row.createCell(2);
-                cell2.setCellValue(sanPhamDTO1.getTenCuaHang());
-                cell2.setCellStyle(cellStyle);
-
-                Cell cell23 = row.createCell(3);
+                Cell cell23 = row.createCell(2);
                 cell23.setCellValue(sanPhamDTO1.getTenPhuongThuc());
                 cell23.setCellStyle(cellStyle);
 
-                Cell cell3 = row.createCell(4);
-                cell3.setCellValue(sanPhamDTO1.getTotalDT());
+                Cell cell3 = row.createCell(3);
+                cell3.setCellValue(sanPhamDTO1.getSoTien());
                 cell3.setCellStyle(cellStyle);
+                if (sanPhamDTO1.getSoTien() != null)
+                    total += sanPhamDTO1.getSoTien();
 
-                if (sanPhamDTO1.getTotalDT() != null)
-                    total += sanPhamDTO1.getTotalDT();
-
-                Cell cell4 = row.createCell(5);
+                Cell cell4 = row.createCell(4);
                 if (!DataUtil.isNullOrEmpty(sanPhamDTO1.getNgayXuat())) {
                     cell4.setCellValue(sanPhamDTO1.getNgayXuat().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
                 }
                 cell4.setCellStyle(cellStyle);
 
-                Cell cell41 = row.createCell(6);
+                Cell cell41 = row.createCell(4);
                 cell41.setCellValue(sanPhamDTO1.getNguoiTao());
                 cell41.setCellStyle(cellStyle);
             }
-            setColumn(sheet, headerCellStyle2, rowNum, 4, "Tổng:  " + renderDouble(total));
-            mergeCell(sheet, rowNum, rowNum, 4, 5);
+            setColumn(sheet, headerCellStyle2, rowNum, 3, "Tổng:  " + renderDouble(total));
+            mergeCell(sheet, rowNum, rowNum, 3, 4);
             rowNum++;
             setColumn(sheet, headerCellStyle3, rowNum + 1, 4, "Ngày …… Tháng …… Năm ……");
             mergeCell(sheet, rowNum + 1, rowNum + 1, 4, 5);
@@ -371,7 +364,7 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 3, "(Ký, họ tên)");
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 5, "(Ký, họ tên)");
 
-            String path = "./HoaDonXuatHang" + System.currentTimeMillis() + ".xlsx";
+            String path = "D:/HopDongXuatHang" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
             workbook.write(fileOut);
             fileOut.close();

@@ -55,8 +55,17 @@ public class NhapHangDTO {
 
     private Long isCount;
 
+    private double tongTien;
+
     List<NhapHangChiTietDTO> nhapHangChiTietDTOList;
 
+    public double getTongTien() {
+        return tongTien;
+    }
+
+    public void setTongTien(double tongTien) {
+        this.tongTien = tongTien;
+    }
 
     public Long getIsCount() {
         return isCount;

@@ -800,7 +800,7 @@ public class DataUtil {
         if (vietnamContent == null || vietnamContent.trim().isEmpty()) {
             return "";
         }
-        String vietnamText = "@âăấẤẩẨẫẪậẬầẦắẮẳẲẵẴặẶằẰđêôơưÂĂĐđÊÔƠƯếẾểỂễỄệỆềỀốỐổỔỗỖộỘồỒớỚởỞỡỠợỢờỜứỨửỬữỮựỰừỪáÁảẢãÃàÀạẠóÓỏỎõÕọỌòÒúÚủỦũŨụỤùÙéÉẻẺẽẼẹẸèÈíÍỉỈĩĨịỊìÌýÝỷỶỳỲỵỴỹỸ,./;'\\[]`-=<>?:|{}~!@#$%^&*()_+ \"–";
+        String vietnamText = "@âăấẤẩẨẫẪậẬầẦắẮẳẲẵẴặẶằẰđêôơưÂĂĐđÊÔƠƯếẾểỂễỄệỆềỀốỐổỔỗỖộỘồỒớỚởỞỡỠợỢờỜứỨửỬữỮựỰừỪáÁảẢãÃàÀạẠóÓỏỎõÕọỌòÒúÚủỦũŨụỤùÙéÉẻẺẽẼẹẸèÈíÍỉỈĩĨịỊìÌýÝỷỶỳỲỵỴỹỸ,D:/;'\\[]`-=<>?:|{}~!@#$%^&*()_+ \"–";
         String normalText = "@aaaAaAaAaAaAaAaAaAaAaAdeoouAADdEOOUeEeEeEeEeEoOoOoOoOoOoOoOoOoOoOuUuUuUuUuUaAaAaAaAaAoOoOoOoOoOuUuUuUuUuUeEeEeEeEeEiIiIiIiIiIyYyYyYyYyY                                     ";
         String normalContent = vietnamContent;
         for (int i = 1; i < vietnamText.length(); i++) {

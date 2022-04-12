@@ -50,6 +50,18 @@ public class XuatHang implements Serializable {
     @JoinColumn(name = "id_khach_hang")
     private KhachHang khachHang;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_thanh_toan")
+    private PhuongThucThanhToan thanhToan;
+
+    public PhuongThucThanhToan getThanhToan() {
+        return thanhToan;
+    }
+
+    public void setThanhToan(PhuongThucThanhToan thanhToan) {
+        this.thanhToan = thanhToan;
+    }
+
     public long getId() {
         return this.id;
     }

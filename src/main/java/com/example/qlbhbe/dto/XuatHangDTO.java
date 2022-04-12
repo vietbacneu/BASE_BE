@@ -37,6 +37,12 @@ public class XuatHangDTO {
 
     private String endDate;
 
+    private Long idPhuongThuc;
+
+    private String tenPhuongThuc;
+
+    private Double totalDT;
+
     List<XuatHangChiTietDTO> xuatHangChiTietDTOList;
 
     public XuatHangDTO() {
@@ -52,12 +58,38 @@ public class XuatHangDTO {
         this.ngayXuat = ngayXuat;
     }
 
+
+
+    public Double getTotalDT() {
+        return totalDT;
+    }
+
+    public void setTotalDT(Double totalDT) {
+        this.totalDT = totalDT;
+    }
+
     public String getTenCuaHang() {
         return tenCuaHang;
     }
 
     public void setTenCuaHang(String tenCuaHang) {
         this.tenCuaHang = tenCuaHang;
+    }
+
+    public Long getIdPhuongThuc() {
+        return idPhuongThuc;
+    }
+
+    public void setIdPhuongThuc(Long idPhuongThuc) {
+        this.idPhuongThuc = idPhuongThuc;
+    }
+
+    public String getTenPhuongThuc() {
+        return tenPhuongThuc;
+    }
+
+    public void setTenPhuongThuc(String tenPhuongThuc) {
+        this.tenPhuongThuc = tenPhuongThuc;
     }
 
     public Long getIdCuaHang() {

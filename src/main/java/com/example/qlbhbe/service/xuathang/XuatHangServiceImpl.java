@@ -84,7 +84,7 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
                     "    s.nguoi_thay_doi  ," +
                     "    s.ngay_thay_doi   ," +
                     "    n.ten_khach_hang ," +
-                     " s.ngay_xuat  ");
+                    " s.ngay_xuat  ");
 
             count.append("select count(*) ");
             from.append(" from xuat_hang s, khach_hang n  where s.id_khach_hang = n.id  ");

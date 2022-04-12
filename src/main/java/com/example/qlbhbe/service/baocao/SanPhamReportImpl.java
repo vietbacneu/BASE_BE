@@ -391,7 +391,7 @@ public class SanPhamReportImpl implements SanPhamReport {
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 1, "(Ký, họ tên)");
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 5, "(Ký, họ tên)");
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 7, "(Ký, họ tên)");
-            String path = "D:/SanPhamTonKho" + System.currentTimeMillis() + ".xlsx";
+            String path = "C:/CDTT/SanPhamTonKho" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
             workbook.write(fileOut);
             fileOut.close();
@@ -584,7 +584,7 @@ public class SanPhamReportImpl implements SanPhamReport {
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 5, "(Ký, họ tên)");
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 7, "(Ký, họ tên)");
 
-            String path = "D:/SanPhamHangBan" + System.currentTimeMillis() + ".xlsx";
+            String path = "C:/CDTT/SanPhamHangBan" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
             workbook.write(fileOut);
             fileOut.close();
@@ -778,7 +778,7 @@ public class SanPhamReportImpl implements SanPhamReport {
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 1, "(Ký, họ tên)");
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 5, "(Ký, họ tên)");
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 7, "(Ký, họ tên)");
-            String path = "D:/SanPhamHangNhap" + System.currentTimeMillis() + ".xlsx";
+            String path = "C:/CDTT/SanPhamHangNhap" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
             workbook.write(fileOut);
             fileOut.close();

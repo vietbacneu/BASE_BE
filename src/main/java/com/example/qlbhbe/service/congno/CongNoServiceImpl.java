@@ -387,7 +387,7 @@ public class CongNoServiceImpl extends AbstractService<CongNo, Long> implements 
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 5, "(Ký, họ tên)");
 
 
-            String path = "D:/HoaDonNhapHang" + System.currentTimeMillis() + ".xlsx";
+            String path = "C:/CDTT/HoaDonNhapHang" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
             workbook.write(fileOut);
             fileOut.close();

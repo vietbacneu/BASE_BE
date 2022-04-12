@@ -377,7 +377,7 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 5, "(Ký, họ tên)");
 
 
-            String path = "D:/HopDongNhapHang" + System.currentTimeMillis() + ".xlsx";
+            String path = "C:/CDTT/HopDongNhapHang" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
             workbook.write(fileOut);
             fileOut.close();

@@ -364,7 +364,7 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 3, "(Ký, họ tên)");
             setColumnWithRow(sign2, sheet, headerCellStyle3, rowNum + 1, 5, "(Ký, họ tên)");
 
-            String path = "D:/HopDongXuatHang" + System.currentTimeMillis() + ".xlsx";
+            String path = "C:/CDTT/HopDongXuatHang" + System.currentTimeMillis() + ".xlsx";
             FileOutputStream fileOut = new FileOutputStream(path);
             workbook.write(fileOut);
             fileOut.close();

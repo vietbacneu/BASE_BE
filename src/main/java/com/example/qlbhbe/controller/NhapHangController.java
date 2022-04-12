@@ -66,7 +66,7 @@ public class NhapHangController {
     public ResponseEntity<Map<String, String>> uploadFile(@RequestParam(value = "file") MultipartFile multipartFile) throws IOException {
         String message = "";
         try {
-            String filePath = "D:\\" + multipartFile.getOriginalFilename();
+            String filePath = "C:/CDTT\\" + multipartFile.getOriginalFilename();
             multipartFile.transferTo(new File(filePath));
             Map<String, String> result = new HashMap<>();
             result.put("duongDan", filePath);

@@ -1,7 +1,7 @@
 package com.example.qlbhbe.entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -12,13 +12,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name = "xuat_hang_chi_tiet")
+@Table(name = "ban_hang_chi_tiet")
 @EntityListeners(AuditingEntityListener.class)
-public class XuatHangChiTiet implements Serializable {
+public class BanHangChiTiet implements Serializable {
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
@@ -34,35 +37,13 @@ public class XuatHangChiTiet implements Serializable {
     @Column(name = "mieu_ta")
     private String mieuTa;
 
-    @Column(name = "ngay_het_han")
-    private LocalDate ngayHetHan;
-
-    @Column(name = "ngay_san_xuat")
-    private LocalDate ngaySanXuat;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_ban_hang")
+    private BanHang idBanHang;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_xuat_hang")
-    private XuatHang xuatHang;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_nguyen_vat_lieu")
-    private SanPham sanPham;
-
-    public LocalDate getNgayHetHan() {
-        return ngayHetHan;
-    }
-
-    public void setNgayHetHan(LocalDate ngayHetHan) {
-        this.ngayHetHan = ngayHetHan;
-    }
-
-    public LocalDate getNgaySanXuat() {
-        return ngaySanXuat;
-    }
-
-    public void setNgaySanXuat(LocalDate ngaySanXuat) {
-        this.ngaySanXuat = ngaySanXuat;
-    }
+    @JoinColumn(name = "id_thuc_don")
+    private ThucDon idThucDon;
 
     public long getId() {
         return this.id;
@@ -96,19 +77,19 @@ public class XuatHangChiTiet implements Serializable {
         this.mieuTa = mieuTa;
     }
 
-    public XuatHang getXuatHang() {
-        return this.xuatHang;
+    public BanHang getIdBanHang() {
+        return this.idBanHang;
     }
 
-    public void setXuatHang(XuatHang idXuatHang) {
-        this.xuatHang = idXuatHang;
+    public void setIdBanHang(BanHang idBanHang) {
+        this.idBanHang = idBanHang;
     }
 
-    public SanPham getSanPham() {
-        return this.sanPham;
+    public ThucDon getIdThucDon() {
+        return this.idThucDon;
     }
 
-    public void setSanPham(SanPham idSanPham) {
-        this.sanPham = idSanPham;
+    public void setIdThucDon(ThucDon idThucDon) {
+        this.idThucDon = idThucDon;
     }
 }

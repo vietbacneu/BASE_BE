@@ -52,10 +52,10 @@ public class XuatHangChiTietServiceImpl extends AbstractService<XuatHangChiTiet,
             Map<String, Object> params = new HashMap<>();
             queryStr.append("select id ," +
                     "    id_xuat_hang ," +
-                    "    id_san_pham ," +
+                    "    id_nguyen_vat_lieu ," +
                     "    so_luong ," +
                     "    gia," +
-                    "    mieu_ta , ngay_het_han , ngay_san_xuat, (select ten_san_pham from san_pham s where s.id = id_san_pham) tenSanpham , so_luong*gia ");
+                    "    mieu_ta , ngay_het_han , ngay_san_xuat, (select ten_nguyen_vat_lieu from nguyen_vat_lieu s where s.id = id_nguyen_vat_lieu) tenSanpham , so_luong*gia ");
 
 
             count.append("select count(*) ");

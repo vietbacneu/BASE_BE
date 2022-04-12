@@ -83,7 +83,7 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
                     "    s.ngay_tao        ," +
                     "    s.nguoi_thay_doi  ," +
                     "    s.ngay_thay_doi   ," +
-                    "    n.ten_nha_cung_cap, id_cua_hang, (select ten_cua_hang from cua_hang c where c.id =  s.id_cua_hang )  tencuahang  ");
+                    "    n.ten_nha_cung_cap ");
             count.append("select count(*) ");
             from.append(" from nhap_hang s, nha_cung_cap n where s.id_nha_cung_cap = n.id  ");
             if (!DataUtil.isNullOrEmpty(command.getTenNhaCungCap())) {
@@ -119,7 +119,7 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<NhapHangDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maNhapHang", "idNhaCungCap", "ngayNhap", "nguoiTao", "ngayTao",
-                            "nguoiThayDoi", "ngayThayDoi", "tenNhaCungCap", "idCuaHang", "tenCuaHang")
+                            "nguoiThayDoi", "ngayThayDoi", "tenNhaCungCap")
                     , objects, NhapHangDTO.class);
             for (NhapHangDTO danhMucDTO : danhMucDTOS) {
                 NhapHangChiTietDTO nhapHangChiTietDTO = new NhapHangChiTietDTO();

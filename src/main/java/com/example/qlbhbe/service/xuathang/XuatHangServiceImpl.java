@@ -79,13 +79,11 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
             queryStr.append("select s.id              ," +
                     "    s.ma_xuat_hang    ," +
                     "    s.id_khach_hang ," +
-                    "    s.id_cua_hang       ," +
                     "    s.nguoi_tao       ," +
                     "    s.ngay_tao        ," +
                     "    s.nguoi_thay_doi  ," +
                     "    s.ngay_thay_doi   ," +
                     "    n.ten_khach_hang ," +
-                    " (select ten_cua_hang from cua_hang c where c.id =  s.id_cua_hang )  tencuahang , " +
                      " s.ngay_xuat  ");
 
             count.append("select count(*) ");
@@ -122,8 +120,8 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
             query.setMaxResults(pageable.getPageSize());
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
-            List<XuatHangDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maXuatHang", "idKhachHang", "idCuaHang", "nguoiTao", "ngayTao",
-                            "nguoiThayDoi", "ngayThayDoi", "tenKhachHang", "tenCuaHang","ngayXuat")
+            List<XuatHangDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maXuatHang", "idKhachHang", "nguoiTao", "ngayTao",
+                            "nguoiThayDoi", "ngayThayDoi", "tenKhachHang","ngayXuat")
                     , objects, XuatHangDTO.class);
             for (XuatHangDTO danhMucDTO : danhMucDTOS) {
                 XuatHangChiTietDTO xuatHangChiTietDTO = new XuatHangChiTietDTO();

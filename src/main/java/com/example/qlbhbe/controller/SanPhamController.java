@@ -126,7 +126,6 @@ public class SanPhamController {
     @PostMapping
     public CreatedIdResponse create(@Valid @RequestBody SanPhamDTO command) {
         SanPham sanPham = SanPhamMapper.INSTANCE.create(command);
-        sanPham.setDanhMuc(new DanhMuc(command.getIdDanhMuc()));
         sanPhamService.save(sanPham);
         return new CreatedIdResponse(sanPham.getId());
     }

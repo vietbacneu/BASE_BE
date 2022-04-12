@@ -45,7 +45,7 @@ public class NhapHangChiTiet implements Serializable {
     private NhapHang nhapHang;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_san_pham")
+    @JoinColumn(name = "id_nguyen_vat_lieu")
     private SanPham sanPham;
 
     public LocalDate getNgayHetHan() {

@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "san_pham")
+@Table(name = "nguyen_vat_lieu")
 @EntityListeners(AuditingEntityListener.class)
 public class SanPham implements Serializable {
 
@@ -20,10 +20,10 @@ public class SanPham implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "ma_san_pham")
+    @Column(name = "ma_nguyen_vat_lieu")
     private String maSanPham;
 
-    @Column(name = "ten_san_pham")
+    @Column(name = "ten_nguyen_vat_lieu")
     private String tenSanPham;
 
     @Column(name = "gia_ban_niem_yet")
@@ -53,10 +53,6 @@ public class SanPham implements Serializable {
     @LastModifiedBy
     @Column(name = "nguoi_thay_doi")
     private String nguoiThayDoi = "admin";
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_danh_muc")
-    private DanhMuc danhMuc;
 
     @Column(name = "don_vi")
     private String donVi;
@@ -157,12 +153,4 @@ public class SanPham implements Serializable {
         this.ngayTao = ngayTao;
     }
 
-
-    public DanhMuc getDanhMuc() {
-        return this.danhMuc;
-    }
-
-    public void setDanhMuc(DanhMuc idDanhMuc) {
-        this.danhMuc = idDanhMuc;
-    }
 }

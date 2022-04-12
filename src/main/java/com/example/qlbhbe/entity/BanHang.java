@@ -1,20 +1,10 @@
 package com.example.qlbhbe.entity;
 
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "ban_hang")
@@ -29,20 +19,65 @@ public class BanHang implements Serializable {
     @Column(name = "ma_ban_hang")
     private String maBanHang;
 
-    @Column(name = "ngay_xuat")
-    private LocalDate ngayXuat;
+    @Column(name = "ngay_ban")
+    private LocalDate ngayBan;
 
     @Column(name = "nguoi_tao")
-    private String nguoiTao;
+    private String nguoiTao = "admin";
 
     @Column(name = "ngay_tao")
-    private LocalDate ngayTao;
+    private LocalDate ngayTao = LocalDate.now();
 
     @Column(name = "nguoi_thay_doi")
-    private String nguoiThayDoi;
+    private String nguoiThayDoi = "admin";
 
     @Column(name = "ngay_thay_doi")
-    private LocalDate ngayThayDoi;
+    private LocalDate ngayThayDoi = LocalDate.now();
+
+    @Column(name = "trang_thai")
+    private String trangThai;
+
+    private String ghiChu;
+
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_khach_hang")
+    private KhachHang khachHang;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_thanh_toan")
+    private PhuongThucThanhToan thanhToan;
+
+    public String getGhiChu() {
+        return ghiChu;
+    }
+
+    public void setGhiChu(String ghiChu) {
+        this.ghiChu = ghiChu;
+    }
+
+    public PhuongThucThanhToan getThanhToan() {
+        return thanhToan;
+    }
+
+    public void setThanhToan(PhuongThucThanhToan thanhToan) {
+        this.thanhToan = thanhToan;
+    }
+
+    public KhachHang getKhachHang() {
+        return khachHang;
+    }
+
+    public void setKhachHang(KhachHang khachHang) {
+        this.khachHang = khachHang;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
+    }
 
     public long getId() {
         return this.id;
@@ -60,12 +95,12 @@ public class BanHang implements Serializable {
         this.maBanHang = maBanHang;
     }
 
-    public java.time.LocalDate getNgayXuat() {
-        return this.ngayXuat;
+    public java.time.LocalDate getNgayBan() {
+        return this.ngayBan;
     }
 
-    public void setNgayXuat(java.time.LocalDate ngayXuat) {
-        this.ngayXuat = ngayXuat;
+    public void setNgayBan(java.time.LocalDate ngayXuat) {
+        this.ngayBan = ngayXuat;
     }
 
     public String getNguoiTao() {

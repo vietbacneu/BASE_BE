@@ -56,8 +56,8 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
     public MessageDTO update(long id, NhapHangDTO command) {
         Optional<NhapHang> opt = nhapHangRepo.findById(id);
         if (opt.isPresent()) {
-            nhapHangRepo.deleteSanPham(id);
             nhapHangChiTietRepo.deleteSanPham(id);
+            nhapHangRepo.deleteSanPham(id);
         }
         command.setId(null);
         for (NhapHangChiTietDTO nhapHangChiTietDTO : command.getNhapHangChiTietDTOList()) {
@@ -83,7 +83,7 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
                     "    s.ngay_tao        ," +
                     "    s.nguoi_thay_doi  ," +
                     "    s.ngay_thay_doi   ," +
-                    "    n.ten_nha_cung_cap ");
+                    "    n.ten_nha_cung_cap, s.id_thanh_toan, (select t.ten_phuong_thuc from phuong_thuc_thanh_toan t where t.id = s.id_thanh_toan)  ");
             count.append("select count(*) ");
             from.append(" from nhap_hang s, nha_cung_cap n where s.id_nha_cung_cap = n.id  ");
             if (!DataUtil.isNullOrEmpty(command.getTenNhaCungCap())) {
@@ -119,7 +119,7 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<NhapHangDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maNhapHang", "idNhaCungCap", "ngayNhap", "nguoiTao", "ngayTao",
-                            "nguoiThayDoi", "ngayThayDoi", "tenNhaCungCap")
+                            "nguoiThayDoi", "ngayThayDoi", "tenNhaCungCap", "idPhuongThuc", "tenPhuongThuc")
                     , objects, NhapHangDTO.class);
             for (NhapHangDTO danhMucDTO : danhMucDTOS) {
                 NhapHangChiTietDTO nhapHangChiTietDTO = new NhapHangChiTietDTO();
@@ -138,7 +138,7 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
     public MessageDTO save(NhapHangDTO nhapHangDTO) {
         NhapHang nhapHang = nhapHangMapper.toNhapHangENTITY(nhapHangDTO);
         nhapHang.setNhaCungCap(new NhaCungCap(nhapHangDTO.getIdNhaCungCap()));
-        nhapHang.setCuaHang(new CuaHang(nhapHangDTO.getIdCuaHang()));
+        nhapHang.setThanhToan(new PhuongThucThanhToan(nhapHangDTO.getIdPhuongThuc()));
         NhapHang newNH = nhapHangRepo.save(nhapHang);
         List<NhapHangChiTietDTO> ls = nhapHangDTO.getNhapHangChiTietDTOList();
         for (NhapHangChiTietDTO l : ls) {
@@ -150,5 +150,15 @@ public class NhapHangServiceImpl extends AbstractService<NhapHang, Long> impleme
             nhapHangChiTietRepo.save(nhapHangChiTiet);
         }
         return new MessageDTO("Thêm mới thành công", 200l);
+    }
+
+    @Override
+    public List<NhapHangDTO> getNhapHangMax(NhapHangDTO sanPhamDTO) throws Exception {
+        return null;
+    }
+
+    @Override
+    public Map<String, String> exportNhapMax(NhapHangDTO sanPhamDTO) throws Exception {
+        return null;
     }
 }

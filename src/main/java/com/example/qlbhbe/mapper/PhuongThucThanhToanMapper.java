@@ -1,7 +1,5 @@
 package com.example.qlbhbe.mapper;
 
-import com.example.qlbhbe.controller.request.CreatePhuongThucThanhToanRequest;
-import com.example.qlbhbe.controller.request.UpdatePhuongThucThanhToanRequest;
 import com.example.qlbhbe.dto.PhuongThucThanhToanDTO;
 import com.example.qlbhbe.entity.PhuongThucThanhToan;
 import org.mapstruct.Mapper;

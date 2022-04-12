@@ -55,10 +55,6 @@ public class NhapHang implements Serializable {
     private NhaCungCap nhaCungCap;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_cua_hang")
-    private CuaHang cuaHang;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_thanh_toan")
     private PhuongThucThanhToan thanhToan;
 
@@ -68,14 +64,6 @@ public class NhapHang implements Serializable {
 
     public void setThanhToan(PhuongThucThanhToan thanhToan) {
         this.thanhToan = thanhToan;
-    }
-
-    public CuaHang getCuaHang() {
-        return cuaHang;
-    }
-
-    public void setCuaHang(CuaHang idCuaHang) {
-        this.cuaHang = idCuaHang;
     }
 
     public long getId() {

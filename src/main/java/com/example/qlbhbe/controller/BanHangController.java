@@ -1,18 +1,18 @@
 package com.example.qlbhbe.controller;
 
-import com.example.qlbhbe.controller.response.CreatedIdResponse;
 import com.example.qlbhbe.dto.BanHangDTO;
-import com.example.qlbhbe.entity.BanHang;
-import com.example.qlbhbe.mapper.BanHangMapper;
+import com.example.qlbhbe.dto.MessageDTO;
+import com.example.qlbhbe.dto.NhapHangDTO;
 import com.example.qlbhbe.service.banhang.BanHangService;
 import com.example.qlbhbe.util.Constants;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-;
-;
 
 @RestController
 @RequestMapping(Constants.API + "/banHangs")
@@ -26,12 +26,15 @@ public class BanHangController {
     }
 
     @PostMapping
-    public CreatedIdResponse create(@Valid @RequestBody BanHangDTO command) {
-        BanHang banHang = BanHangMapper.INSTANCE.create(command);
-        banHangService.save(banHang);
-        return new CreatedIdResponse(banHang.getId());
+    public MessageDTO create(@Valid @RequestBody BanHangDTO command) {
+        return banHangService.save(command);
     }
 
+
+    @PostMapping("/search")
+    public Page<BanHangDTO> search(@RequestBody BanHangDTO command, @PageableDefault Pageable pageable) throws Exception {
+        return banHangService.search(command, pageable);
+    }
 
     @PutMapping("/update")
     public void update(@Valid @RequestBody BanHangDTO command) {

@@ -50,6 +50,13 @@ public class PhuongThucThanhToan implements Serializable {
     @Column(name = "ngay_thay_doi")
     private LocalDate ngayThayDoi;
 
+    public PhuongThucThanhToan(long id) {
+        this.id = id;
+    }
+
+    public PhuongThucThanhToan() {
+    }
+
     public long getId() {
         return this.id;
     }

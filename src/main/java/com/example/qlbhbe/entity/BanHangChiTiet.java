@@ -1,7 +1,6 @@
 package com.example.qlbhbe.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -12,10 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -39,11 +35,11 @@ public class BanHangChiTiet implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_ban_hang")
-    private BanHang idBanHang;
+    private BanHang banHang;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_thuc_don")
-    private ThucDon idThucDon;
+    private ThucDon thucDon;
 
     public long getId() {
         return this.id;
@@ -77,19 +73,19 @@ public class BanHangChiTiet implements Serializable {
         this.mieuTa = mieuTa;
     }
 
-    public BanHang getIdBanHang() {
-        return this.idBanHang;
+    public BanHang getBanHang() {
+        return this.banHang;
     }
 
-    public void setIdBanHang(BanHang idBanHang) {
-        this.idBanHang = idBanHang;
+    public void setBanHang(BanHang idBanHang) {
+        this.banHang = idBanHang;
     }
 
-    public ThucDon getIdThucDon() {
-        return this.idThucDon;
+    public ThucDon getThucDon() {
+        return this.thucDon;
     }
 
-    public void setIdThucDon(ThucDon idThucDon) {
-        this.idThucDon = idThucDon;
+    public void setThucDon(ThucDon idThucDon) {
+        this.thucDon = idThucDon;
     }
 }

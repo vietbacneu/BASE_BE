@@ -57,8 +57,8 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
     public MessageDTO update(long id, XuatHangDTO command) {
         Optional<XuatHang> opt = xuatHangRepo.findById(id);
         if (opt.isPresent()) {
-            xuatHangRepo.deleteSanPham(id);
             xuatHangChiTietRepo.deleteSanPham(id);
+            xuatHangRepo.deleteSanPham(id);
         }
         command.setId(null);
         for (XuatHangChiTietDTO nhapHangChiTietDTO : command.getXuatHangChiTietDTOList()) {
@@ -78,27 +78,17 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
             Map<String, Object> params = new HashMap<>();
             queryStr.append("select s.id              ," +
                     "    s.ma_xuat_hang    ," +
-                    "    s.id_khach_hang ," +
                     "    s.nguoi_tao       ," +
                     "    s.ngay_tao        ," +
                     "    s.nguoi_thay_doi  ," +
                     "    s.ngay_thay_doi   ," +
-                    "    n.ten_khach_hang ," +
-                    " s.ngay_xuat  ");
+                    "    s.ngay_xuat  ");
 
             count.append("select count(*) ");
-            from.append(" from xuat_hang s, khach_hang n  where s.id_khach_hang = n.id  ");
-            if (!DataUtil.isNullOrEmpty(command.getTenKhachHang())) {
-                from.append(" and lower(n.ten_khach_hang) like :ten ");
-                params.put("ten", '%' + command.getTenKhachHang().toLowerCase(Locale.ROOT) + '%');
-            }
+            from.append(" from xuat_hang s ");
             if (!DataUtil.isNullOrEmpty(command.getMaXuatHang())) {
                 from.append(" and lower(s.ma_xuat_hang) like :ma ");
                 params.put("ma", '%' + command.getMaXuatHang().toLowerCase(Locale.ROOT) + '%');
-            }
-            if (!DataUtil.isNullOrEmpty(command.getIdCuaHang())) {
-                from.append(" and s.id_cua_hang = :ch ");
-                params.put("ch", command.getIdCuaHang());
             }
             if (!DataUtil.isNullOrEmpty(command.getStartDate())) {
                 from.append(" and s.ngay_xuat >= to_date(:startDate,'dd/MM/yyyy') ");
@@ -120,8 +110,8 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
             query.setMaxResults(pageable.getPageSize());
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
-            List<XuatHangDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maXuatHang", "idKhachHang", "nguoiTao", "ngayTao",
-                            "nguoiThayDoi", "ngayThayDoi", "tenKhachHang","ngayXuat")
+            List<XuatHangDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maXuatHang", "nguoiTao", "ngayTao",
+                            "nguoiThayDoi", "ngayThayDoi","ngayXuat")
                     , objects, XuatHangDTO.class);
             for (XuatHangDTO danhMucDTO : danhMucDTOS) {
                 XuatHangChiTietDTO xuatHangChiTietDTO = new XuatHangChiTietDTO();
@@ -139,8 +129,6 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
     @Transactional
     public MessageDTO save(XuatHangDTO xuatHangDTO) {
         XuatHang nhapHang = xuatHangMapper.toXuatHangEntity(xuatHangDTO);
-        nhapHang.setKhachHang(new KhachHang(xuatHangDTO.getIdKhachHang()));
-        nhapHang.setCuaHang(new CuaHang(xuatHangDTO.getIdCuaHang()));
         XuatHang newNH = xuatHangRepo.save(nhapHang);
         List<XuatHangChiTietDTO> ls = xuatHangDTO.getXuatHangChiTietDTOList();
         for (XuatHangChiTietDTO l : ls) {
@@ -152,5 +140,15 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
             xuatHangChiTietRepo.save(xuatHangChiTiet);
         }
         return new MessageDTO("Thêm mới thành công", 200l);
+    }
+
+    @Override
+    public List<XuatHangDTO> searchXuatMax(XuatHangDTO command) throws Exception {
+        return null;
+    }
+
+    @Override
+    public Map<String, String> exportXuatMax(XuatHangDTO command) throws Exception {
+        return null;
     }
 }

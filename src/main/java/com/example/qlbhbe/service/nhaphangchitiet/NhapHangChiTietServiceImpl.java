@@ -44,7 +44,7 @@ public class NhapHangChiTietServiceImpl extends AbstractService<NhapHangChiTiet,
                     "    id_nguyen_vat_lieu ," +
                     "    so_luong ," +
                     "    gia," +
-                    "    mieu_ta , ngay_het_han , ngay_san_xuat, " +
+                    "    mieu_ta , " +
                     " (select ten_nguyen_vat_lieu from nguyen_vat_lieu s where s.id = id_nguyen_vat_lieu) tenSanpham, so_luong*gia  ");
 
             count.append("select count(*) ");
@@ -68,7 +68,7 @@ public class NhapHangChiTietServiceImpl extends AbstractService<NhapHangChiTiet,
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<NhapHangChiTietDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(
-                    Arrays.asList("id", "idNhapHang", "idSanPham", "soLuong", "gia", "mieuTa", "ngayHetHan", "ngaySanXuat", "tenSanPham", "tongTien"),
+                    Arrays.asList("id", "idNhapHang", "idSanPham", "soLuong", "gia", "mieuTa", "tenSanPham", "tongTien"),
                     objects, NhapHangChiTietDTO.class);
             return danhMucDTOS;
         } catch (Exception e) {

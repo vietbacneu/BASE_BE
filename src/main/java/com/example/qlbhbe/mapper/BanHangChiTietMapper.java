@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface BanHangChiTietMapper {
 
     BanHangChiTietMapper INSTANCE = Mappers.getMapper(BanHangChiTietMapper.class);
@@ -20,6 +20,7 @@ public interface BanHangChiTietMapper {
     }
 
     BanHangChiTietDTO toBanHangChiTietDTO(BanHangChiTiet banHangChiTiet);
+    BanHangChiTiet toBanHangEntity(BanHangChiTietDTO banHangChiTiet);
 
     BanHangChiTiet update(BanHangChiTietDTO command, @MappingTarget BanHangChiTiet entity);
 

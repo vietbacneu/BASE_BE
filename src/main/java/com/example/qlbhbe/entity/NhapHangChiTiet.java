@@ -34,12 +34,6 @@ public class NhapHangChiTiet implements Serializable {
     @Column(name = "mieu_ta")
     private String mieuTa;
 
-    @Column(name = "ngay_het_han")
-    private LocalDate ngayHetHan;
-
-    @Column(name = "ngay_san_xuat")
-    private LocalDate ngaySanXuat;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_nhap_hang")
     private NhapHang nhapHang;
@@ -47,22 +41,6 @@ public class NhapHangChiTiet implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_nguyen_vat_lieu")
     private SanPham sanPham;
-
-    public LocalDate getNgayHetHan() {
-        return ngayHetHan;
-    }
-
-    public void setNgayHetHan(LocalDate ngayHetHan) {
-        this.ngayHetHan = ngayHetHan;
-    }
-
-    public LocalDate getNgaySanXuat() {
-        return ngaySanXuat;
-    }
-
-    public void setNgaySanXuat(LocalDate ngaySanXuat) {
-        this.ngaySanXuat = ngaySanXuat;
-    }
 
     public long getId() {
         return this.id;

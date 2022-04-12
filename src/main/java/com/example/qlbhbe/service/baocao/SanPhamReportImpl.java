@@ -11,7 +11,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.io.FileOutputStream;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -25,38 +24,29 @@ public class SanPhamReportImpl implements SanPhamReport {
         try {
             StringBuilder queryStr = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
-            queryStr.append("select s.id,  s.ma_san_pham, s.ten_san_pham, s.gia_ban_niem_yet, s.gia_nhap_niem_yet ," +
-                    "  sum(nd.so_luong), nd.gia, n.id_cua_hang , (select c.ten_cua_hang from cua_hang c where c.id = n.id_cua_hang) ch, " +
-                    " s.id_danh_muc , (select d.ten_danh_muc from danh_muc d where d.id = s.id_danh_muc) dm , s.don_vi " +
-                    " from san_pham s , nhap_hang n , nhap_hang_chi_tiet nd " +
-                    " where s.id = nd.id_san_pham and n.id = nd.id_nhap_hang");
+            queryStr.append("select s.id,\n" +
+                    "       s.ma_nguyen_vat_lieu,\n" +
+                    "       s.ten_nguyen_vat_lieu,\n" +
+                    "       s.gia_ban_niem_yet,\n" +
+                    "       s.gia_nhap_niem_yet,\n" +
+                    "       sum(nd.so_luong),\n" +
+                    "       nd.gia,\n" +
+                    "       s.don_vi\n" +
+                    "from nguyen_vat_lieu s,\n" +
+                    "     nhap_hang n,\n" +
+                    "     nhap_hang_chi_tiet nd\n" +
+                    "where s.id = nd.id_nguyen_vat_lieu\n" +
+                    "  and n.id = nd.id_nhap_hang");
             if (!DataUtil.isNullOrEmpty(sanPhamDTO.getTenSanPham())) {
-                queryStr.append(" and lower(s.ten_san_pham) like :ten ");
+                queryStr.append(" and lower(s.ten_nguyen_vat_lieu) like :ten ");
                 params.put("ten", '%' + sanPhamDTO.getTenSanPham().toLowerCase(Locale.ROOT) + '%');
             }
 
             if (!DataUtil.isNullOrEmpty(sanPhamDTO.getMaSanPham())) {
-                queryStr.append(" and lower(s.ma_san_pham) like :ma ");
+                queryStr.append(" and lower(s.ma_nguyen_vat_lieu) like :ma ");
                 params.put("ma", '%' + sanPhamDTO.getMaSanPham().toLowerCase(Locale.ROOT) + '%');
             }
-            if (!DataUtil.isNullOrEmpty(sanPhamDTO.getIdCuaHang())) {
-                queryStr.append(" and n.id_cua_hang = :cuahang ");
-                params.put("cuahang", sanPhamDTO.getIdCuaHang());
-            }
-            if (!DataUtil.isNullOrEmpty(sanPhamDTO.getIdDanhMuc())) {
-                queryStr.append(" and s.id_danh_muc = :danhmuc ");
-                params.put("danhmuc", sanPhamDTO.getIdDanhMuc());
-            }
-            if (!DataUtil.isNullOrEmpty(sanPhamDTO.getIsTonKho()) && sanPhamDTO.getIsTonKho() == 1) {
-                queryStr.append(" and ( nd.ngay_het_han > now() or nd.ngay_het_han is null )");
-            }
-            if (!DataUtil.isNullOrEmpty(sanPhamDTO.getNgayHetHan())) {
-                queryStr.append(" and ( nd.ngay_het_han > :date or nd.ngay_het_han is null )");
-                DateTimeFormatter formatters = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                String text = sanPhamDTO.getNgayHetHan().format(formatters);
-                params.put("date", text);
-            }
-            queryStr.append(" group by  s.id,  s.ma_san_pham , n.id_cua_hang ");
+            queryStr.append(" group by  s.id,  s.ma_nguyen_vat_lieu  ");
 
             Query query = entityManager.createNativeQuery(queryStr.toString());
             for (Map.Entry<String, Object> p : params.entrySet()) {
@@ -67,30 +57,34 @@ public class SanPhamReportImpl implements SanPhamReport {
 
 
             List<SanPhamDTO> sanPhamDTOSNhapHangTon = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maSanPham", "tenSanPham", "giaBanNiemYet", "giaNhapNiemYet", "soLuong",
-                            "gia", "idCuaHang", "tenCuaHang", "idDanhMuc", "tenDanhMuc", "donVi")
+                            "gia", "donVi")
                     , objects, SanPhamDTO.class);
 
             StringBuilder queryStr1 = new StringBuilder();
             Map<String, Object> params1 = new HashMap<>();
-            queryStr1.append(" select s.id,  s.ma_san_pham, s.ten_san_pham, s.gia_ban_niem_yet, s.gia_nhap_niem_yet ," +
-                    "  sum(nd.so_luong), nd.gia, n.id_cua_hang , (select c.ten_cua_hang from cua_hang c where c.id = n.id_cua_hang) ch," +
-                    "    s.id_danh_muc , (select d.ten_danh_muc from danh_muc d where d.id = s.id_danh_muc) dm , s.don_vi " +
-                    " from san_pham s , xuat_hang n , xuat_hang_chi_tiet nd" +
-                    " where s.id = nd.id_san_pham and n.id = nd.id_xuat_hang");
+            queryStr1.append("select s.id,\n" +
+                    "       s.ma_nguyen_vat_lieu,\n" +
+                    "       s.ten_nguyen_vat_lieu,\n" +
+                    "       s.gia_ban_niem_yet,\n" +
+                    "       s.gia_nhap_niem_yet,\n" +
+                    "       sum(nd.so_luong),\n" +
+                    "       nd.gia,\n" +
+                    "       s.don_vi\n" +
+                    "from nguyen_vat_lieu s,\n" +
+                    "     xuat_hang n,\n" +
+                    "     xuat_hang_chi_tiet nd\n" +
+                    "where s.id = nd.id_nguyen_vat_lieu\n" +
+                    "  and n.id = nd.id_xuat_hang ");
             if (!DataUtil.isNullOrEmpty(sanPhamDTO.getTenSanPham())) {
-                queryStr1.append(" and lower(s.ten_san_pham) like :ten1 ");
+                queryStr1.append(" and lower(s.ten_nguyen_vat_lieu) like :ten1 ");
                 params1.put("ten1", '%' + sanPhamDTO.getTenSanPham().toLowerCase(Locale.ROOT) + '%');
             }
 
             if (!DataUtil.isNullOrEmpty(sanPhamDTO.getMaSanPham())) {
-                queryStr1.append(" and lower(s.ma_san_pham) like :ma1 ");
+                queryStr1.append(" and lower(s.ma_nguyen_vat_lieu) like :ma1 ");
                 params1.put("ma1", '%' + sanPhamDTO.getMaSanPham().toLowerCase(Locale.ROOT) + '%');
             }
-            if (!DataUtil.isNullOrEmpty(sanPhamDTO.getIdCuaHang())) {
-                queryStr1.append(" and n.id_cua_hang = :cuahang1 ");
-                params1.put("cuahang1", sanPhamDTO.getIdCuaHang());
-            }
-            queryStr1.append(" group by  s.id,  s.ma_san_pham , n.id_cua_hang");
+            queryStr1.append(" group by s.id,  s.ma_nguyen_vat_lieu ");
 
             queryStr.append("order by sum(nd.so_luong * nd.gia)  desc ");
 
@@ -101,7 +95,7 @@ public class SanPhamReportImpl implements SanPhamReport {
             List<Object[]> objects1 = query1.getResultList();
 
             List<SanPhamDTO> sanPhamDTOSXuatHangTon = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maSanPham", "tenSanPham", "giaBanNiemYet", "giaNhapNiemYet", "soLuong",
-                            "gia", "idCuaHang", "tenCuaHang", "idDanhMuc", "tenDanhMuc", "donVi")
+                            "gia", "donVi")
                     , objects1, SanPhamDTO.class);
 
             for (SanPhamDTO phamDTO : sanPhamDTOSNhapHangTon) {
@@ -112,7 +106,7 @@ public class SanPhamReportImpl implements SanPhamReport {
                 phamDTO.setSoLuongTon(phamDTO.getSoLuongNhap());
                 if (!sanPhamDTOSXuatHangTon.isEmpty()) {
                     for (SanPhamDTO dto : sanPhamDTOSXuatHangTon) {
-                        if (phamDTO.getId().equals(dto.getId()) && phamDTO.getIdCuaHang().equals(dto.getIdCuaHang())) {
+                        if (phamDTO.getId().equals(dto.getId())) {
                             phamDTO.setSoLuongBan(dto.getSoLuong());
                             phamDTO.setSoLuongTon(DataUtil.safeToDouble(phamDTO.getSoLuongNhap()) - DataUtil.safeToDouble(dto.getSoLuong()));
                         }
@@ -131,25 +125,25 @@ public class SanPhamReportImpl implements SanPhamReport {
         try {
             StringBuilder queryStr = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
-            queryStr.append(" select nd.id_san_pham, s.ma_san_pham ,s.ten_san_pham , s.gia_ban_niem_yet, s.gia_nhap_niem_yet , s.id_danh_muc ," +
+            queryStr.append(" select nd.id_nguyen_vat_lieu, s.ma_nguyen_vat_lieu ,s.ten_nguyen_vat_lieu , s.gia_ban_niem_yet, s.gia_nhap_niem_yet , s.id_danh_muc ," +
                     " (select d.ten_danh_muc from danh_muc d where d.id = s.id_danh_muc) dm , nd.so_luong , nd.gia," +
                     " (select c.ten_cua_hang from cua_hang c where c.id = n.id_cua_hang) ch " +
-                    " , sum(nd.so_luong * nd.gia) , s.don_vi from san_pham s,  nhap_hang_chi_tiet nd, nhap_hang n " +
-                    " where n.id = nd.id_nhap_hang and s.id = nd.id_san_pham ");
+                    " , sum(nd.so_luong * nd.gia) , s.don_vi from nguyen_vat_lieu s,  nhap_hang_chi_tiet nd, nhap_hang n " +
+                    " where n.id = nd.id_nhap_hang and s.id = nd.id_nguyen_vat_lieu ");
             if (!DataUtil.isNullOrEmpty(sanPhamDTO.getTenSanPham())) {
-                queryStr.append(" and lower(s.ten_san_pham) like :ten ");
+                queryStr.append(" and lower(s.ten_nguyen_vat_lieu) like :ten ");
                 params.put("ten", '%' + sanPhamDTO.getTenSanPham().toLowerCase(Locale.ROOT) + '%');
             }
 
             if (!DataUtil.isNullOrEmpty(sanPhamDTO.getMaSanPham())) {
-                queryStr.append(" and lower(s.ma_san_pham) like :ma ");
+                queryStr.append(" and lower(s.ma_nguyen_vat_lieu) like :ma ");
                 params.put("ma", '%' + sanPhamDTO.getMaSanPham().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(sanPhamDTO.getIdCuaHang())) {
                 queryStr.append(" and n.id_cua_hang  = :idcuaHang ");
                 params.put("idcuaHang", sanPhamDTO.getIdCuaHang());
             }
-            queryStr.append("  group by nd.id_san_pham, nd.gia  ");
+            queryStr.append("  group by nd.id_nguyen_vat_lieu, nd.gia  ");
             if (!DataUtil.isNullOrEmpty(sanPhamDTO.getIdCuaHang())) {
                 queryStr.append(" , n.id_cua_hang ");
             }
@@ -178,25 +172,25 @@ public class SanPhamReportImpl implements SanPhamReport {
         try {
             StringBuilder queryStr = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
-            queryStr.append(" select nd.id_san_pham, s.ma_san_pham ,s.ten_san_pham , s.gia_ban_niem_yet, s.gia_nhap_niem_yet , s.id_danh_muc ," +
+            queryStr.append(" select nd.id_nguyen_vat_lieu, s.ma_nguyen_vat_lieu ,s.ten_nguyen_vat_lieu , s.gia_ban_niem_yet, s.gia_nhap_niem_yet , s.id_danh_muc ," +
                     " (select d.ten_danh_muc from danh_muc d where d.id = s.id_danh_muc) dm, nd.so_luong , nd.gia ," +
                     " (select c.ten_cua_hang from cua_hang c where c.id = n.id_cua_hang) ch " +
-                    " , sum(nd.so_luong * nd.gia) , s.don_vi from san_pham s,  xuat_hang_chi_tiet nd, xuat_hang n" +
-                    " where n.id = nd.id_xuat_hang and s.id = nd.id_san_pham ");
+                    " , sum(nd.so_luong * nd.gia) , s.don_vi from nguyen_vat_lieu s,  xuat_hang_chi_tiet nd, xuat_hang n" +
+                    " where n.id = nd.id_xuat_hang and s.id = nd.id_nguyen_vat_lieu ");
             if (!DataUtil.isNullOrEmpty(sanPhamDTO.getTenSanPham())) {
-                queryStr.append(" and lower(s.ten_san_pham) like :ten ");
+                queryStr.append(" and lower(s.ten_nguyen_vat_lieu) like :ten ");
                 params.put("ten", '%' + sanPhamDTO.getTenSanPham().toLowerCase(Locale.ROOT) + '%');
             }
 
             if (!DataUtil.isNullOrEmpty(sanPhamDTO.getMaSanPham())) {
-                queryStr.append(" and lower(s.ma_san_pham) like :ma ");
+                queryStr.append(" and lower(s.ma_nguyen_vat_lieu) like :ma ");
                 params.put("ma", '%' + sanPhamDTO.getMaSanPham().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(sanPhamDTO.getIdCuaHang())) {
                 queryStr.append(" and n.id_cua_hang  = :idcuaHang ");
                 params.put("idcuaHang", sanPhamDTO.getIdCuaHang());
             }
-            queryStr.append("  group by nd.id_san_pham, nd.gia  ");
+            queryStr.append("  group by nd.id_nguyen_vat_lieu, nd.gia  ");
             if (!DataUtil.isNullOrEmpty(sanPhamDTO.getIdCuaHang())) {
                 queryStr.append(" , n.id_cua_hang ");
             }
@@ -269,35 +263,27 @@ public class SanPhamReportImpl implements SanPhamReport {
                     cell.setCellStyle(headerCellStyle);
                 }
                 if (i == 2) {
-                    cell.setCellValue("Danh Mục");
-                    cell.setCellStyle(headerCellStyle);
-                }
-                if (i == 3) {
                     cell.setCellValue("Giá Bán Niêm Yết");
                     cell.setCellStyle(headerCellStyle);
                 }
-                if (i == 4) {
+                if (i == 3) {
                     cell.setCellValue("Giá Nhập Niêm Yết");
                     cell.setCellStyle(headerCellStyle);
                 }
-                if (i == 5) {
+                if (i == 4) {
                     cell.setCellValue("Đơn vị");
                     cell.setCellStyle(headerCellStyle);
                 }
-                if (i == 6) {
+                if (i == 5) {
                     cell.setCellValue("Số Lượng Nhập");
                     cell.setCellStyle(headerCellStyle);
                 }
-                if (i == 7) {
+                if (i == 6) {
                     cell.setCellValue("Số Lượng Xuất");
                     cell.setCellStyle(headerCellStyle);
                 }
-                if (i == 8) {
+                if (i == 7) {
                     cell.setCellValue("Số Lượng Tồn");
-                    cell.setCellStyle(headerCellStyle);
-                }
-                if (i == 9) {
-                    cell.setCellValue("Cửa Hàng");
                     cell.setCellStyle(headerCellStyle);
                 }
             }
@@ -322,37 +308,30 @@ public class SanPhamReportImpl implements SanPhamReport {
                 cell1.setCellValue(sanPhamDTO1.getTenSanPham());
                 cell1.setCellStyle(cellStyle);
 
-                Cell cell2 = row.createCell(2);
-                cell2.setCellValue(sanPhamDTO1.getTenDanhMuc());
-                cell2.setCellStyle(cellStyle);
-
-                Cell cell3 = row.createCell(3);
+                Cell cell3 = row.createCell(2);
                 cell3.setCellValue(sanPhamDTO1.getGiaBanNiemYet());
                 cell3.setCellStyle(cellStyle);
 
-                Cell cell4 = row.createCell(4);
+                Cell cell4 = row.createCell(3);
                 cell4.setCellValue(sanPhamDTO1.getGiaNhapNiemYet());
                 cell4.setCellStyle(cellStyle);
 
-                Cell cell41 = row.createCell(5);
+                Cell cell41 = row.createCell(4);
                 cell41.setCellValue(sanPhamDTO1.getDonVi());
                 cell41.setCellStyle(cellStyle);
 
-                Cell cell5 = row.createCell(6);
+                Cell cell5 = row.createCell(5);
                 cell5.setCellValue(sanPhamDTO1.getSoLuongNhap());
                 cell5.setCellStyle(cellStyle);
 
-                Cell cell6 = row.createCell(7);
+                Cell cell6 = row.createCell(6);
                 cell6.setCellValue(sanPhamDTO1.getSoLuongBan());
                 cell6.setCellStyle(cellStyle);
 
-                Cell cell7 = row.createCell(8);
+                Cell cell7 = row.createCell(7);
                 cell7.setCellValue(sanPhamDTO1.getSoLuongTon());
                 cell7.setCellStyle(cellStyle);
 
-                Cell cell8 = row.createCell(9);
-                cell8.setCellValue(sanPhamDTO1.getTenCuaHang());
-                cell8.setCellStyle(cellStyle);
             }
 
             String path = "D:/SanPhamTonKho" + System.currentTimeMillis() + ".xlsx";
@@ -672,9 +651,9 @@ public class SanPhamReportImpl implements SanPhamReport {
             StringBuilder queryStr = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
             queryStr.append(" SELECT  " +
-                    "    nd.id_san_pham, " +
-                    "    s.ma_san_pham, " +
-                    "    s.ten_san_pham, " +
+                    "    nd.id_nguyen_vat_lieu, " +
+                    "    s.ma_nguyen_vat_lieu, " +
+                    "    s.ten_nguyen_vat_lieu, " +
                     "    s.gia_ban_niem_yet, " +
                     "    s.gia_nhap_niem_yet, " +
                     "    s.id_danh_muc, " +
@@ -704,20 +683,20 @@ public class SanPhamReportImpl implements SanPhamReport {
                     "            n.ngay_nhap, " +
                     "            nd.ngay_san_xuat , s.don_vi" +
                     " FROM " +
-                    "    san_pham s, " +
+                    "    nguyen_vat_lieu s, " +
                     "    nhap_hang_chi_tiet nd, " +
                     "    nhap_hang n " +
                     " WHERE " +
                     "    n.id = nd.id_nhap_hang " +
-                    "        AND s.id = nd.id_san_pham ");
+                    "        AND s.id = nd.id_nguyen_vat_lieu ");
 
             if (!DataUtil.isNullOrEmpty(sanPhamDTO.getTenSanPham())) {
-                queryStr.append(" and lower(s.ten_san_pham) like :ten ");
+                queryStr.append(" and lower(s.ten_nguyen_vat_lieu) like :ten ");
                 params.put("ten", '%' + sanPhamDTO.getTenSanPham().toLowerCase(Locale.ROOT) + '%');
             }
 
             if (!DataUtil.isNullOrEmpty(sanPhamDTO.getMaSanPham())) {
-                queryStr.append(" and lower(s.ma_san_pham) like :ma ");
+                queryStr.append(" and lower(s.ma_nguyen_vat_lieu) like :ma ");
                 params.put("ma", '%' + sanPhamDTO.getMaSanPham().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(sanPhamDTO.getIdCuaHang())) {
@@ -754,9 +733,9 @@ public class SanPhamReportImpl implements SanPhamReport {
             StringBuilder queryStr = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
             queryStr.append(" SELECT  " +
-                    "    nd.id_san_pham, " +
-                    "    s.ma_san_pham, " +
-                    "    s.ten_san_pham, " +
+                    "    nd.id_nguyen_vat_lieu, " +
+                    "    s.ma_nguyen_vat_lieu, " +
+                    "    s.ten_nguyen_vat_lieu, " +
                     "    s.gia_ban_niem_yet, " +
                     "    s.gia_nhap_niem_yet, " +
                     "    s.id_danh_muc, " +
@@ -786,20 +765,20 @@ public class SanPhamReportImpl implements SanPhamReport {
                     "            n.ngay_xuat, " +
                     "            nd.ngay_san_xuat , s.don_vi " +
                     "FROM " +
-                    "    san_pham s, " +
+                    "    nguyen_vat_lieu s, " +
                     "    xuat_hang_chi_tiet nd, " +
                     "    xuat_hang n " +
                     "WHERE " +
                     "    n.id = nd.id_xuat_hang " +
-                    "        AND s.id = nd.id_san_pham ");
+                    "        AND s.id = nd.id_nguyen_vat_lieu ");
 
             if (!DataUtil.isNullOrEmpty(sanPhamDTO.getTenSanPham())) {
-                queryStr.append(" and lower(s.ten_san_pham) like :ten ");
+                queryStr.append(" and lower(s.ten_nguyen_vat_lieu) like :ten ");
                 params.put("ten", '%' + sanPhamDTO.getTenSanPham().toLowerCase(Locale.ROOT) + '%');
             }
 
             if (!DataUtil.isNullOrEmpty(sanPhamDTO.getMaSanPham())) {
-                queryStr.append(" and lower(s.ma_san_pham) like :ma ");
+                queryStr.append(" and lower(s.ma_nguyen_vat_lieu) like :ma ");
                 params.put("ma", '%' + sanPhamDTO.getMaSanPham().toLowerCase(Locale.ROOT) + '%');
             }
             if (!DataUtil.isNullOrEmpty(sanPhamDTO.getIdCuaHang())) {

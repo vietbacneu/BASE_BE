@@ -11,10 +11,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.Map;
+
 
 public interface BanHangService extends BaseService<BanHang, Long> {
 
     BanHang update(long id, BanHangDTO command);
     MessageDTO save(BanHangDTO nhapHangDTO);
     public Page<BanHangDTO> search(@RequestBody BanHangDTO command, @PageableDefault Pageable pageable) throws Exception;
+
+    public Map<String, String> export(BanHangDTO command) throws Exception;
 }

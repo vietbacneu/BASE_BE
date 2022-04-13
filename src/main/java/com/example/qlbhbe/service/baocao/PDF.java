@@ -166,7 +166,7 @@ public class PDF {
         // We add one empty line
         addEmptyLine(preface, 1);
         // Lets write a big header
-        setRow(preface, "CÔNG TY CỔ PHẦN NÔNG NGHIỆP VÀ THỰC PHẨM LANG LIÊU", font, Element.ALIGN_LEFT);
+        setRow(preface, "Nhà hàng Hashiya ", font, Element.ALIGN_LEFT);
         setRow(preface, "Mã số thuế: 0109736359", font, Element.ALIGN_LEFT);
         setRow(preface, "Địa Chỉ: Số nhà 2B, ngõ 389 Trương Định, Phường Tân Mai,\nQuận Hoàng Mai, Hà Nội", font, Element.ALIGN_LEFT);
         setRow(preface, "Bộ phận quản lý kho hàng", font, Element.ALIGN_LEFT);

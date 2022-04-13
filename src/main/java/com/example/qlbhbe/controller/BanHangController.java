@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 
 @RestController
@@ -35,6 +36,12 @@ public class BanHangController {
     public Page<BanHangDTO> search(@RequestBody BanHangDTO command, @PageableDefault Pageable pageable) throws Exception {
         return banHangService.search(command, pageable);
     }
+
+    @PostMapping("/export")
+    public Map<String, String> export(@RequestBody BanHangDTO sanPhamDTO) throws Exception {
+        return banHangService.export(sanPhamDTO);
+    }
+
 
     @PutMapping("/update")
     public void update(@Valid @RequestBody BanHangDTO command) {

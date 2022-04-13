@@ -29,9 +29,9 @@ public class NhapHangDTO {
 
     private String tenNhaCungCap;
 
-    private String startDate;
+    private LocalDate startDate;
 
-    private String endDate;
+    private LocalDate endDate;
 
     private String tenCuaHang;
 
@@ -43,7 +43,17 @@ public class NhapHangDTO {
 
     private Double totalDT;
 
+    private Long isCount;
+
     List<NhapHangChiTietDTO> nhapHangChiTietDTOList;
+
+    public Long getIsCount() {
+        return isCount;
+    }
+
+    public void setIsCount(Long isCount) {
+        this.isCount = isCount;
+    }
 
     public Double getTotalDT() {
         return totalDT;
@@ -99,19 +109,19 @@ public class NhapHangDTO {
         this.idCuaHang = idCuaHang;
     }
 
-    public String getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 

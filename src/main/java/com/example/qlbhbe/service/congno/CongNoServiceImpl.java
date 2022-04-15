@@ -56,14 +56,14 @@ public class CongNoServiceImpl extends AbstractService<CongNo, Long> implements 
     @Override
     public CongNo update(long id, CongNoDTO command) {
         Optional<CongNo> opt = congNoRepo.findById(id);
-//        if (opt.isPresent()) {
-//            congNoRepo.deleteCongNo(id);
-//            congNoChiTietRepo.deleteCongNo(id);
-//        }
-//        command.setId(null);
-//        for (CongNoChiTietDTO nhapHangChiTietDTO : command.getCongNoChiTietDTOS()) {
-//            nhapHangChiTietDTO.setId(null);
-//        }
+        if (opt.isPresent()) {
+            congNoChiTietRepo.deleteCongNo(id);
+            congNoRepo.deleteCongNo(id);
+        }
+        command.setId(null);
+        for (CongNoChiTietDTO nhapHangChiTietDTO : command.getCongNoChiTietDTOS()) {
+            nhapHangChiTietDTO.setId(null);
+        }
         create(command);
         return new CongNo();
     }
@@ -92,7 +92,7 @@ public class CongNoServiceImpl extends AbstractService<CongNo, Long> implements 
             StringBuilder count = new StringBuilder();
             StringBuilder from = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
-            queryStr.append("select cn.id,\n" +
+            queryStr.append("select distinct cn.id,\n" +
                     "       cn.ma_cong_no,\n" +
                     "       cn.loai_hop_dong,\n" +
                     "       case\n" +
@@ -126,6 +126,7 @@ public class CongNoServiceImpl extends AbstractService<CongNo, Long> implements 
                 from.append(" and lower(cn.ma_cong_no) like :ma ");
                 params.put("ma", '%' + command.getMaCongNo().toLowerCase(Locale.ROOT) + '%');
             }
+//            from.append("group by id ");
             queryStr.append(from);
             Query query = entityManager.createNativeQuery(queryStr.toString());
             Query countQuery = entityManager.createNativeQuery("select count(*) from (" + queryStr.toString() + ") tmp");
@@ -189,7 +190,7 @@ public class CongNoServiceImpl extends AbstractService<CongNo, Long> implements 
                     "       case\n" +
                     "           when cnd.trang_thai = 'dathanhtoan' then\n" +
                     "               sum(cnd.so_tien_thanh_toan)\n" +
-                    "           else null end                                      as                                        soTienDaThanhToan,\n" +
+                    "           else 0 end                                      as                                        soTienDaThanhToan,\n" +
                     "       cn.so_tien - ifnull(sum(cnd.so_tien_thanh_toan), 0) as                                        soTienConLai\n," +
                     "   (select ten_nhan_vien from nhan_vien where id = id_nhan_vien) as tenNhanVien " +
                     " from cong_no cn,\n" +
@@ -206,6 +207,7 @@ public class CongNoServiceImpl extends AbstractService<CongNo, Long> implements 
                 queryStr.append(" and lower(cn.ma_cong_no) like :ma ");
                 params.put("ma", '%' + command.getMaCongNo().toLowerCase(Locale.ROOT) + '%');
             }
+            queryStr.append("group by id ");
             Query query = entityManager.createNativeQuery(queryStr.toString());
             Query countQuery = entityManager.createNativeQuery("select count(*) from (" + queryStr.toString() + ") tmp");
             for (Map.Entry<String, Object> p : params.entrySet()) {

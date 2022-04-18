@@ -227,11 +227,11 @@ public class BanHangServiceImpl extends AbstractService<BanHang, Long> implement
             headerCellStyle.setWrapText(true);
 
 
-            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Công ty Cổ phần Nông Nghiệp và Thực Phẩm Lang Liêu");
+            setColumn(sheet, headerCellStyle2, 0, 0, "Đơn vị: Nhà hàng Hashiya ");
             mergeCell(sheet, 0, 0, 0, 6);
-            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: Số nhà 2B, ngõ 389 Trương Định, Phường Tân Mai, Quận Hoàng Mai, Thành phố Hà Nội");
+            setColumn(sheet, headerCellStyle2, 1, 0, "Địa chỉ: 50 Đào Tấn, Ba Đình, Hà Nội");
             mergeCell(sheet, 1, 1, 0, 6);
-            setColumn(sheet, headerCellStyle2, 2, 0, "Mã số thuế:  0109736359");
+            setColumn(sheet, headerCellStyle2, 2, 0, "Website: http://hashiyahanoi.com");
             mergeCell(sheet, 2, 2, 0, 6);
 
             setColumn(sheet, headerCellStyle1, 4, 0, "BÁO CÁO DOANH THU BÁN HÀNG");

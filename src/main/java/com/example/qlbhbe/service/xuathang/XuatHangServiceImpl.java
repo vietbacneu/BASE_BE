@@ -343,8 +343,8 @@ public class XuatHangServiceImpl extends AbstractService<XuatHang, Long> impleme
                 }
                 cell4.setCellStyle(cellStyle);
 
-                Cell cell41 = row.createCell(4);
-                cell41.setCellValue(sanPhamDTO1.getNguoiTao());
+                Cell cell41 = row.createCell(5);
+                cell41.setCellValue(sanPhamDTO1.getTenNhanVien());
                 cell41.setCellStyle(cellStyle);
             }
             setColumn(sheet, headerCellStyle2, rowNum, 3, "Tổng:  " + renderDouble(total));

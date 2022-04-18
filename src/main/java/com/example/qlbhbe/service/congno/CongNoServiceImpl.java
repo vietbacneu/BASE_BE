@@ -69,6 +69,12 @@ public class CongNoServiceImpl extends AbstractService<CongNo, Long> implements 
     }
 
     @Override
+    public void delete(long id) {
+        congNoChiTietRepo.deleteCongNo(id);
+        congNoRepo.deleteCongNo(id);
+    }
+
+    @Override
     public CreatedIdResponse create(CongNoDTO command) {
         CongNo congNo = CongNoMapper.INSTANCE.create(command);
         NhanVien nhanVien = new NhanVien();
@@ -79,7 +85,11 @@ public class CongNoServiceImpl extends AbstractService<CongNo, Long> implements 
         for (CongNoChiTietDTO congNoChiTietDTO : congNoChiTietList) {
             CongNoChiTiet congNoChiTiet = congNoChiTietMapper.toCongNoChiTiet(congNoChiTietDTO);
             congNoChiTiet.setIdCongNo(congNo);
-            congNoChiTiet.setTrangThai("chuathanhtoan");
+            if (DataUtil.isNullOrEmpty(congNoChiTiet.getTrangThai())){
+                congNoChiTiet.setTrangThai("chuathanhtoan");
+            }else {
+                congNoChiTiet.setTrangThai(congNoChiTietDTO.getTrangThai());
+            }
             congNoChiTietRepo.save(congNoChiTiet);
         }
         return new CreatedIdResponse(congNo.getId());
@@ -110,11 +120,11 @@ public class CongNoServiceImpl extends AbstractService<CongNo, Long> implements 
                     "       case\n" +
                     "           when cn.trang_thai_thanh_toan = 'chuathanhtoan' then 'Chưa thanh toán'\n" +
                     "           when cn.trang_thai_thanh_toan = 'dathanhtoan' then 'Đã thanh toán' end                    trangThaiName,\n" +
-                    "       cn.id_nhan_vien,\n" +
-                    "       cn.so_tien\n" +
-                    "from cong_no cn,\n" +
+                    "       cn.id_nhan_vien,  \n" +
+                    "       cn.so_tien\n, (select ten_nhan_vien from nhan_vien where id = cn.id_nhan_vien) ten_nhan_vien " +
+                    " from cong_no cn,\n" +
                     "     cong_no_chi_tiet cnd\n" +
-                    "where cn.id = cnd.id_cong_no   ");
+                    " where cn.id = cnd.id_cong_no   ");
 
 
             count.append("");
@@ -141,7 +151,7 @@ public class CongNoServiceImpl extends AbstractService<CongNo, Long> implements 
             List<Object[]> objects = query.getResultList();
             Object o = countQuery.getSingleResult();
             List<CongNoDTO> danhMucDTOS = DataUtil.convertLsObjectsToClass(Arrays.asList("id", "maCongNo", "loaiHopDong", "loaiHopDongName",
-                            "idHopDong", "maHopDong", "trangThaiThanhToan", "trangThaiName", "idNhanVien", "soTien")
+                            "idHopDong", "maHopDong", "trangThaiThanhToan", "trangThaiName", "idNhanVien", "soTien", "tenNhanVien")
                     , objects, CongNoDTO.class);
 
             for (CongNoDTO danhMucDTO : danhMucDTOS) {
@@ -165,36 +175,56 @@ public class CongNoServiceImpl extends AbstractService<CongNo, Long> implements 
             StringBuilder count = new StringBuilder();
             StringBuilder from = new StringBuilder();
             Map<String, Object> params = new HashMap<>();
-            queryStr.append("select cn.id,\n" +
-                    "       cn.ma_cong_no,\n" +
-                    "       cn.loai_hop_dong,\n" +
-                    "       case\n" +
-                    "           when cn.loai_hop_dong = 'nhaphang' then 'Nhập hàng'\n" +
-                    "           when cn.loai_hop_dong = 'xuathang' then 'Xuất hàng' end                                   loaiHopDongName,\n" +
-                    "       cn.id_hop_dong,\n" +
-                    "       case\n" +
-                    "           when cn.loai_hop_dong = 'nhaphang' then (select hop_dong_nhap_hang.ma_nhap_hang\n" +
-                    "                                                    from hop_dong_nhap_hang\n" +
-                    "                                                    where hop_dong_nhap_hang.id = cn.id_hop_dong)\n" +
-                    "           when cn.loai_hop_dong = 'xuathang' then (select hop_dong_ban_hang.ma_hop_dong_ban_hang\n" +
-                    "                                                    from hop_dong_ban_hang\n" +
-                    "                                                    where hop_dong_ban_hang.id = cn.id_hop_dong) end maHopDong,\n" +
-                    "       cn.trang_thai_thanh_toan,\n" +
-                    "       case\n" +
-                    "           when cn.so_tien - ifnull(sum(cnd.so_tien_thanh_toan), 0) > 0 and\n" +
-                    "                cn.so_tien - ifnull(sum(cnd.so_tien_thanh_toan), 0) < cn.so_tien then 'Đang thanh toán'\n" +
-                    "           when cn.so_tien - ifnull(sum(cnd.so_tien_thanh_toan), 0) = cn.so_tien then 'Đang thanh toán'\n" +
-                    "           when cn.so_tien - ifnull(sum(cnd.so_tien_thanh_toan), 0) <= 0 then 'Đã thanh toán' end    trangThaiName,\n" +
-                    "       cn.id_nhan_vien,\n" +
-                    "       cn.so_tien,\n" +
-                    "       case\n" +
-                    "           when cnd.trang_thai = 'dathanhtoan' then\n" +
-                    "               sum(cnd.so_tien_thanh_toan)\n" +
-                    "           else 0 end                                      as                                        soTienDaThanhToan,\n" +
-                    "       cn.so_tien - ifnull(sum(cnd.so_tien_thanh_toan), 0) as                                        soTienConLai\n," +
-                    "   (select ten_nhan_vien from nhan_vien where id = id_nhan_vien) as tenNhanVien " +
-                    " from cong_no cn,\n" +
-                    "     cong_no_chi_tiet cnd\n" +
+            queryStr.append("select\n" +
+                    "    cn.id,\n" +
+                    "    cn.ma_cong_no,\n" +
+                    "    cn.loai_hop_dong,\n" +
+                    "    case\n" +
+                    "        when cn.loai_hop_dong = 'nhaphang' then 'Nhập hàng'\n" +
+                    "        when cn.loai_hop_dong = 'xuathang' then 'Xuất hàng'\n" +
+                    "        end                                   loaiHopDongName,\n" +
+                    "    cn.id_hop_dong,\n" +
+                    "    case\n" +
+                    "        when cn.loai_hop_dong = 'nhaphang' then (select\n" +
+                    "                                                     hop_dong_nhap_hang.ma_nhap_hang\n" +
+                    "                                                 from\n" +
+                    "                                                     hop_dong_nhap_hang\n" +
+                    "                                                 where\n" +
+                    "                                                         hop_dong_nhap_hang.id = cn.id_hop_dong)\n" +
+                    "        when cn.loai_hop_dong = 'xuathang' then (select\n" +
+                    "                                                     hop_dong_ban_hang.ma_hop_dong_ban_hang\n" +
+                    "                                                 from\n" +
+                    "                                                     hop_dong_ban_hang\n" +
+                    "                                                 where\n" +
+                    "                                                         hop_dong_ban_hang.id = cn.id_hop_dong)\n" +
+                    "        end maHopDong,\n" +
+                    "    cn.trang_thai_thanh_toan,\n" +
+                    "    case\n" +
+                    "        when cn.so_tien - ifnull( (select sum(so_tien_thanh_toan) from cong_no_chi_tiet where cong_no_chi_tiet.id_cong_no = cn.id and cong_no_chi_tiet.trang_thai = 'dathanhtoan' ) ,0) > 0\n" +
+                    "            and                 cn.so_tien - ifnull((select sum(so_tien_thanh_toan) from cong_no_chi_tiet where cong_no_chi_tiet.id_cong_no = cn.id and cong_no_chi_tiet.trang_thai = 'dathanhtoan' ),\n" +
+                    "                                                    0) < cn.so_tien then 'Đang thanh toán'\n" +
+                    "        when cn.so_tien - ifnull((select sum(so_tien_thanh_toan) from cong_no_chi_tiet where cong_no_chi_tiet.id_cong_no = cn.id and cong_no_chi_tiet.trang_thai = 'dathanhtoan' ),\n" +
+                    "                                 0) = cn.so_tien then 'Đang thanh toán'\n" +
+                    "        when cn.so_tien - ifnull((select sum(so_tien_thanh_toan) from cong_no_chi_tiet where cong_no_chi_tiet.id_cong_no = cn.id and cong_no_chi_tiet.trang_thai = 'dathanhtoan' ),\n" +
+                    "                                 0) <= 0 then 'Đã thanh toán'\n" +
+                    "        end    trangThaiName,\n" +
+                    "    cn.id_nhan_vien,\n" +
+                    "    cn.so_tien,\n" +
+                    "           ifnull((select sum(so_tien_thanh_toan)\n" +
+                    "               from cong_no_chi_tiet\n" +
+                    "               where cong_no_chi_tiet.id_cong_no = cn.id\n" +
+                    "                 and cong_no_chi_tiet.trang_thai = 'dathanhtoan'), 0) as soTienDaThanhToan,\n" +
+                    "    cn.so_tien - ifnull((select sum(so_tien_thanh_toan) from cong_no_chi_tiet where cong_no_chi_tiet.id_cong_no = cn.id and cong_no_chi_tiet.trang_thai = 'dathanhtoan' ),\n" +
+                    "                        0) as                                        soTienConLai ,\n" +
+                    "    (select\n" +
+                    "         ten_nhan_vien\n" +
+                    "     from\n" +
+                    "         nhan_vien\n" +
+                    "     where\n" +
+                    "             id = id_nhan_vien) as tenNhanVien\n" +
+                    "from\n" +
+                    "    cong_no cn,\n" +
+                    "    cong_no_chi_tiet cnd " +
                     " where cn.id = cnd.id_cong_no  ");
 
 

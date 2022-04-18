@@ -39,7 +39,7 @@ public class CongNoController {
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable(name = "id") long id) {
-        congNoService.deleteById(id);
+        congNoService.delete(id);
     }
 
     @PostMapping("/search")

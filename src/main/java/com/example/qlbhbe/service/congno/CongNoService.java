@@ -15,6 +15,8 @@ public interface CongNoService extends BaseService<CongNo, Long> {
 
     CongNo update(long id, CongNoDTO command);
 
+    void delete(long id);
+
     CreatedIdResponse create(CongNoDTO command);
     Page<CongNoDTO> search(CongNoDTO command, Pageable pageable) throws Exception;
 
